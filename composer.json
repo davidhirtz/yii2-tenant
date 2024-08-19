@@ -23,17 +23,20 @@
       "davidhirtz\\yii2\\tenant\\": "src"
     }
   },
+  "extra": {
+    "bootstrap": "davidhirtz\\yii2\\tenant\\Bootstrap"
+  },
+  "config": {
+    "allow-plugins": {
+      "yiisoft/yii2-composer": true
+    }
+  },
   "repositories": [
     {
       "type": "composer",
       "url": "https://asset-packagist.org"
     }
   ],
-  "config": {
-    "allow-plugins": {
-      "yiisoft/yii2-composer": true
-    }
-  },
   "scripts": {
     "check-cs": "ecs check --ansi",
     "fix-cs": "ecs check --ansi --fix",
