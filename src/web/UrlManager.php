@@ -31,7 +31,6 @@ class UrlManager extends \davidhirtz\yii2\skeleton\web\UrlManager
     public function createUrl($params): string
     {
         $tenant = $this->getTenantFromParams($params, true);
-        $params['defaultLanguage'] ??= $tenant->language;
 
         $url = parent::createUrl($params);
         $url = $tenant->getPathInfo() . $url;

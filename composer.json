@@ -23,6 +23,11 @@
       "davidhirtz\\yii2\\tenant\\": "src"
     }
   },
+  "autoload-dev": {
+    "psr-4": {
+      "davidhirtz\\yii2\\tenant\\tests\\": "tests"
+    }
+  },
   "extra": {
     "bootstrap": "davidhirtz\\yii2\\tenant\\Bootstrap"
   },

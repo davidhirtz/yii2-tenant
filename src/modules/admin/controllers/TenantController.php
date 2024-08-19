@@ -48,12 +48,6 @@ class TenantController extends Controller
         ]);
     }
 
-    public function init(): void
-    {
-        $this->setViewPath('@views/modules/admin/tenant');
-        parent::init();
-    }
-
     public function actionIndex(?string $q = null): string
     {
         $provider = Yii::$container->get(TenantActiveDataProvider::class, [], [

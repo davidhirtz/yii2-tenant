@@ -2,6 +2,7 @@
 
 namespace davidhirtz\yii2\tenant\modules\admin\widgets\navs;
 
+use davidhirtz\yii2\skeleton\helpers\Html;
 use davidhirtz\yii2\skeleton\widgets\fontawesome\Submenu;
 use davidhirtz\yii2\tenant\models\Tenant;
 use Yii;
@@ -12,7 +13,7 @@ class TenantSubmenu extends Submenu
 
     public function init(): void
     {
-        $this->title ??= Yii::t('tenant', 'TENANT_NAME_PLURAL');
+        $this->title ??= Html::a(Yii::t('tenant', 'TENANT_NAME_PLURAL'), ['/admin/tenant/']);
         $this->getView()->setBreadcrumb(Yii::t('tenant', 'TENANT_NAME_PLURAL'), ['/admin/tenant/']);
 
         $this->items = [

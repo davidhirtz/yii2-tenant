@@ -134,7 +134,7 @@ class Tenant extends ActiveRecord implements StatusAttributeInterface
                 || is_dir($path)
                 || is_file($path)
             ) {
-                $this->addError('url', Yii::t('tenant', 'The URL "{path}" is protected.', [
+                $this->addError('url', Yii::t('tenant', 'TENANT_ERROR_PATH_PROTECTED', [
                     'path' => $param,
                 ]));
             }
@@ -145,6 +145,11 @@ class Tenant extends ActiveRecord implements StatusAttributeInterface
     {
         TenantCollection::invalidateCache();
         parent::afterSave($insert, $changedAttributes);
+    }
+
+    public function isDeletable(): bool
+    {
+        return static::find()->count() > 1;
     }
 
     public static function find(): TenantQuery
@@ -181,6 +186,9 @@ class Tenant extends ActiveRecord implements StatusAttributeInterface
         return $this->_pathInfo;
     }
 
+    /**
+     * @noinspection PhpUnused
+     */
     public function getTrailAttributes(): array
     {
         return [

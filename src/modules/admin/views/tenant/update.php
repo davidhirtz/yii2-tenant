@@ -20,7 +20,7 @@ $this->setTitle(Yii::t('tenant', 'TENANT_TITLE_UPDATE'));
 ?>
 
 <?= TenantSubmenu::widget([
-    'model' => $tenant->tenant,
+    'model' => $tenant,
 ]); ?>
 
 <?= Html::errorSummary($tenant); ?>
@@ -28,16 +28,17 @@ $this->setTitle(Yii::t('tenant', 'TENANT_TITLE_UPDATE'));
 <?= Panel::widget([
     'title' => Yii::t('tenant', 'TENANT_TITLE_UPDATE'),
     'content' => TenantActiveForm::widget([
-        'form' => $tenant,
+        'model' => $tenant,
     ]),
 ]); ?>
 
-<?php if ($tenant->tenant->isDeletable()) {
+<?php if ($tenant->isDeletable()
+    && Yii::$app->getUser()->can(Tenant::AUTH_TENANT_DELETE, ['tenant' => $tenant])) {
     echo Panel::widget([
         'type' => 'danger',
         'title' => Yii::t('tenant', 'TENANT_TITLE_DELETE'),
         'content' => DeleteActiveForm::widget([
-            'model' => $tenant->tenant,
+            'model' => $tenant,
         ]),
     ]);
 } ?>

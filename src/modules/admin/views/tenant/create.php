@@ -18,7 +18,7 @@ $this->setTitle(Yii::t('tenant', 'TENANT_TITLE_CREATE'));
 ?>
 
 <?= TenantSubmenu::widget([
-    'model' => $tenant->tenant,
+    'model' => $tenant,
 ]); ?>
 
 <?= Html::errorSummary($tenant); ?>
@@ -26,6 +26,6 @@ $this->setTitle(Yii::t('tenant', 'TENANT_TITLE_CREATE'));
 <?= Panel::widget([
     'title' => Yii::t('tenant', 'TENANT_TITLE_CREATE'),
     'content' => TenantActiveForm::widget([
-        'form' => $tenant,
+        'model' => $tenant,
     ]),
 ]); ?>

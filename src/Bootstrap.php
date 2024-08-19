@@ -3,6 +3,7 @@
 namespace davidhirtz\yii2\tenant;
 
 use davidhirtz\yii2\skeleton\web\Application;
+use davidhirtz\yii2\skeleton\web\UrlManager;
 use davidhirtz\yii2\tenant\modules\admin\Module;
 use Yii;
 use yii\base\BootstrapInterface;
@@ -27,10 +28,11 @@ class Bootstrap implements BootstrapInterface
                     ],
                 ],
             ],
-            'urlManager' => [
-                'class' => web\UrlManager::class,
-            ],
         ]);
+
+        if (!Yii::$container->has(UrlManager::class)) {
+            Yii::$container->set(UrlManager::class, web\UrlManager::class);
+        }
 
         $app->extendModule('admin', [
             'modules' => [

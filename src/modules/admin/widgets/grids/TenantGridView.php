@@ -3,7 +3,6 @@
 namespace davidhirtz\yii2\tenant\modules\admin\widgets\grids;
 
 use davidhirtz\yii2\skeleton\helpers\Html;
-use davidhirtz\yii2\skeleton\modules\admin\widgets\grids\columns\CounterColumn;
 use davidhirtz\yii2\skeleton\modules\admin\widgets\grids\GridView;
 use davidhirtz\yii2\skeleton\modules\admin\widgets\grids\traits\StatusGridViewTrait;
 use davidhirtz\yii2\skeleton\widgets\fontawesome\Icon;
@@ -21,8 +20,6 @@ class TenantGridView extends GridView
         $this->columns = [
             $this->statusColumn(),
             $this->nameColumn(),
-            $this->surveyCountColumn(),
-            $this->paymentCountColumn(),
             $this->updatedAtColumn(),
             $this->buttonsColumn(),
         ];
@@ -108,24 +105,6 @@ class TenantGridView extends GridView
                 return Html::a($name, $this->getRoute($tenant), ['class' => 'strong'])
                     . Html::tag('div', Html::a($url, $url, ['target' => '_blank']), ['class' => 'small']);
             },
-        ];
-    }
-
-    public function paymentCountColumn(): array
-    {
-        return [
-            'class' => CounterColumn::class,
-            'attribute' => 'payment_count',
-            'route' => fn (Tenant $tenant) => ['/admin/payment', 'tenant' => $tenant->id],
-        ];
-    }
-
-    public function surveyCountColumn(): array
-    {
-        return [
-            'class' => CounterColumn::class,
-            'attribute' => 'survey_count',
-            'route' => fn (Tenant $tenant) => ['/admin/survey', 'tenant' => $tenant->id],
         ];
     }
 
