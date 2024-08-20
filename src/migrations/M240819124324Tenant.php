@@ -8,6 +8,10 @@ use davidhirtz\yii2\tenant\models\Tenant;
 use Yii;
 use yii\db\Migration;
 
+/**
+ * @noinspection PhpUnused
+ */
+
 class M240819124324Tenant extends Migration
 {
     use MigrationTrait;

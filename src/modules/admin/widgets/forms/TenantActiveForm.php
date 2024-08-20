@@ -27,7 +27,7 @@ class TenantActiveForm extends ActiveForm
     }
 
     /**
-     * @see          Tenant::getLanguages()
+     * @see Tenant::getLanguages()
      * @noinspection PhpUnused
      */
     public function languageField(array $options = []): ActiveField|string
