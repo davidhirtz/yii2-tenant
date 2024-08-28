@@ -18,9 +18,12 @@
  */
 return [
     'TENANT_CREATE_BUTTON' => 'New Tenant',
+    'TENANT_ERROR_PATH_PROTECTED' => 'The URL "{path}" is protected.',
     'TENANT_FLASH_CREATED' => 'Tenant has been created.',
     'TENANT_FLASH_DELETED' => 'Tenant has been deleted.',
     'TENANT_FLASH_UPDATED' => 'Tenant has been updated.',
+    'TENANT_HINT_COOKIE_DOMAIN' => 'Leave empty if unsure',
+    'TENANT_LABEL_COOKIE_DOMAIN' => 'Cookie domain',
     'TENANT_LABEL_LANGUAGE' => 'Language',
     'TENANT_LABEL_NAME' => 'Name',
     'TENANT_LABEL_URL' => 'URL',
@@ -30,5 +33,4 @@ return [
     'TENANT_TITLE_CREATE' => 'Create New Tenant',
     'TENANT_TITLE_DELETE' => 'Delete Tenant',
     'TENANT_TITLE_UPDATE' => 'Update Tenant',
-    'TENANT_ERROR_PATH_PROTECTED' => 'The URL "{path}" is protected.',
 ];

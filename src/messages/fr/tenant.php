@@ -18,9 +18,12 @@
  */
 return [
     'TENANT_CREATE_BUTTON' => '',
+    'TENANT_ERROR_PATH_PROTECTED' => '',
     'TENANT_FLASH_CREATED' => '',
     'TENANT_FLASH_DELETED' => '',
     'TENANT_FLASH_UPDATED' => '',
+    'TENANT_HINT_COOKIE_DOMAIN' => '',
+    'TENANT_LABEL_COOKIE_DOMAIN' => '',
     'TENANT_LABEL_LANGUAGE' => '',
     'TENANT_LABEL_NAME' => '',
     'TENANT_LABEL_URL' => '',
@@ -30,5 +33,4 @@ return [
     'TENANT_TITLE_CREATE' => '',
     'TENANT_TITLE_DELETE' => '',
     'TENANT_TITLE_UPDATE' => '',
-    'TENANT_ERROR_PATH_PROTECTED' => '',
 ];

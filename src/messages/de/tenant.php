@@ -18,9 +18,12 @@
  */
 return [
     'TENANT_CREATE_BUTTON' => 'Neuer Mandant',
+    'TENANT_ERROR_PATH_PROTECTED' => 'Die URL "{path}" ist geschützt.',
     'TENANT_FLASH_CREATED' => 'Der Mandant wurde erfolgreich erstellt.',
     'TENANT_FLASH_DELETED' => 'Der Mandant wurde erfolgreich gelöscht.',
     'TENANT_FLASH_UPDATED' => 'Der Mandant wurde erfolgreich aktualisiert.',
+    'TENANT_HINT_COOKIE_DOMAIN' => 'Bei Unklarheit frei lassen',
+    'TENANT_LABEL_COOKIE_DOMAIN' => 'Cookie Domain',
     'TENANT_LABEL_LANGUAGE' => 'Sprache',
     'TENANT_LABEL_NAME' => 'Name',
     'TENANT_LABEL_URL' => 'URL',
@@ -30,5 +33,4 @@ return [
     'TENANT_TITLE_CREATE' => 'Neuen Mandant erstellen',
     'TENANT_TITLE_DELETE' => 'Mandant löschen',
     'TENANT_TITLE_UPDATE' => 'Mandant bearbeiten',
-    'TENANT_ERROR_PATH_PROTECTED' => 'Die URL "{path}" ist geschützt.',
 ];

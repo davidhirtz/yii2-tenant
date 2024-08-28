@@ -21,6 +21,7 @@ use Yii;
  * @property int $status
  * @property string $name
  * @property string $url
+ * @property string $cookie_domain
  * @property string $language
  * @property int $updated_by_user_id
  * @property DateTime $updated_at
@@ -62,12 +63,12 @@ class Tenant extends ActiveRecord implements StatusAttributeInterface
                 DynamicRangeValidator::class,
             ],
             [
-                ['name'],
+                ['name', 'cookie_domain'],
                 'string',
                 'max' => 255,
             ],
             [
-                ['url'],
+                ['url', 'cookie_domain'],
                 'trim',
             ],
             [
@@ -130,7 +131,6 @@ class Tenant extends ActiveRecord implements StatusAttributeInterface
 
             if (
                 in_array($param, Yii::$app->getUrlManager()->getImmutableRuleParams())
-                || in_array($param, Yii::$app->getUrlManager()->languages)
                 || is_dir($path)
                 || is_file($path)
             ) {
@@ -168,6 +168,11 @@ class Tenant extends ActiveRecord implements StatusAttributeInterface
     public function getAdminRoute(): array
     {
         return ['/admin/tenant/update', 'id' => $this->id];
+    }
+
+    public function getCookieDomain(): string
+    {
+        return $this->cookie_domain ?? $this->getHostInfo();
     }
 
     public function getHostInfo(): string
@@ -231,6 +236,14 @@ class Tenant extends ActiveRecord implements StatusAttributeInterface
         return $languages;
     }
 
+    public function attributeHints(): array
+    {
+        return [
+            ...parent::attributeHints(),
+            'cookie_domain' => Yii::t('tenant', 'TENANT_HINT_COOKIE_DOMAIN'),
+        ];
+    }
+
     public function attributeLabels(): array
     {
         return [
@@ -238,6 +251,7 @@ class Tenant extends ActiveRecord implements StatusAttributeInterface
             'name' => Yii::t('tenant', 'TENANT_LABEL_NAME'),
             'url' => Yii::t('tenant', 'TENANT_LABEL_URL'),
             'language' => Yii::t('tenant', 'TENANT_LABEL_LANGUAGE'),
+            'cookie_domain' => Yii::t('tenant', 'TENANT_LABEL_COOKIE_DOMAIN'),
         ];
     }
 

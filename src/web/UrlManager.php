@@ -7,6 +7,7 @@ use davidhirtz\yii2\tenant\models\collections\TenantCollection;
 use davidhirtz\yii2\tenant\models\Tenant;
 use Yii;
 use yii\base\InvalidConfigException;
+use yii\web\Cookie;
 
 class UrlManager extends \davidhirtz\yii2\skeleton\web\UrlManager
 {
@@ -56,7 +57,7 @@ class UrlManager extends \davidhirtz\yii2\skeleton\web\UrlManager
         }
 
         Yii::debug("Tenant found: $tenant->name", __METHOD__);
-        Yii::$app->set('tenant', $tenant);
+        $this->setTenant($tenant);
 
         $this->defaultLanguage = $tenant->language;
         $request->setPathInfo(substr($request->getPathInfo(), strlen($tenant->getPathInfo())));
@@ -64,11 +65,29 @@ class UrlManager extends \davidhirtz\yii2\skeleton\web\UrlManager
         return parent::parseRequest($request);
     }
 
+    protected function setTenant(Tenant $tenant): void
+    {
+        Yii::$app->set('tenant', $tenant);
+        $this->setTenantCookieDomain($tenant);
+    }
+
+    protected function setTenantCookieDomain(Tenant $tenant): void
+    {
+        $definition = Yii::$container->getDefinitions()[Cookie::class];
+
+        if (is_string($definition)) {
+            $definition = ['class' => $definition];
+        }
+
+        $definition['domain'] ??= $tenant->getCookieDomain();
+        Yii::$container->set(Cookie::class, $definition);
+    }
+
     private function getTenantFromRequestUrl(string $url): ?Tenant
     {
         return TenantCollection::getByUrl($url)
             ?? (
-                strlen($url) > 6
+            strlen($url) > 6
                 ? $this->getTenantFromRequestUrl(substr($url, 0, strrpos($url, '/')))
                 : null
             );

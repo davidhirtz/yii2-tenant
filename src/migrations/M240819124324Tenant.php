@@ -45,12 +45,10 @@ class M240819124324Tenant extends Migration
         $tenant->language = Yii::$app->language;
 
         $tenant->insert(false);
-        parent::safeUp();
     }
 
     public function safeDown(): void
     {
         $this->dropTable(Tenant::tableName());
-        parent::safeDown();
     }
 }
