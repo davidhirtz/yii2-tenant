@@ -17,19 +17,21 @@ class TenantGridView extends GridView
 
     public function init(): void
     {
-        $this->columns = [
-            $this->statusColumn(),
-            $this->nameColumn(),
-            $this->updatedAtColumn(),
-            $this->buttonsColumn(),
-        ];
+        if (!$this->columns) {
+            $this->columns = [
+                $this->statusColumn(),
+                $this->nameColumn(),
+                $this->updatedAtColumn(),
+                $this->buttonsColumn(),
+            ];
+        }
 
         parent::init();
     }
 
     protected function initHeader(): void
     {
-        $this->header = [
+        $this->header ??= [
             [
                 [
                     'content' => $this->statusDropdown(),

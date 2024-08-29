@@ -4,6 +4,7 @@ namespace davidhirtz\yii2\tenant\modules\admin\widgets\forms;
 
 use davidhirtz\yii2\skeleton\models\traits\StatusAttributeTrait;
 use davidhirtz\yii2\skeleton\modules\admin\widgets\forms\traits\ModelTimestampTrait;
+use davidhirtz\yii2\skeleton\modules\admin\widgets\forms\traits\StatusFieldTrait;
 use davidhirtz\yii2\skeleton\widgets\bootstrap\ActiveField;
 use davidhirtz\yii2\skeleton\widgets\bootstrap\ActiveForm;
 use davidhirtz\yii2\skeleton\widgets\forms\DynamicRangeDropdown;
@@ -15,7 +16,7 @@ use davidhirtz\yii2\tenant\models\Tenant;
 class TenantActiveForm extends ActiveForm
 {
     use ModelTimestampTrait;
-    use StatusAttributeTrait;
+    use StatusFieldTrait;
     
     public function init(): void
     {
