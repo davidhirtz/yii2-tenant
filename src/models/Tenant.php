@@ -162,6 +162,24 @@ class Tenant extends ActiveRecord implements StatusAttributeInterface
         parent::afterSave($insert, $changedAttributes);
     }
 
+    public function beforeDelete(): bool
+    {
+        if (!parent::beforeDelete()) {
+            if (!$this->hasErrors()) {
+                $this->addError('id', Yii::t('tenant', 'TENANT_ERROR_DELETE_RELATION'));
+            }
+
+            return false;
+        }
+
+        if (self::find()->count() == 1) {
+            $this->addError('id', Yii::t('tenant', 'TENANT_ERROR_DELETE_LAST'));
+            return false;
+        }
+
+        return true;
+    }
+
     public function isDeletable(): bool
     {
         return static::find()->count() > 1;
