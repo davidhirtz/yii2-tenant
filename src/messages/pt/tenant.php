@@ -17,12 +17,14 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
+    'TENANT_AUTH_CREATE' => '',
+    'TENANT_AUTH_DELETE' => '',
+    'TENANT_AUTH_UPDATE' => '',
     'TENANT_CREATE_BUTTON' => '',
     'TENANT_ERROR_PATH_PROTECTED' => '',
     'TENANT_FLASH_CREATED' => '',
     'TENANT_FLASH_DELETED' => '',
     'TENANT_FLASH_UPDATED' => '',
-    'TENANT_HINT_COOKIE_DOMAIN' => '',
     'TENANT_LABEL_COOKIE_DOMAIN' => '',
     'TENANT_LABEL_LANGUAGE' => '',
     'TENANT_LABEL_NAME' => '',

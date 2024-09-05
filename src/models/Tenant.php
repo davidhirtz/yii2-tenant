@@ -85,6 +85,10 @@ class Tenant extends ActiveRecord implements StatusAttributeInterface
                 $this->validateUrl(...),
             ],
             [
+                ['cookie_domain'],
+                $this->validateCookieDomain(...),
+            ],
+            [
                 ['language'],
                 DynamicRangeValidator::class,
             ],
@@ -141,6 +145,17 @@ class Tenant extends ActiveRecord implements StatusAttributeInterface
         }
     }
 
+    public function validateCookieDomain(): void
+    {
+        if (
+            str_starts_with($this->cookie_domain, 'http')
+            || !str_contains($this->url, ltrim($this->cookie_domain, '.'))
+            || !preg_match('/^[a-z.]/', $this->cookie_domain)
+        ) {
+            $this->addInvalidAttributeError('cookie_domain');
+        }
+    }
+
     public function afterSave($insert, $changedAttributes): void
     {
         TenantCollection::invalidateCache();
@@ -172,7 +187,7 @@ class Tenant extends ActiveRecord implements StatusAttributeInterface
 
     public function getCookieDomain(): string
     {
-        return $this->cookie_domain ?? $this->getHostInfo();
+        return $this->cookie_domain ?? parse_url($this->url, PHP_URL_HOST);
     }
 
     public function getHostInfo(): string

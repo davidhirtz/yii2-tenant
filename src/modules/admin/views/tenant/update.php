@@ -39,6 +39,7 @@ $this->setTitle(Yii::t('tenant', 'TENANT_TITLE_UPDATE'));
         'title' => Yii::t('tenant', 'TENANT_TITLE_DELETE'),
         'content' => DeleteActiveForm::widget([
             'model' => $tenant,
+            'attribute' => 'name',
         ]),
     ]);
 } ?>

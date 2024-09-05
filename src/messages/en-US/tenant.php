@@ -17,6 +17,9 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
+    'TENANT_AUTH_CREATE' => 'Create tenants',
+    'TENANT_AUTH_DELETE' => 'Delete tenants',
+    'TENANT_AUTH_UPDATE' => 'Update tenants',
     'TENANT_CREATE_BUTTON' => 'New Tenant',
     'TENANT_ERROR_PATH_PROTECTED' => 'The URL "{path}" is protected.',
     'TENANT_FLASH_CREATED' => 'Tenant has been created.',

@@ -11,6 +11,14 @@ use yii\web\Cookie;
 
 class UrlManager extends \davidhirtz\yii2\skeleton\web\UrlManager
 {
+    public function init(): void
+    {
+        $this->i18nUrl = false;
+        $this->i18nSubdomain = false;
+
+        parent::init();
+    }
+
     public function createAbsoluteUrl($params, $scheme = null): string
     {
         $tenant = $this->getTenantFromParams($params);

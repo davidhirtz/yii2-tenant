@@ -18,20 +18,20 @@ class M240905060625Roles extends Migration
         $admin = $auth->getRole(User::AUTH_ROLE_ADMIN);
 
         $tenantUpdate = $auth->createPermission(Tenant::AUTH_TENANT_UPDATE);
-        $tenantUpdate->description = Yii::t('tenant', 'Update tenants', [], Yii::$app->sourceLanguage);
+        $tenantUpdate->description = Yii::t('tenant', 'TENANT_AUTH_UPDATE', [], Yii::$app->sourceLanguage);
         $auth->add($tenantUpdate);
 
         $auth->addChild($admin, $tenantUpdate);
 
         $tenantCreate = $auth->createPermission(Tenant::AUTH_TENANT_CREATE);
-        $tenantCreate->description = Yii::t('tenant', 'Create tenants', [], Yii::$app->sourceLanguage);
+        $tenantCreate->description = Yii::t('tenant', 'TENANT_AUTH_CREATE', [], Yii::$app->sourceLanguage);
         $auth->add($tenantCreate);
 
         $auth->addChild($admin, $tenantCreate);
         $auth->addChild($tenantUpdate, $tenantCreate);
 
         $tenantDelete = $auth->createPermission(Tenant::AUTH_TENANT_DELETE);
-        $tenantDelete->description = Yii::t('tenant', 'Delete tenants', [], Yii::$app->sourceLanguage);
+        $tenantDelete->description = Yii::t('tenant', 'TENANT_AUTH_DELETE', [], Yii::$app->sourceLanguage);
         $auth->add($tenantDelete);
 
         $auth->addChild($admin, $tenantDelete);
