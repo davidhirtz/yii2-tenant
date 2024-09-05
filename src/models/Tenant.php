@@ -236,14 +236,6 @@ class Tenant extends ActiveRecord implements StatusAttributeInterface
         return $languages;
     }
 
-    public function attributeHints(): array
-    {
-        return [
-            ...parent::attributeHints(),
-            'cookie_domain' => Yii::t('tenant', 'TENANT_HINT_COOKIE_DOMAIN'),
-        ];
-    }
-
     public function attributeLabels(): array
     {
         return [

@@ -22,7 +22,6 @@ return [
     'TENANT_FLASH_CREATED' => 'Tenant has been created.',
     'TENANT_FLASH_DELETED' => 'Tenant has been deleted.',
     'TENANT_FLASH_UPDATED' => 'Tenant has been updated.',
-    'TENANT_HINT_COOKIE_DOMAIN' => 'Leave empty if unsure',
     'TENANT_LABEL_COOKIE_DOMAIN' => 'Cookie domain',
     'TENANT_LABEL_LANGUAGE' => 'Language',
     'TENANT_LABEL_NAME' => 'Name',

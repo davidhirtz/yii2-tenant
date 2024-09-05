@@ -7,10 +7,14 @@ use davidhirtz\yii2\skeleton\modules\admin\widgets\grids\GridView;
 use davidhirtz\yii2\skeleton\modules\admin\widgets\grids\traits\StatusGridViewTrait;
 use davidhirtz\yii2\skeleton\widgets\fontawesome\Icon;
 use davidhirtz\yii2\tenant\models\Tenant;
+use davidhirtz\yii2\tenant\modules\admin\data\TenantActiveDataProvider;
 use davidhirtz\yii2\timeago\TimeagoColumn;
 use Yii;
 use yii\helpers\Url;
 
+/**
+ * @property TenantActiveDataProvider $dataProvider
+ */
 class TenantGridView extends GridView
 {
     use StatusGridViewTrait;

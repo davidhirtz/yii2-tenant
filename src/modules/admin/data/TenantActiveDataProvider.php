@@ -31,7 +31,7 @@ class TenantActiveDataProvider extends ActiveDataProvider
     public function setSort($value): void
     {
         if (is_array($value)) {
-            $value['defaultOrder'] ??= ['updated_at' => SORT_ASC];
+            $value['defaultOrder'] ??= ['updated_at' => SORT_DESC];
         }
 
         parent::setSort($value);
