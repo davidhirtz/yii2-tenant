@@ -21,7 +21,7 @@ use Yii;
  * @property int $status
  * @property string $name
  * @property string $url
- * @property string $cookie_domain
+ * @property string|null $cookie_domain
  * @property string $language
  * @property int $updated_by_user_id
  * @property DateTime $updated_at

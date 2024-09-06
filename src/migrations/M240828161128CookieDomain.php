@@ -3,9 +3,7 @@
 namespace davidhirtz\yii2\tenant\migrations;
 
 use davidhirtz\yii2\skeleton\db\traits\MigrationTrait;
-use davidhirtz\yii2\skeleton\models\User;
 use davidhirtz\yii2\tenant\models\Tenant;
-use Yii;
 use yii\db\Migration;
 
 /**
