@@ -2,12 +2,14 @@
 
 namespace davidhirtz\yii2\tenant\models\traits;
 
+use davidhirtz\yii2\skeleton\db\ActiveRecord;
 use davidhirtz\yii2\tenant\models\Tenant;
 use davidhirtz\yii2\tenant\models\queries\TenantQuery;
 
 /**
  * @property int|null $tenant_id
  * @property-read Tenant|null $tenant {@see static::getTenant()}
+ * @mixin ActiveRecord
  */
 trait TenantRelationTrait
 {

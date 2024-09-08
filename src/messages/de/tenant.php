@@ -21,6 +21,8 @@ return [
     'TENANT_AUTH_DELETE' => 'Mandanten löschen',
     'TENANT_AUTH_UPDATE' => 'Mandanten bearbeiten',
     'TENANT_CREATE_BUTTON' => 'Neuer Mandant',
+    'TENANT_ERROR_DELETE_LAST' => 'Dies ist der letzte Mandant und kann deshalb nicht gelöscht werden.',
+    'TENANT_ERROR_DELETE_RELATION' => 'Der Mandant kann nicht gelöscht werden, da er mit anderen Einträgen verknüpft ist.',
     'TENANT_ERROR_PATH_PROTECTED' => 'Die URL "{path}" ist geschützt.',
     'TENANT_FLASH_CREATED' => 'Der Mandant wurde erfolgreich erstellt.',
     'TENANT_FLASH_DELETED' => 'Der Mandant wurde erfolgreich gelöscht.',
