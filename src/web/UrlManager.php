@@ -7,7 +7,6 @@ use davidhirtz\yii2\skeleton\web\Request;
 use davidhirtz\yii2\tenant\models\collections\TenantCollection;
 use davidhirtz\yii2\tenant\models\Tenant;
 use Yii;
-use yii\base\InvalidConfigException;
 use yii\web\Cookie;
 
 class UrlManager extends \davidhirtz\yii2\skeleton\web\UrlManager
@@ -68,22 +67,6 @@ class UrlManager extends \davidhirtz\yii2\skeleton\web\UrlManager
         Yii::$app->set('tenant', $tenant);
     }
 
-    protected function insertDefaultTenant(): Tenant
-    {
-        $tenant = Tenant::create();
-        $tenant->loadDefaultValues();
-        $tenant->name = Yii::t('tenant', 'Default');
-        $tenant->url = Yii::$app->getRequest()->getHostInfo();
-        $tenant->language = Yii::$app->language;
-
-        if (!$tenant->insert()) {
-            $error = current($tenant->getFirstErrors());
-            throw new InvalidConfigException("Could not create default tenant: $error");
-        }
-
-        return $tenant;
-    }
-
     protected function setCookieDomain(string $domain): void
     {
         $definition = Yii::$container->getDefinitions()[Cookie::class];
@@ -108,13 +91,8 @@ class UrlManager extends \davidhirtz\yii2\skeleton\web\UrlManager
 
         $tenant = current(TenantCollection::getAll());
 
-        if ($tenant) {
-            Yii::debug("Tenant not found by host name or path info, using default tenant $tenant->name...");
-            $this->setCookieDomain($request->getHostName());
-            return $tenant;
-        }
-
-        return $this->insertDefaultTenant();
+        Yii::debug("Tenant not found by host name or path info, using tenant: $tenant->name", __METHOD__);
+        return $tenant;
     }
 
     protected function getTenantFromUrl(string $url): ?Tenant

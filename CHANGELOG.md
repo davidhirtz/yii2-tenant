@@ -1,3 +1,8 @@
+## 1.1.2 (Sep 18, 2024)
+
+- Reverted the default tenant creation from the `UrlManager` component to the migration, setting the cookie domain only
+  if the tenant was found fixes the issue of the cookie being set on the wrong domain
+
 ## 1.1.1 (Sep 18, 2024)
 
 - Moved the default tenant creation from the migration to the `UrlManager` component to allow the tenant to be created

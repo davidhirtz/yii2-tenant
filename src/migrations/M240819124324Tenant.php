@@ -37,6 +37,19 @@ class M240819124324Tenant extends Migration
             'id',
             'SET NULL'
         );
+
+        $this->insertDefaultTenant();
+    }
+
+    protected function insertDefaultTenant(): void
+    {
+        $tenant = Tenant::create();
+        $tenant->loadDefaultValues();
+        $tenant->name = 'Default';
+        $tenant->url = 'https://www.example.com/';
+        $tenant->language = Yii::$app->language;
+
+        $tenant->insert(false);
     }
 
     public function safeDown(): void
