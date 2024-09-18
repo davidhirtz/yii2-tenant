@@ -1,3 +1,9 @@
+## 1.1.1 (Sep 18, 2024)
+
+- Moved the default tenant creation from the migration to the `UrlManager` component to allow the tenant to be created
+  on the first request with the correct host info
+- Enhanced `UrlManager` to set a temporary cookie if the default tenant needed to be selected
+
 ## 1.1.0 (Sep 8, 2024)
 
 - Added `Tenant::$cookie_domain` attribute

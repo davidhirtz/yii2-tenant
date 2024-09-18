@@ -3,6 +3,7 @@
 namespace davidhirtz\yii2\tenant\web;
 
 use davidhirtz\yii2\skeleton\helpers\Url;
+use davidhirtz\yii2\skeleton\web\Request;
 use davidhirtz\yii2\tenant\models\collections\TenantCollection;
 use davidhirtz\yii2\tenant\models\Tenant;
 use Yii;
@@ -53,18 +54,7 @@ class UrlManager extends \davidhirtz\yii2\skeleton\web\UrlManager
 
     public function parseRequest($request): bool|array
     {
-        $tenant = $this->getTenantFromRequestUrl($request->getAbsoluteUrl());
-
-        if (!$tenant) {
-            Yii::debug('Tenant not found by host name or path info, using default tenant...');
-            $tenant = current(TenantCollection::getAll());
-        }
-
-        if (!$tenant) {
-            throw new InvalidConfigException();
-        }
-
-        Yii::debug("Tenant found: $tenant->name", __METHOD__);
+        $tenant = $this->getTenantFromRequest($request);
         $this->setTenant($tenant);
 
         $this->defaultLanguage = $tenant->language;
@@ -76,10 +66,25 @@ class UrlManager extends \davidhirtz\yii2\skeleton\web\UrlManager
     protected function setTenant(Tenant $tenant): void
     {
         Yii::$app->set('tenant', $tenant);
-        $this->setTenantCookieDomain($tenant);
     }
 
-    protected function setTenantCookieDomain(Tenant $tenant): void
+    protected function insertDefaultTenant(): Tenant
+    {
+        $tenant = Tenant::create();
+        $tenant->loadDefaultValues();
+        $tenant->name = Yii::t('tenant', 'Default');
+        $tenant->url = Yii::$app->getRequest()->getHostInfo();
+        $tenant->language = Yii::$app->language;
+
+        if (!$tenant->insert()) {
+            $error = current($tenant->getFirstErrors());
+            throw new InvalidConfigException("Could not create default tenant: $error");
+        }
+
+        return $tenant;
+    }
+
+    protected function setCookieDomain(string $domain): void
     {
         $definition = Yii::$container->getDefinitions()[Cookie::class];
 
@@ -87,16 +92,37 @@ class UrlManager extends \davidhirtz\yii2\skeleton\web\UrlManager
             $definition = ['class' => $definition];
         }
 
-        $definition['domain'] ??= $tenant->getCookieDomain();
+        $definition['domain'] ??= $domain;
         Yii::$container->set(Cookie::class, $definition);
     }
 
-    private function getTenantFromRequestUrl(string $url): ?Tenant
+    protected function getTenantFromRequest(Request $request): Tenant
+    {
+        $tenant = $this->getTenantFromUrl($request->getAbsoluteUrl());
+
+        if ($tenant) {
+            Yii::debug("Tenant found: $tenant->name", __METHOD__);
+            $this->setCookieDomain($tenant->getCookieDomain());
+            return $tenant;
+        }
+
+        $tenant = current(TenantCollection::getAll());
+
+        if ($tenant) {
+            Yii::debug("Tenant not found by host name or path info, using default tenant $tenant->name...");
+            $this->setCookieDomain($request->getHostName());
+            return $tenant;
+        }
+
+        return $this->insertDefaultTenant();
+    }
+
+    protected function getTenantFromUrl(string $url): ?Tenant
     {
         return TenantCollection::getByUrl($url)
             ?? (
             strlen($url) > 6
-                ? $this->getTenantFromRequestUrl(substr($url, 0, strrpos($url, '/')))
+                ? $this->getTenantFromUrl(substr($url, 0, strrpos($url, '/')))
                 : null
             );
     }

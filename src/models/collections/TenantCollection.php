@@ -66,5 +66,6 @@ class TenantCollection
     public static function invalidateCache(): void
     {
         TagDependency::invalidate(Yii::$app->getCache(), static::CACHE_KEY);
+        self::$_tenants = null;
     }
 }
