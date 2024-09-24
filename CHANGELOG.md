@@ -1,6 +1,6 @@
 ## 1.1.3 (Sep 24, 2024)
 
-- Enhanced `Trail::getTrailAttributes()` to include custom fields
+- Enhanced `Trail::getTrailAttributes()` to include custom fields (Issue #1)
 
 ## 1.1.2 (Sep 18, 2024)
 

@@ -8,6 +8,10 @@ use davidhirtz\yii2\skeleton\models\User;
 use Yii;
 use yii\db\Migration;
 
+/**
+ * @noinspection PhpUnused
+ */
+
 class M240905060625Roles extends Migration
 {
     use MigrationTrait;
