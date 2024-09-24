@@ -1,5 +1,6 @@
 ## 1.1.3 (Sep 24, 2024)
 
+- Added `Tenant::$position` attribute to allow sorting tenants (Issue #2)
 - Enhanced `Trail::getTrailAttributes()` to include custom fields (Issue #1)
 
 ## 1.1.2 (Sep 18, 2024)

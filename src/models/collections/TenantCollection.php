@@ -59,6 +59,7 @@ class TenantCollection
         return Tenant::find()
             ->enabled()
             ->indexBy('id')
+            ->orderBy(['position' => SORT_ASC])
             ->cache(0, $dependency)
             ->all();
     }

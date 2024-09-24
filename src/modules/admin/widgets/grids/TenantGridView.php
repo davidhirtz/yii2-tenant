@@ -91,6 +91,10 @@ class TenantGridView extends GridView
                     ]);
                 }
 
+                if ($this->isSortedByPosition()) {
+                    $buttons[] = $this->getSortableButton();
+                }
+
                 if (Yii::$app->getUser()->can(Tenant::AUTH_TENANT_UPDATE, ['tenant' => $tenant])) {
                     $buttons[] = $this->getUpdateButton($tenant);
                 }

@@ -4,6 +4,7 @@ namespace davidhirtz\yii2\tenant\modules\admin\controllers;
 
 use davidhirtz\yii2\skeleton\models\forms\DeleteForm;
 use davidhirtz\yii2\skeleton\web\Controller;
+use davidhirtz\yii2\tenant\models\actions\ReorderTenants;
 use davidhirtz\yii2\tenant\models\Tenant;
 use davidhirtz\yii2\tenant\modules\admin\controllers\traits\TenantControllerTrait;
 use davidhirtz\yii2\tenant\modules\admin\data\TenantActiveDataProvider;
@@ -29,7 +30,7 @@ class TenantController extends Controller
                     ],
                     [
                         'allow' => true,
-                        'actions' => ['index', 'update'],
+                        'actions' => ['index', 'order', 'update'],
                         'roles' => [Tenant::AUTH_TENANT_UPDATE],
                     ],
                     [
@@ -43,6 +44,7 @@ class TenantController extends Controller
                 'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['post'],
+                    'order' => ['post'],
                 ],
             ],
         ]);
@@ -100,5 +102,13 @@ class TenantController extends Controller
 
         $this->error($form);
         return $this->redirect(['update', 'id' => $id]);
+    }
+
+    /**
+     * @noinspection PhpUnused
+     */
+    public function actionOrder(): void
+    {
+        ReorderTenants::runWithBodyParam('tenant');
     }
 }

@@ -30,6 +30,7 @@ return [
     'TENANT_LABEL_COOKIE_DOMAIN' => '',
     'TENANT_LABEL_LANGUAGE' => '',
     'TENANT_LABEL_NAME' => '',
+    'TENANT_LABEL_POSITION' => '',
     'TENANT_LABEL_URL' => '',
     'TENANT_NAME' => '',
     'TENANT_NAME_PLURAL' => '',
@@ -37,4 +38,5 @@ return [
     'TENANT_TITLE_CREATE' => '',
     'TENANT_TITLE_DELETE' => '',
     'TENANT_TITLE_UPDATE' => '',
+    'TENANT_TRAIL_REORDERED' => '',
 ];

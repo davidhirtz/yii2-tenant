@@ -23,6 +23,7 @@ use Yii;
  * @property string $url
  * @property string|null $cookie_domain
  * @property string $language
+ * @property int|false $position
  * @property int $updated_by_user_id
  * @property DateTime $updated_at
  * @property DateTime $created_at
@@ -156,6 +157,12 @@ class Tenant extends ActiveRecord implements StatusAttributeInterface
         }
     }
 
+    public function beforeSave($insert): bool
+    {
+        $this->setDefaultPosition();
+        return parent::beforeSave($insert);
+    }
+
     public function afterSave($insert, $changedAttributes): void
     {
         TenantCollection::invalidateCache();
@@ -218,6 +225,11 @@ class Tenant extends ActiveRecord implements StatusAttributeInterface
         return $this->_hostInfo;
     }
 
+    public function getMaxPosition(): int
+    {
+        return (int)self::find()->max('[[position]]');
+    }
+
     public function getPathInfo(): string
     {
         $this->_pathInfo ??= parse_url(trim($this->url, '/'), PHP_URL_PATH) ?? '';
@@ -230,6 +242,7 @@ class Tenant extends ActiveRecord implements StatusAttributeInterface
     public function getTrailAttributes(): array
     {
         return array_diff($this->attributes(), [
+            'position',
             'updated_by_user_id',
             'updated_at',
             'created_at',
@@ -269,6 +282,13 @@ class Tenant extends ActiveRecord implements StatusAttributeInterface
         return $languages;
     }
 
+    protected function setDefaultPosition(): void
+    {
+        if (!$this->position) {
+            $this->position = $this->position !== false ? ($this->getMaxPosition() + 1) : 0;
+        }
+    }
+
     public function attributeLabels(): array
     {
         return [
@@ -277,6 +297,7 @@ class Tenant extends ActiveRecord implements StatusAttributeInterface
             'url' => Yii::t('tenant', 'TENANT_LABEL_URL'),
             'language' => Yii::t('tenant', 'TENANT_LABEL_LANGUAGE'),
             'cookie_domain' => Yii::t('tenant', 'TENANT_LABEL_COOKIE_DOMAIN'),
+            'position' => Yii::t('tenant', 'TENANT_LABEL_POSITION'),
         ];
     }
 

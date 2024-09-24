@@ -30,6 +30,7 @@ return [
     'TENANT_LABEL_COOKIE_DOMAIN' => 'Cookie Domain',
     'TENANT_LABEL_LANGUAGE' => 'Sprache',
     'TENANT_LABEL_NAME' => 'Name',
+    'TENANT_LABEL_POSITION' => 'Position',
     'TENANT_LABEL_URL' => 'URL',
     'TENANT_NAME' => 'Mandant',
     'TENANT_NAME_PLURAL' => 'Mandanten',
@@ -37,4 +38,5 @@ return [
     'TENANT_TITLE_CREATE' => 'Neuen Mandant erstellen',
     'TENANT_TITLE_DELETE' => 'Mandant löschen',
     'TENANT_TITLE_UPDATE' => 'Mandant bearbeiten',
+    'TENANT_TRAIL_REORDERED' => 'Mandanten-Reihenfolge wurde geändert.',
 ];
