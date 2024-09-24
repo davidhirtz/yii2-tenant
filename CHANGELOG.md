@@ -1,3 +1,7 @@
+## 1.1.3 (Sep 24, 2024)
+
+- Enhanced `Trail::getTrailAttributes()` to include custom fields
+
 ## 1.1.2 (Sep 18, 2024)
 
 - Reverted the default tenant creation from the `UrlManager` component to the migration, setting the cookie domain only

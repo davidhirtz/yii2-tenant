@@ -229,11 +229,11 @@ class Tenant extends ActiveRecord implements StatusAttributeInterface
      */
     public function getTrailAttributes(): array
     {
-        return [
-            'status',
-            'name',
-            'url',
-        ];
+        return array_diff($this->attributes(), [
+            'updated_by_user_id',
+            'updated_at',
+            'created_at',
+        ]);
     }
 
     /**
