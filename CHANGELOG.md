@@ -1,6 +1,7 @@
 ## 1.1.4 (Oct 1, 2024)
 
 - Fixed `UrlManager` to update path info only after tenant was found via request
+- Improved `TenantCollection::getByUrl()` with draft domains
 
 ## 1.1.3 (Sep 24, 2024)
 

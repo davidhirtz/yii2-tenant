@@ -29,8 +29,8 @@ class TenantCollection
             $draftDomain = Yii::$app->getRequest()->draftSubdomain;
 
             if ($draftDomain && str_contains($url, "//$draftDomain")) {
-                $matches[] = str_replace("//$draftDomain", 'www', $url);
-                $matches[] = str_replace("//$draftDomain.", '', $url);
+                $matches[] = str_replace("//$draftDomain", '//www', $url);
+                $matches[] = str_replace("//$draftDomain.", '//', $url);
             }
         }
 
