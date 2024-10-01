@@ -57,7 +57,6 @@ class UrlManager extends \davidhirtz\yii2\skeleton\web\UrlManager
         $this->setTenant($tenant);
 
         $this->defaultLanguage = $tenant->language;
-        $request->setPathInfo(substr($request->getPathInfo(), strlen($tenant->getPathInfo())));
 
         return parent::parseRequest($request);
     }
@@ -85,7 +84,9 @@ class UrlManager extends \davidhirtz\yii2\skeleton\web\UrlManager
 
         if ($tenant) {
             Yii::debug("Tenant found: $tenant->name", __METHOD__);
+            $request->setPathInfo(substr($request->getPathInfo(), strlen($tenant->getPathInfo())));
             $this->setCookieDomain($tenant->getCookieDomain());
+
             return $tenant;
         }
 

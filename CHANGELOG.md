@@ -1,3 +1,7 @@
+## 1.1.4 (Oct 1, 2024)
+
+- Fixed `UrlManager` to update path info only after tenant was found via request
+
 ## 1.1.3 (Sep 24, 2024)
 
 - Added `Tenant::$position` attribute to allow sorting tenants (Issue #2)
