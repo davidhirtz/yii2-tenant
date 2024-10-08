@@ -1,3 +1,7 @@
+## 1.1.5 (Oct 8, 2024)
+
+- Fixed migrations for previous installations
+
 ## 1.1.4 (Oct 2, 2024)
 
 - Fixed `UrlManager` to update path info only after tenant was found via request

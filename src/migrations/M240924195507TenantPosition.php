@@ -16,6 +16,10 @@ class M240924195507TenantPosition extends Migration
 
     public function safeUp(): void
     {
+        if ($this->getDb()->getTableSchema(Tenant::tableName())->getColumn('position')) {
+            return;
+        }
+
         $this->addColumn(Tenant::tableName(), 'position', $this->integer()
             ->unsigned()
             ->notNull()

@@ -24,6 +24,7 @@ class M240819124324Tenant extends Migration
             'name' => $this->string()->notNull(),
             'url' => $this->string(100)->notNull()->unique(),
             'language' => $this->string(5)->notNull(),
+            'position' => $this->integer()->unsigned()->notNull()->defaultValue(0),
             'updated_by_user_id' => $this->integer()->unsigned()->null(),
             'created_at' => $this->dateTime()->notNull(),
             'updated_at' => $this->dateTime()->null(),
