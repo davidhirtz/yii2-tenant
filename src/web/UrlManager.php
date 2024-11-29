@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace davidhirtz\yii2\tenant\web;
 
 use davidhirtz\yii2\skeleton\helpers\Url;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace davidhirtz\yii2\tenant\modules\admin;
 
 use davidhirtz\yii2\skeleton\modules\admin\ModuleInterface;
