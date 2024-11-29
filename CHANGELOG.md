@@ -1,3 +1,7 @@
+## 1.1.6 (Nov 29, 2024)
+
+- Fixed `DynamicRangeValidator` for tenant language
+
 ## 1.1.5 (Oct 8, 2024)
 
 - Fixed migrations for previous installations

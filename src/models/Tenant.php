@@ -94,6 +94,7 @@ class Tenant extends ActiveRecord implements StatusAttributeInterface
             [
                 ['language'],
                 DynamicRangeValidator::class,
+                'integerOnly' => false,
             ],
         ];
     }
