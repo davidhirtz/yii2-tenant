@@ -102,7 +102,7 @@ class UrlManager extends \davidhirtz\yii2\skeleton\web\UrlManager
     {
         return TenantCollection::getByUrl($url)
             ?? (
-            strlen($url) > 6
+                strlen($url) > 6
                 ? $this->getTenantFromUrl(substr($url, 0, strrpos($url, '/')))
                 : null
             );

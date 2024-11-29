@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace davidhirtz\yii2\tenant\modules\admin\widgets\forms;
 
-use davidhirtz\yii2\skeleton\models\traits\StatusAttributeTrait;
 use davidhirtz\yii2\skeleton\modules\admin\widgets\forms\traits\ModelTimestampTrait;
 use davidhirtz\yii2\skeleton\modules\admin\widgets\forms\traits\StatusFieldTrait;
 use davidhirtz\yii2\skeleton\widgets\bootstrap\ActiveField;
