@@ -1,3 +1,7 @@
+## 1.1.7 (Dec 23, 2024)
+
+- Added `language` to the required attributes in `Tenant`
+
 ## 1.1.6 (Nov 29, 2024)
 
 - Fixed `DynamicRangeValidator` for tenant language

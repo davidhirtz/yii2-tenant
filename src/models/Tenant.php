@@ -58,7 +58,7 @@ class Tenant extends ActiveRecord implements StatusAttributeInterface
         return [
             ...parent::rules(),
             [
-                ['status', 'name', 'url'],
+                ['status', 'name', 'language', 'url'],
                 'required',
             ],
             [
