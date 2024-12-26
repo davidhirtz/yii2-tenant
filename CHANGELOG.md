@@ -1,3 +1,7 @@
+## 1.1.8 (in development)
+
+-Changed `Bootstrap` I18N configuration
+
 ## 1.1.7 (Dec 23, 2024)
 
 - Added `language` to the required attributes in `Tenant`
