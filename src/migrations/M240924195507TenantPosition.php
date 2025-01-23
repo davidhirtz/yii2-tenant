@@ -22,7 +22,7 @@ class M240924195507TenantPosition extends Migration
             return;
         }
 
-        $this->addColumn(Tenant::tableName(), 'position', $this->integer()
+        $this->addColumn(Tenant::tableName(), 'position', (string)$this->integer()
             ->unsigned()
             ->notNull()
             ->defaultValue(0)

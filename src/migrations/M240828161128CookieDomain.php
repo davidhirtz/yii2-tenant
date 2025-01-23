@@ -18,7 +18,7 @@ class M240828161128CookieDomain extends Migration
 
     public function safeUp(): void
     {
-        $this->addColumn(Tenant::tableName(), 'cookie_domain', $this->string()
+        $this->addColumn(Tenant::tableName(), 'cookie_domain', (string)$this->string()
             ->null()
             ->after('url'));
     }

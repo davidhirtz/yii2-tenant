@@ -152,9 +152,9 @@ class Tenant extends ActiveRecord implements StatusAttributeInterface
     public function validateCookieDomain(): void
     {
         if (
-            str_starts_with($this->cookie_domain, 'http')
-            || !str_contains($this->url, ltrim($this->cookie_domain, '.'))
-            || !preg_match('/^[a-z.]/', $this->cookie_domain)
+            str_starts_with((string) $this->cookie_domain, 'http')
+            || !str_contains($this->url, ltrim((string) $this->cookie_domain, '.'))
+            || !preg_match('/^[a-z.]/', (string) $this->cookie_domain)
         ) {
             $this->addInvalidAttributeError('cookie_domain');
         }

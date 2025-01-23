@@ -1,6 +1,7 @@
-## 1.1.8 (in development)
+## 1.1.8 (Jan 23, 2025)
 
--Changed `Bootstrap` I18N configuration
+- Changed `Bootstrap` I18N configuration
+- Added PHPStan V2
 
 ## 1.1.7 (Dec 23, 2024)
 

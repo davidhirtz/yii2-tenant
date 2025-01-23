@@ -86,7 +86,7 @@ class TenantGridView extends GridView
                 $buttons = [];
 
                 if (Yii::$app->get('tenant')->id != $tenant->id) {
-                    $buttons[] = Html::a(Icon::tag('toggle-on'), Url::current(['tenant' => $tenant]), [
+                    $buttons[] = Html::a((string)Icon::tag('toggle-on'), Url::current(['tenant' => $tenant]), [
                         'class' => 'btn btn-secondary',
                         'title' => Yii::t('tenant', 'TENANT_SWITCH_ADMIN_BUTTON'),
                         'data-toggle' => 'tooltip',
