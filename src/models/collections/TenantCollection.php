@@ -19,7 +19,15 @@ class TenantCollection
      */
     public static function getAll(): array
     {
-        return static::$_tenants ??= array_filter(static::findAll(), function (Tenant $tenant) {
+        return static::$_tenants ??= static::findAll();
+    }
+
+    /**
+     * @return array<int, Tenant>
+     */
+    public function getVisibleTenants(): array
+    {
+        return array_filter(static::getAll(), function (Tenant $tenant) {
             return $tenant->status >= Yii::$app->get('tenant')->status;
         });
     }
