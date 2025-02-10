@@ -1,3 +1,7 @@
+## 1.2.0 (Feb 10, 2025)
+
+- Added tenant draft status, which allows tenants to be edited without being visible to robots
+
 ## 1.1.8 (Jan 23, 2025)
 
 - Changed `Bootstrap` I18N configuration

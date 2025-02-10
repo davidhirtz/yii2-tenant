@@ -19,8 +19,9 @@ class TenantCollection
      */
     public static function getAll(): array
     {
-        static::$_tenants ??= static::findAll();
-        return static::$_tenants;
+        return static::$_tenants ??= array_filter(static::findAll(), function (Tenant $tenant) {
+            return $tenant->status >= Yii::$app->get('tenant')->status;
+        });
     }
 
     public static function getByUrl(string $url): ?Tenant
@@ -59,7 +60,7 @@ class TenantCollection
         $dependency = new TagDependency(['tags' => static::CACHE_KEY]);
 
         return Tenant::find()
-            ->enabled()
+            ->where(['>', 'status', Tenant::STATUS_DISABLED])
             ->indexBy('id')
             ->orderBy(['position' => SORT_ASC])
             ->cache(0, $dependency)
