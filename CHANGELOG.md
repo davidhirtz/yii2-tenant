@@ -1,3 +1,7 @@
+## 1.2.2 (Feb 10, 2025)
+
+- Enhanced `TenantCollection::getVisibleTenants()`
+
 ## 1.2.1 (Feb 10, 2025)
 
 - Added `TenantCollection::getVisibleTenants()`

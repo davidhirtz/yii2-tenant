@@ -25,11 +25,10 @@ class TenantCollection
     /**
      * @return array<int, Tenant>
      */
-    public function getVisibleTenants(): array
+    public static function getVisibleTenants(): array
     {
-        return array_filter(static::getAll(), function (Tenant $tenant) {
-            return $tenant->status >= Yii::$app->get('tenant')->status;
-        });
+        $tenant = Yii::$app->get('tenant');
+        return array_filter(static::getAll(), fn (Tenant $current) => $current->status >= $tenant->status);
     }
 
     public static function getByUrl(string $url): ?Tenant
