@@ -1,3 +1,7 @@
+## 1.2.3 (Feb 10, 2025)
+
+- Fixed missing path info for draft URLs
+
 ## 1.2.2 (Feb 10, 2025)
 
 - Enhanced `TenantCollection::getVisibleTenants()`

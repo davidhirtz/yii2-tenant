@@ -36,7 +36,7 @@ class UrlManager extends \davidhirtz\yii2\skeleton\web\UrlManager
     public function createDraftUrl(array|string $params): string
     {
         $tenant = $this->getTenantFromParams($params, true);
-        return Url::draft($tenant->getHostInfo()) . $this->createUrl($params);
+        return Url::draft($tenant->getHostInfo()) . $tenant->getPathInfo() . $this->createUrl($params);
     }
 
     public function createUrl($params): string
