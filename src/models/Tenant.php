@@ -10,8 +10,8 @@ use davidhirtz\yii2\skeleton\behaviors\BlameableBehavior;
 use davidhirtz\yii2\skeleton\behaviors\TimestampBehavior;
 use davidhirtz\yii2\skeleton\behaviors\TrailBehavior;
 use davidhirtz\yii2\skeleton\db\ActiveRecord;
-use davidhirtz\yii2\skeleton\models\interfaces\StatusAttributeInterface;
-use davidhirtz\yii2\skeleton\models\traits\StatusAttributeTrait;
+use davidhirtz\yii2\skeleton\models\interfaces\DraftStatusAttributeInterface;
+use davidhirtz\yii2\skeleton\models\traits\DraftStatusAttributeTrait;
 use davidhirtz\yii2\skeleton\models\traits\UpdatedByUserTrait;
 use davidhirtz\yii2\skeleton\validators\DynamicRangeValidator;
 use davidhirtz\yii2\tenant\models\collections\TenantCollection;
@@ -30,9 +30,9 @@ use Yii;
  * @property DateTime $updated_at
  * @property DateTime $created_at
  */
-class Tenant extends ActiveRecord implements StatusAttributeInterface
+class Tenant extends ActiveRecord implements DraftStatusAttributeInterface
 {
-    use StatusAttributeTrait;
+    use DraftStatusAttributeTrait;
     use UpdatedByUserTrait;
 
     final public const AUTH_TENANT_CREATE = 'tenantCreate';

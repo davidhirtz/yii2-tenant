@@ -60,6 +60,10 @@ class UrlManager extends \davidhirtz\yii2\skeleton\web\UrlManager
 
         $this->defaultLanguage = $tenant->language;
 
+        if ($tenant->isDraft()) {
+            Yii::$app->getResponse()->getHeaders()->set('X-Robots-Tag', 'none');
+        }
+
         return parent::parseRequest($request);
     }
 
