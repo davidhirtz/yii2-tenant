@@ -35,13 +35,11 @@ class TenantCollection
     {
         $matches = [$url];
 
-        if (!Yii::$app->getRequest()->getIsConsoleRequest()) {
-            $draftDomain = Yii::$app->getRequest()->draftSubdomain;
+        $draftDomain = Yii::$app->getUrlManager()->draftSubdomain;
 
-            if ($draftDomain && str_contains($url, "//$draftDomain")) {
-                $matches[] = str_replace("//$draftDomain", '//www', $url);
-                $matches[] = str_replace("//$draftDomain.", '//', $url);
-            }
+        if ($draftDomain && str_contains($url, "//$draftDomain")) {
+            $matches[] = str_replace("//$draftDomain", '//www', $url);
+            $matches[] = str_replace("//$draftDomain.", '//', $url);
         }
 
         foreach (static::getAll() as $tenant) {
