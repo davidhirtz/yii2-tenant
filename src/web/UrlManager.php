@@ -33,12 +33,6 @@ class UrlManager extends \davidhirtz\yii2\skeleton\web\UrlManager
         return Url::ensureScheme($url, $scheme);
     }
 
-    public function createDraftUrl(array|string $params): string
-    {
-        $tenant = $this->getTenantFromParams($params, true);
-        return Url::draft($tenant->getHostInfo()) . $tenant->getPathInfo() . $this->createUrl($params);
-    }
-
     public function createUrl($params): string
     {
         $tenant = $this->getTenantFromParams($params, true);
@@ -58,8 +52,6 @@ class UrlManager extends \davidhirtz\yii2\skeleton\web\UrlManager
         $tenant = $this->getTenantFromRequest($request);
         $this->setTenant($tenant);
 
-        $this->defaultLanguage = $tenant->language;
-
         if ($tenant->isDraft()) {
             Yii::$app->getResponse()->getHeaders()->set('X-Robots-Tag', 'none');
         }
@@ -70,6 +62,11 @@ class UrlManager extends \davidhirtz\yii2\skeleton\web\UrlManager
     protected function setTenant(Tenant $tenant): void
     {
         Yii::$app->set('tenant', $tenant);
+    }
+
+    protected function setApplicationLanguage(Request $request): void
+    {
+        Yii::$app->language = Yii::$app->get('tenant')->language;
     }
 
     protected function setCookieDomain(string $domain): void

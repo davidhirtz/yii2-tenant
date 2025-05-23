@@ -1,3 +1,7 @@
+## 1.3.0 (May 23, 2025)
+
+- Updated `UrlManager::$draftDomain`
+
 ## 1.2.4 (Apr 3, 2025)
 
 - Invalidate cache in `Tenant::afterDelete()` (Issue #4)
