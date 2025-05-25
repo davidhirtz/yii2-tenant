@@ -1,10 +1,7 @@
-## 1.4.0 (May 25, 2025)
+## 1.3.0 (May 25, 2025)
 
 - Changed the required PHP version to 8.3
 - Added `TenantCollection::getDefault()`
-
-## 1.3.0 (May 23, 2025)
-
 - Updated `UrlManager::$draftDomain`
 
 ## 1.2.4 (Apr 3, 2025)
