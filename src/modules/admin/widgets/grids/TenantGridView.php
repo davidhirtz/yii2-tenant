@@ -32,6 +32,8 @@ class TenantGridView extends GridView
             ];
         }
 
+        $this->status ??= $this->dataProvider->status;
+
         parent::init();
     }
 
@@ -127,5 +129,10 @@ class TenantGridView extends GridView
             'attribute' => 'updated_at',
             'displayAtBreakpoint' => 'lg',
         ];
+    }
+
+    public function isSortedByPosition(): bool
+    {
+        return parent::isSortedByPosition() && $this->status === null;
     }
 }
