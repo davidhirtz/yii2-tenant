@@ -14,7 +14,7 @@ trait TenantFixtureTrait
 
     public function _before(): void
     {
-        TenantCollection::invalidateCache();
+        $this->invalidateCache();
     }
 
     public function _fixtures(): array
@@ -25,5 +25,10 @@ trait TenantFixtureTrait
                 'dataFile' => codecept_data_dir() . 'tenant.php',
             ],
         ];
+    }
+
+    protected function invalidateCache(): void
+    {
+        TenantCollection::invalidateCache();
     }
 }
