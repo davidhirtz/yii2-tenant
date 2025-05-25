@@ -1,6 +1,6 @@
 <?php
 
-namespace davidhirtz\yii2\tenant\tests\support\traits;
+namespace davidhirtz\yii2\tenant\tests\data\traits;
 
 use Yii;
 
@@ -31,5 +31,4 @@ trait TenantRelationTrait
     {
         Yii::$app->getDb()->createCommand()->dropTable('test')->execute();
     }
-
 }

@@ -6,8 +6,8 @@ namespace davidhirtz\yii2\tenant\tests\unit\models\collections;
 
 use Codeception\Test\Unit;
 use davidhirtz\yii2\tenant\models\collections\TenantCollection;
-use davidhirtz\yii2\tenant\tests\support\traits\RequestTrait;
-use davidhirtz\yii2\tenant\tests\support\traits\TenantFixtureTrait;
+use davidhirtz\yii2\tenant\tests\data\traits\RequestTrait;
+use davidhirtz\yii2\tenant\tests\data\traits\TenantFixtureTrait;
 use Yii;
 
 class TenantCollectionTest extends Unit

@@ -7,7 +7,7 @@ namespace davidhirtz\yii2\tenant\tests\unit\models;
 use Codeception\Test\Unit;
 use davidhirtz\yii2\tenant\models\collections\TenantCollection;
 use davidhirtz\yii2\tenant\models\Tenant;
-use davidhirtz\yii2\tenant\tests\support\traits\TenantFixtureTrait;
+use davidhirtz\yii2\tenant\tests\data\traits\TenantFixtureTrait;
 use davidhirtz\yii2\tenant\tests\support\UnitTester;
 use Yii;
 

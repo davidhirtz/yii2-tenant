@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace davidhirtz\yii2\tenant\tests\support\traits;
+namespace davidhirtz\yii2\tenant\tests\data\traits;
 
 use davidhirtz\yii2\skeleton\web\Request;
 use Yii;

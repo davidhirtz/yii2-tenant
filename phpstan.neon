@@ -18,7 +18,7 @@ parameters:
     excludePaths:
         - src/gii/*
         - tests/_output/*
-        - tests/support/_generated/*
+        - tests/support/*
 
     scanFiles:
         - vendor/davidhirtz/yii2-skeleton/Yii.php

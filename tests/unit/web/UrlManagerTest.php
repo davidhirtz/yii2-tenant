@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace davidhirtz\yii2\tenant\tests\unit\web;
 
 use Codeception\Test\Unit;
-use davidhirtz\yii2\tenant\tests\support\traits\RequestTrait;
-use davidhirtz\yii2\tenant\tests\support\traits\TenantFixtureTrait;
-use davidhirtz\yii2\tenant\tests\support\traits\UrlManagerTrait;
+use davidhirtz\yii2\tenant\tests\data\traits\RequestTrait;
+use davidhirtz\yii2\tenant\tests\data\traits\TenantFixtureTrait;
+use davidhirtz\yii2\tenant\tests\data\traits\UrlManagerTrait;
 use davidhirtz\yii2\tenant\tests\support\UnitTester;
 use Yii;
 use yii\web\UrlNormalizerRedirectException;
