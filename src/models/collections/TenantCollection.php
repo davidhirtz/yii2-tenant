@@ -6,6 +6,7 @@ namespace davidhirtz\yii2\tenant\models\collections;
 
 use davidhirtz\yii2\tenant\models\Tenant;
 use Yii;
+use yii\base\InvalidConfigException;
 use yii\caching\TagDependency;
 
 class TenantCollection
@@ -20,6 +21,17 @@ class TenantCollection
     public static function getAll(): array
     {
         return static::$_tenants ??= static::findAll();
+    }
+
+    public static function getDefault(): Tenant
+    {
+        $tenants = static::getAll();
+
+        if (!$tenants) {
+            throw new InvalidConfigException('No tenants found.');
+        }
+
+        return reset($tenants);
     }
 
     /**

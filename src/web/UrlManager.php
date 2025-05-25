@@ -59,9 +59,12 @@ class UrlManager extends \davidhirtz\yii2\skeleton\web\UrlManager
         return parent::parseRequest($request);
     }
 
-    protected function setTenant(Tenant $tenant): void
+    public function setTenant(Tenant $tenant): void
     {
         Yii::$app->set('tenant', $tenant);
+        Yii::$app->language = $tenant->language;
+
+        $this->setHostInfo($tenant->getHostInfo());
     }
 
     protected function setApplicationLanguage(Request $request): void
@@ -93,7 +96,7 @@ class UrlManager extends \davidhirtz\yii2\skeleton\web\UrlManager
             return $tenant;
         }
 
-        $tenant = current(TenantCollection::getAll());
+        $tenant = TenantCollection::getDefault();
 
         Yii::debug("Tenant not found by host name or path info, using tenant: $tenant->name", __METHOD__);
         return $tenant;
