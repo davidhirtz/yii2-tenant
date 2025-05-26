@@ -6,6 +6,7 @@ namespace davidhirtz\yii2\tenant\models\collections;
 
 use davidhirtz\yii2\tenant\models\Tenant;
 use Yii;
+use yii\base\InvalidConfigException;
 use yii\caching\TagDependency;
 
 class TenantCollection
@@ -22,6 +23,17 @@ class TenantCollection
         return static::$_tenants ??= static::findAll();
     }
 
+    public static function getDefault(): Tenant
+    {
+        $tenants = static::getAll();
+
+        if (!$tenants) {
+            throw new InvalidConfigException('No tenants found.');
+        }
+
+        return reset($tenants);
+    }
+
     /**
      * @return array<int, Tenant>
      */
@@ -35,13 +47,11 @@ class TenantCollection
     {
         $matches = [$url];
 
-        if (!Yii::$app->getRequest()->getIsConsoleRequest()) {
-            $draftDomain = Yii::$app->getRequest()->draftSubdomain;
+        $draftDomain = Yii::$app->getUrlManager()->draftSubdomain;
 
-            if ($draftDomain && str_contains($url, "//$draftDomain")) {
-                $matches[] = str_replace("//$draftDomain", '//www', $url);
-                $matches[] = str_replace("//$draftDomain.", '//', $url);
-            }
+        if ($draftDomain && str_contains($url, "//$draftDomain")) {
+            $matches[] = str_replace("//$draftDomain", '//www', $url);
+            $matches[] = str_replace("//$draftDomain.", '//', $url);
         }
 
         foreach (static::getAll() as $tenant) {

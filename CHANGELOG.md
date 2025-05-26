@@ -1,3 +1,17 @@
+## 1.3.0 (May 25, 2025)
+
+- Changed the required PHP version to 8.3
+- Added `TenantCollection::getDefault()`
+- Updated `UrlManager::$draftDomain`
+
+## 1.2.4 (Apr 3, 2025)
+
+- Invalidate cache in `Tenant::afterDelete()` (Issue #4)
+
+## 1.2.3 (Feb 10, 2025)
+
+- Fixed missing path info for draft URLs
+
 ## 1.2.2 (Feb 10, 2025)
 
 - Enhanced `TenantCollection::getVisibleTenants()`

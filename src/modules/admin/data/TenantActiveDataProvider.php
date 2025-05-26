@@ -12,6 +12,7 @@ use yii\data\Sort;
 class TenantActiveDataProvider extends ActiveDataProvider
 {
     public ?string $searchString = null;
+    public ?int $status = null;
 
     public function __construct($config = [])
     {
@@ -31,7 +32,12 @@ class TenantActiveDataProvider extends ActiveDataProvider
             $this->query->andFilterWhere(['like', 'name', $this->searchString]);
         }
 
-        $this->query->orderBy(['position' => SORT_ASC]);
+        if ($this->status !== null) {
+            $this->query->andWhere(['status' => $this->status])
+                ->orderBy(['name' => SORT_ASC]);
+        } else {
+            $this->query->orderBy(['position' => SORT_ASC]);
+        }
     }
 
     public function getPagination(): Pagination|false

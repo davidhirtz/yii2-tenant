@@ -1,8 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 use davidhirtz\yii2\tenant\Bootstrap;
 
 return [
+    'aliases' => [
+        // This is a fix for the broken aliasing of `BaseMigrateController::getNamespacePath()`
+        '@davidhirtz/yii2/tenant' => __DIR__ . '/../../src/',
+    ],
     'bootstrap' => [
         Bootstrap::class,
     ],

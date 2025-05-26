@@ -52,10 +52,11 @@ class TenantController extends Controller
         ]);
     }
 
-    public function actionIndex(?string $q = null): string
+    public function actionIndex(?int $status = null, ?string $q = null): string
     {
         $provider = Yii::$container->get(TenantActiveDataProvider::class, [], [
             'searchString' => $q,
+            'status' => $status,
         ]);
 
         return $this->render('index', [
