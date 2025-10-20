@@ -12,10 +12,11 @@ return [
     'languages' => [
         'de',
         'en-US',
-        'zh-CN',
-        'zh-TW',
         'fr',
         'pt',
+        'ru',
+        'zh-CN',
+        'zh-TW',
     ],
     'ignoreCategories' => ['yii', 'skeleton'],
     'overwrite' => true,
