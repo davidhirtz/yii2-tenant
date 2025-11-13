@@ -1,3 +1,7 @@
+## 1.3.1 (Oct 20, 2025)
+
+- Added Russian language support
+
 ## 1.3.0 (May 25, 2025)
 
 - Changed the required PHP version to 8.3
