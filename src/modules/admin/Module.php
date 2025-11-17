@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace davidhirtz\yii2\tenant\modules\admin;
 
+use davidhirtz\yii2\skeleton\modules\admin\config\MainMenuItemConfig;
 use davidhirtz\yii2\skeleton\modules\admin\ModuleInterface;
 use davidhirtz\yii2\tenant\models\Tenant;
 use davidhirtz\yii2\tenant\modules\admin\controllers\TenantController;
@@ -15,9 +16,6 @@ use yii\helpers\ArrayHelper;
  */
 class Module extends \davidhirtz\yii2\skeleton\base\Module implements ModuleInterface
 {
-    /**
-     * @var array|string the navbar item url
-     */
     public array|string $url = ['/admin/tenant/index'];
 
     public function init(): void
@@ -31,7 +29,6 @@ class Module extends \davidhirtz\yii2\skeleton\base\Module implements ModuleInte
         return [
             'tenant' => [
                 'class' => TenantController::class,
-                'viewPath' => '@tenant/modules/admin/views/tenant',
             ],
         ];
     }
@@ -46,21 +43,27 @@ class Module extends \davidhirtz\yii2\skeleton\base\Module implements ModuleInte
         return Yii::t('tenant', 'TENANT_NAME_PLURAL');
     }
 
-    public function getNavBarItems(): array
+    public function getMainMenuItems(): array
     {
         return [
-            'tenants' => [
-                'label' => $this->getName(),
-                'icon' => 'network-wired',
-                'roles' => [
-                    Tenant::AUTH_TENANT_CREATE,
-                    Tenant::AUTH_TENANT_UPDATE,
+            'tenants' => new MainMenuItemConfig(
+                label: $this->getName(),
+                url: $this->url,
+                icon: 'network-wired',
+                roles: [
+                   Tenant::AUTH_TENANT_CREATE,
+                   Tenant::AUTH_TENANT_UPDATE,
                 ],
-                'url' => ['/admin/tenant'],
-                'active' => [
+                routes: [
                     'admin/tenant/',
                 ],
-            ],
+            ),
         ];
+    }
+
+    public function beforeAction($action): bool
+    {
+        $this->setViewPath('@tenant/modules/admin/views');
+        return parent::beforeAction($action);
     }
 }
