@@ -21,10 +21,10 @@ parameters:
         - tests/support/*
 
     scanFiles:
-        - vendor/davidhirtz/yii2-skeleton/Yii.php
+        - Yii.php
 
     stubFiles:
-        - vendor/davidhirtz/yii2-skeleton/stubs/yii/BaseYii.stub
+        - stubs/yii/BaseYii.stub
 
     earlyTerminatingMethodCalls:
         yii\base\Application:
