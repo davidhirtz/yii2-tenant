@@ -19,11 +19,13 @@ class TestModel extends ActiveRecord
     /**
      * @return TestActiveQuery
      */
+    #[\Override]
     public static function find(): ActiveQuery
     {
         return new TestActiveQuery(self::class);
     }
 
+    #[\Override]
     public static function tableName(): string
     {
         return '{{%test}}';

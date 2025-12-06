@@ -18,6 +18,7 @@ class Module extends \davidhirtz\yii2\skeleton\base\Module implements ModuleInte
 {
     public array|string $url = ['/admin/tenant/index'];
 
+    #[\Override]
     public function init(): void
     {
         $this->controllerMap = ArrayHelper::merge($this->getCoreControllerMap(), $this->controllerMap);
@@ -61,6 +62,7 @@ class Module extends \davidhirtz\yii2\skeleton\base\Module implements ModuleInte
         ];
     }
 
+    #[\Override]
     public function beforeAction($action): bool
     {
         $this->setViewPath('@tenant/modules/admin/views');

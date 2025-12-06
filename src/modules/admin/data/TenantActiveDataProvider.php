@@ -6,6 +6,7 @@ namespace davidhirtz\yii2\tenant\modules\admin\data;
 
 use davidhirtz\yii2\skeleton\data\ActiveDataProvider;
 use davidhirtz\yii2\tenant\models\Tenant;
+use Override;
 use yii\data\Pagination;
 use yii\data\Sort;
 
@@ -20,6 +21,7 @@ class TenantActiveDataProvider extends ActiveDataProvider
         parent::__construct($config);
     }
 
+    #[Override]
     protected function prepareQuery(): void
     {
         $this->initQuery();
@@ -40,16 +42,19 @@ class TenantActiveDataProvider extends ActiveDataProvider
         }
     }
 
+    #[Override]
     public function getPagination(): Pagination|false
     {
         return !$this->isOrderedByPosition() ? parent::getPagination() : false;
     }
 
+    #[Override]
     public function getSort(): Sort|false
     {
         return !$this->isOrderedByPosition() ? parent::getSort() : false;
     }
 
+    #[Override]
     public function setSort($value): void
     {
         if (is_array($value)) {
@@ -64,6 +69,6 @@ class TenantActiveDataProvider extends ActiveDataProvider
         return in_array(key($this->query->orderBy ?? []), [
             Tenant::tableName() . '.[[position]]',
             'position',
-        ]);
+        ], true);
     }
 }

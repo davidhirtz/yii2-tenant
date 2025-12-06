@@ -55,7 +55,7 @@ class TenantCollection
         }
 
         foreach (static::getAll() as $tenant) {
-            if (in_array($tenant->url, $matches)) {
+            if (in_array($tenant->url, $matches, true)) {
                 return $tenant;
             }
         }

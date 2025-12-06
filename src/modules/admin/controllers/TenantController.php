@@ -20,9 +20,11 @@ class TenantController extends Controller
 {
     use TenantControllerTrait;
 
+    #[\Override]
     public function behaviors(): array
     {
-        return array_merge(parent::behaviors(), [
+        return [
+            ...parent::behaviors(),
             'access' => [
                 'class' => AccessControl::class,
                 'rules' => [
@@ -50,7 +52,7 @@ class TenantController extends Controller
                     'order' => ['post'],
                 ],
             ],
-        ]);
+        ];
     }
 
     public function actionIndex(?int $status = null, ?string $q = null): string
@@ -97,7 +99,7 @@ class TenantController extends Controller
     public function actionDelete(int $id): Response
     {
         $tenant = $this->findTenant($id, Tenant::AUTH_TENANT_DELETE);
-        $form = new DeleteForm(['model' => $tenant]);
+        $form = new DeleteForm($tenant);
 
         if ($form->load(Yii::$app->getRequest()->post()) && $form->delete()) {
             $this->success(Yii::t('tenant', 'TENANT_FLASH_DELETED'));

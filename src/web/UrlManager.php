@@ -13,6 +13,7 @@ use yii\web\Cookie;
 
 class UrlManager extends \davidhirtz\yii2\skeleton\web\UrlManager
 {
+    #[\Override]
     public function init(): void
     {
         $this->i18nUrl = false;
@@ -21,6 +22,7 @@ class UrlManager extends \davidhirtz\yii2\skeleton\web\UrlManager
         parent::init();
     }
 
+    #[\Override]
     public function createAbsoluteUrl($params, $scheme = null): string
     {
         $tenant = $this->getTenantFromParams($params);
@@ -33,6 +35,7 @@ class UrlManager extends \davidhirtz\yii2\skeleton\web\UrlManager
         return Url::ensureScheme($url, $scheme);
     }
 
+    #[\Override]
     public function createUrl($params): string
     {
         $tenant = $this->getTenantFromParams($params, true);
@@ -47,6 +50,7 @@ class UrlManager extends \davidhirtz\yii2\skeleton\web\UrlManager
         return $url;
     }
 
+    #[\Override]
     public function parseRequest($request): bool|array
     {
         $tenant = $this->getTenantFromRequest($request);
@@ -67,6 +71,7 @@ class UrlManager extends \davidhirtz\yii2\skeleton\web\UrlManager
         $this->setHostInfo($tenant->getHostInfo());
     }
 
+    #[\Override]
     protected function setApplicationLanguage(Request $request): void
     {
         Yii::$app->language = Yii::$app->get('tenant')->language;
