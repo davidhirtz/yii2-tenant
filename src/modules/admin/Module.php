@@ -8,6 +8,7 @@ use davidhirtz\yii2\skeleton\modules\admin\config\MainMenuItemConfig;
 use davidhirtz\yii2\skeleton\modules\admin\ModuleInterface;
 use davidhirtz\yii2\tenant\models\Tenant;
 use davidhirtz\yii2\tenant\modules\admin\controllers\TenantController;
+use Override;
 use Yii;
 use yii\helpers\ArrayHelper;
 
@@ -18,7 +19,7 @@ class Module extends \davidhirtz\yii2\skeleton\base\Module implements ModuleInte
 {
     public array|string $url = ['/admin/tenant/index'];
 
-    #[\Override]
+    #[Override]
     public function init(): void
     {
         $this->controllerMap = ArrayHelper::merge($this->getCoreControllerMap(), $this->controllerMap);
@@ -59,6 +60,7 @@ class Module extends \davidhirtz\yii2\skeleton\base\Module implements ModuleInte
                 routes: [
                     'admin/tenant/',
                 ],
+                order: 80,
             ),
         ];
     }

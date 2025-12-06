@@ -6,6 +6,7 @@ namespace davidhirtz\yii2\tenant\modules\admin\widgets\navs;
 
 use davidhirtz\yii2\skeleton\widgets\navs\NavItem;
 use davidhirtz\yii2\skeleton\widgets\navs\Submenu;
+use davidhirtz\yii2\skeleton\widgets\traits\ModelWidgetTrait;
 use davidhirtz\yii2\tenant\models\Tenant;
 use Yii;
 
@@ -15,6 +16,8 @@ use Yii;
  */
 class TenantSubmenu extends Submenu
 {
+    use ModelWidgetTrait;
+
     protected function configure(): void
     {
         $this->title ??= Yii::t('tenant', 'TENANT_NAME_PLURAL');

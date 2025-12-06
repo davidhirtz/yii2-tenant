@@ -99,7 +99,7 @@ class TenantController extends Controller
     public function actionDelete(int $id): Response
     {
         $tenant = $this->findTenant($id, Tenant::AUTH_TENANT_DELETE);
-        $form = new DeleteForm($tenant);
+        $form = new DeleteForm($tenant, 'name');
 
         if ($form->load(Yii::$app->getRequest()->post()) && $form->delete()) {
             $this->success(Yii::t('tenant', 'TENANT_FLASH_DELETED'));

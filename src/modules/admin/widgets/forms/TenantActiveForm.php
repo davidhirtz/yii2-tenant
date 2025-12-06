@@ -4,41 +4,63 @@ declare(strict_types=1);
 
 namespace davidhirtz\yii2\tenant\modules\admin\widgets\forms;
 
-use davidhirtz\yii2\skeleton\modules\admin\widgets\forms\traits\ModelTimestampTrait;
-use davidhirtz\yii2\skeleton\modules\admin\widgets\forms\traits\StatusFieldTrait;
-use davidhirtz\yii2\skeleton\widgets\bootstrap\ActiveField;
-use davidhirtz\yii2\skeleton\widgets\bootstrap\ActiveForm;
-use davidhirtz\yii2\skeleton\widgets\forms\DynamicRangeDropdown;
+use davidhirtz\yii2\skeleton\widgets\forms\ActiveForm;
+use davidhirtz\yii2\skeleton\widgets\forms\fields\Field;
+use davidhirtz\yii2\skeleton\widgets\forms\fields\InputField;
+use davidhirtz\yii2\skeleton\widgets\forms\fields\SelectField;
 use davidhirtz\yii2\tenant\models\Tenant;
 
 /**
- * @property Tenant $model
+ * @template T of Tenant
+ * @property T $model
  */
 class TenantActiveForm extends ActiveForm
 {
-    use ModelTimestampTrait;
-    use StatusFieldTrait;
-    
-    public function init(): void
+    protected function configure(): void
     {
-        $this->fields ??= [
-            'status',
-            'name',
-            'language',
-            '-',
-            'url',
-            'cookie_domain',
+        $this->rows ??= [
+            [
+                $this->getStatusField(),
+                $this->getNameField(),
+                $this->getLanguageField(),
+            ],
+            [
+                $this->getUrlField(),
+                $this->getCookieDomainField(),
+            ]
         ];
 
-        parent::init();
+        parent::configure();
     }
 
-    /**
-     * @see Tenant::getLanguages()
-     * @noinspection PhpUnused
-     */
-    public function languageField(array $options = []): ActiveField|string
+    protected function getStatusField(): ?Field
     {
-        return $this->field($this->model, 'language', $options)->widget(DynamicRangeDropdown::class);
+        return SelectField::make()
+            ->property('status');
+    }
+
+    protected function getNameField(): ?Field
+    {
+        return InputField::make()
+            ->property('name');
+    }
+
+    protected function getLanguageField(): ?Field
+    {
+        return SelectField::make()
+            ->property('language');
+    }
+
+    protected function getCookieDomainField(): ?Field
+    {
+        return InputField::make()
+            ->property('cookie_domain');
+    }
+
+    protected function getUrlField(): ?Field
+    {
+        return InputField::make()
+            ->property('url')
+            ->type('url');
     }
 }
