@@ -7,6 +7,7 @@ namespace davidhirtz\yii2\tenant\modules\admin\controllers;
 use davidhirtz\yii2\skeleton\models\forms\DeleteForm;
 use davidhirtz\yii2\skeleton\web\Controller;
 use davidhirtz\yii2\tenant\models\actions\ReorderTenants;
+use davidhirtz\yii2\tenant\models\collections\TenantCollection;
 use davidhirtz\yii2\tenant\models\Tenant;
 use davidhirtz\yii2\tenant\modules\admin\controllers\traits\TenantControllerTrait;
 use davidhirtz\yii2\tenant\modules\admin\data\TenantActiveDataProvider;
@@ -100,7 +101,7 @@ class TenantController extends Controller
 
         if ($form->load(Yii::$app->getRequest()->post()) && $form->delete()) {
             $this->success(Yii::t('tenant', 'TENANT_FLASH_DELETED'));
-            return $this->redirect(['index']);
+            return $this->redirect(['index', 'tenant' => TenantCollection::getDefault()]);
         }
 
         $this->error($form);

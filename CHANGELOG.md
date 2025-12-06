@@ -1,3 +1,7 @@
+## 1.3.2 (Dec 6, 2025)
+
+- Fixed redirect URL after deleting a tenant
+
 ## 1.3.1 (Oct 20, 2025)
 
 - Added Russian language support
