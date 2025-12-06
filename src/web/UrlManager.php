@@ -8,12 +8,13 @@ use davidhirtz\yii2\skeleton\helpers\Url;
 use davidhirtz\yii2\skeleton\web\Request;
 use davidhirtz\yii2\tenant\models\collections\TenantCollection;
 use davidhirtz\yii2\tenant\models\Tenant;
+use Override;
 use Yii;
 use yii\web\Cookie;
 
 class UrlManager extends \davidhirtz\yii2\skeleton\web\UrlManager
 {
-    #[\Override]
+    #[Override]
     public function init(): void
     {
         $this->i18nUrl = false;
@@ -22,7 +23,7 @@ class UrlManager extends \davidhirtz\yii2\skeleton\web\UrlManager
         parent::init();
     }
 
-    #[\Override]
+    #[Override]
     public function createAbsoluteUrl($params, $scheme = null): string
     {
         $tenant = $this->getTenantFromParams($params);
@@ -35,7 +36,7 @@ class UrlManager extends \davidhirtz\yii2\skeleton\web\UrlManager
         return Url::ensureScheme($url, $scheme);
     }
 
-    #[\Override]
+    #[Override]
     public function createUrl($params): string
     {
         $tenant = $this->getTenantFromParams($params, true);
@@ -50,7 +51,7 @@ class UrlManager extends \davidhirtz\yii2\skeleton\web\UrlManager
         return $url;
     }
 
-    #[\Override]
+    #[Override]
     public function parseRequest($request): bool|array
     {
         $tenant = $this->getTenantFromRequest($request);
@@ -71,7 +72,7 @@ class UrlManager extends \davidhirtz\yii2\skeleton\web\UrlManager
         $this->setHostInfo($tenant->getHostInfo());
     }
 
-    #[\Override]
+    #[Override]
     protected function setApplicationLanguage(Request $request): void
     {
         Yii::$app->language = Yii::$app->get('tenant')->language;

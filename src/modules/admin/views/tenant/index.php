@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -9,19 +10,16 @@ declare(strict_types=1);
  */
 
 use davidhirtz\yii2\skeleton\web\View;
-use davidhirtz\yii2\skeleton\widgets\bootstrap\Panel;
+use davidhirtz\yii2\skeleton\widgets\grids\GridContainer;
 use davidhirtz\yii2\tenant\modules\admin\controllers\TenantController;
 use davidhirtz\yii2\tenant\modules\admin\widgets\grids\TenantGridView;
 use davidhirtz\yii2\tenant\modules\admin\widgets\navs\TenantSubmenu;
 use yii\data\ActiveDataProvider;
 
-$this->setTitle(Yii::t('tenant', 'TENANT_NAME_PLURAL'));
-?>
+$this->title(Yii::t('tenant', 'TENANT_NAME_PLURAL'));
 
-<?= TenantSubmenu::widget(); ?>
+echo TenantSubmenu::make();
 
-<?= Panel::widget([
-    'content' => TenantGridView::widget([
-        'dataProvider' => $provider,
-    ]),
-]); ?>
+echo GridContainer::make()
+    ->grid(TenantGridView::make()
+        ->provider($provider));

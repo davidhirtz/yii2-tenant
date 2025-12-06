@@ -30,6 +30,7 @@ class Module extends \davidhirtz\yii2\skeleton\base\Module implements ModuleInte
         return [
             'tenant' => [
                 'class' => TenantController::class,
+                'viewPath' => '@tenant/modules/admin/views/tenant',
             ],
         ];
     }
@@ -60,12 +61,5 @@ class Module extends \davidhirtz\yii2\skeleton\base\Module implements ModuleInte
                 ],
             ),
         ];
-    }
-
-    #[\Override]
-    public function beforeAction($action): bool
-    {
-        $this->setViewPath('@tenant/modules/admin/views');
-        return parent::beforeAction($action);
     }
 }
