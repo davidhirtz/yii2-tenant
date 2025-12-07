@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace davidhirtz\yii2\tenant\test;
 
-use davidhirtz\yii2\tenant\tests\fixtures\TenantFixture;
+use davidhirtz\yii2\tenant\test\fixtures\TenantFixture;
 use Override;
 
 class TestCase extends \davidhirtz\yii2\skeleton\test\TestCase
