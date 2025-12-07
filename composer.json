@@ -15,14 +15,8 @@
     "davidhirtz/yii2-skeleton": "v3.x-dev"
   },
   "require-dev": {
-    "codeception/codeception": "^5.3",
-    "codeception/module-asserts": "^3.0",
-    "codeception/module-filesystem": "^3.0",
-    "codeception/module-phpbrowser": "^3.0",
-    "codeception/module-yii2": "^2.0",
-    "codeception/specify": "^2.0",
-    "codeception/verify": "^3.0",
-    "phpstan/phpstan": "^2.1"
+    "phpstan/phpstan": "^2.1",
+    "phpunit/phpunit": "^12.5"
   },
   "autoload": {
     "psr-4": {
@@ -31,7 +25,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "davidhirtz\\yii2\\tenant\\tests\\": "tests"
+      "Hirtz\\Yii2\\Tenant\\Tests\\": "tests"
     }
   },
   "extra": {
@@ -44,6 +38,6 @@
   },
   "scripts": {
     "phpstan": "phpstan --memory-limit=1G",
-    "test": "codecept run"
+    "test": "phpunit"
   }
 }
