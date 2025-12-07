@@ -1,23 +1,30 @@
 bootstrap: bootstrap.php
+
 coverage:
   enabled: true
   include:
     - src/*
   exclude:
     - src/messages/*
+
 extensions:
   enabled:
     - Codeception\Extension\RunFailed
+
 modules:
   config:
-    Codeception\Module\Yii2:
+    Yii2:
       applicationClass: davidhirtz\yii2\skeleton\web\Application
       configFile: "tests/config/test.php"
       entryUrl: "https://www.example.com:443/index.php"
+      recreateApplication: true
+
 namespace: davidhirtz\yii2\tenant\tests
+
 paths:
   tests: tests
   output: tests/_output
   data: tests/support/data
   support: tests/support
+
 support_namespace: support

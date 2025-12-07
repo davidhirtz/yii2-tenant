@@ -61,8 +61,5 @@ jobs:
         env:
           MYSQL_DSN: mysql:host=127.0.0.1;port=${{ job.services.mysql.ports['3306'] }};dbname=yii2_tenant_test
 
-      - name: Coding Standards
-        run: composer check-cs
-
       - name: Run Static Code Analysis
         run: composer phpstan

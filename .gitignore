@@ -1,13 +1,12 @@
 # Development
-.idea
-node_modules
-tests/config/db.php
-tests/_output/coverage.xml
-tests/_output/coverage.serialized
-vendor
+/.idea
+/node_modules
+/vendor
 
 # Yii
-runtime
+/runtime
+/tests/_output/coverage.xml
+/tests/_output/coverage.serialized
 
 # OS cache files
 .DS_Store
