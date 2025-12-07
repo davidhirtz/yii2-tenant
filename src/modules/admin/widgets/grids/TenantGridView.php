@@ -77,7 +77,8 @@ class TenantGridView extends GridView
                     A::make()
                         ->content($url)
                         ->href($url)
-                        ->target('_blank'));
+                        ->target('_blank')
+                );
     }
 
     protected function getUpdatedAtColumn(): ?Column

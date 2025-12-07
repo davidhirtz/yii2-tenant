@@ -43,7 +43,7 @@ class M240905060625Roles extends Migration
         $auth->addChild($admin, $tenantDelete);
         $auth->addChild($tenantUpdate, $tenantDelete);
     }
-    
+
     public function safeDown(): void
     {
         $auth = Yii::$app->getAuthManager();

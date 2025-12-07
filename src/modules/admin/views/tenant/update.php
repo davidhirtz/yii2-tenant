@@ -18,7 +18,6 @@ use davidhirtz\yii2\tenant\modules\admin\controllers\TenantController;
 use davidhirtz\yii2\tenant\modules\admin\widgets\forms\TenantActiveForm;
 use davidhirtz\yii2\tenant\modules\admin\widgets\navs\TenantSubmenu;
 
-
 $this->title(Yii::t('tenant', 'TENANT_TITLE_UPDATE'));
 
 echo TenantSubmenu::make()
