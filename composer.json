@@ -25,7 +25,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Hirtz\\Yii2\\Tenant\\Tests\\": "tests"
+      "davidhirtz\\yii2\\tenant\\tests\\": "tests"
     }
   },
   "extra": {

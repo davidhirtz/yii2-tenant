@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Yii2\Tenant\Tests\Unit\Models\Collections;
+namespace davidhirtz\yii2\tenant\Tests\Unit\Models\Collections;
 
-use Hirtz\Yii2\Tenant\Tests\TestCase;
+use davidhirtz\yii2\skeleton\tests\TestCase;
+use Override;
 use Yii;
 
 final class TenantCollectionTest extends TestCase

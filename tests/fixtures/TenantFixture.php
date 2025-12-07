@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Yii2\Tenant\Tests\Fixtures;
+namespace davidhirtz\yii2\tenant\tests\fixtures;
 
 use davidhirtz\yii2\tenant\models\Tenant;
 use yii\test\ActiveFixture;
