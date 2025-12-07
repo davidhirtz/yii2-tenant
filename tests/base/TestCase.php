@@ -6,7 +6,7 @@ namespace davidhirtz\yii2\tenant\tests\base;
 
 use Override;
 
-trait TenantTestTrait
+class TestCase extends \davidhirtz\yii2\skeleton\test\TestCase
 {
     #[Override]
     protected function setUp(): void

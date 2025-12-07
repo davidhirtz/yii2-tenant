@@ -121,12 +121,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/davidhirtz/yii2-skeleton.git",
-                "reference": "08c50c7d1e111b7550a953f97d0e9f805cd730aa"
+                "reference": "de2f9a04d1651bb988ae25db44f6d8369dfcdc37"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/davidhirtz/yii2-skeleton/zipball/08c50c7d1e111b7550a953f97d0e9f805cd730aa",
-                "reference": "08c50c7d1e111b7550a953f97d0e9f805cd730aa",
+                "url": "https://api.github.com/repos/davidhirtz/yii2-skeleton/zipball/de2f9a04d1651bb988ae25db44f6d8369dfcdc37",
+                "reference": "de2f9a04d1651bb988ae25db44f6d8369dfcdc37",
                 "shasum": ""
             },
             "require": {
@@ -190,7 +190,7 @@
                 "issues": "https://github.com/davidhirtz/yii2-skeleton/issues",
                 "source": "https://github.com/davidhirtz/yii2-skeleton/tree/v3"
             },
-            "time": "2025-12-07T22:29:35+00:00"
+            "time": "2025-12-07T22:43:38+00:00"
         },
         {
             "name": "doctrine/lexer",
