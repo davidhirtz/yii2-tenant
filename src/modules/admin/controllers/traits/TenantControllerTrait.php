@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace davidhirtz\yii2\tenant\modules\admin\controllers\traits;
+namespace Hirtz\Tenant\modules\admin\controllers\traits;
 
-use davidhirtz\yii2\tenant\models\Tenant;
+use Hirtz\Tenant\models\Tenant;
 use Yii;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;

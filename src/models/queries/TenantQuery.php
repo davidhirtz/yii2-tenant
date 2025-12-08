@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace davidhirtz\yii2\tenant\models\queries;
+namespace Hirtz\Tenant\models\queries;
 
-use davidhirtz\yii2\skeleton\db\ActiveQuery;
-use davidhirtz\yii2\tenant\models\Tenant;
+use Hirtz\Skeleton\db\ActiveQuery;
+use Hirtz\Tenant\models\Tenant;
 
 /**
  * @template T of Tenant

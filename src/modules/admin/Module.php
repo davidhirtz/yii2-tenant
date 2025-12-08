@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace davidhirtz\yii2\tenant\modules\admin;
+namespace Hirtz\Tenant\modules\admin;
 
-use davidhirtz\yii2\skeleton\modules\admin\config\MainMenuItemConfig;
-use davidhirtz\yii2\skeleton\modules\admin\ModuleInterface;
-use davidhirtz\yii2\tenant\models\Tenant;
-use davidhirtz\yii2\tenant\modules\admin\controllers\TenantController;
+use Hirtz\Skeleton\modules\admin\config\MainMenuItemConfig;
+use Hirtz\Skeleton\modules\admin\ModuleInterface;
+use Hirtz\Tenant\models\Tenant;
+use Hirtz\Tenant\modules\admin\controllers\TenantController;
 use Override;
 use Yii;
 use yii\helpers\ArrayHelper;
 
 /**
- * @property \davidhirtz\yii2\skeleton\modules\admin\Module $module
+ * @property \Hirtz\Skeleton\modules\admin\Module $module
  */
-class Module extends \davidhirtz\yii2\skeleton\base\Module implements ModuleInterface
+class Module extends \Hirtz\Skeleton\base\Module implements ModuleInterface
 {
     public array|string $url = ['/admin/tenant/index'];
 

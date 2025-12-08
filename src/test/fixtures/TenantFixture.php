@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace davidhirtz\yii2\tenant\test\fixtures;
+namespace Hirtz\Tenant\test\fixtures;
 
-use davidhirtz\yii2\tenant\models\Tenant;
+use Hirtz\Tenant\models\Tenant;
 use yii\test\ActiveFixture;
 
 class TenantFixture extends ActiveFixture

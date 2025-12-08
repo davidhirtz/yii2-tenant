@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use davidhirtz\yii2\tenant\Bootstrap;
+use Hirtz\Tenant\Bootstrap;
 
 return [
     'bootstrap' => [

@@ -9,13 +9,13 @@ declare(strict_types=1);
  * @var Tenant $tenant
  */
 
-use davidhirtz\yii2\skeleton\helpers\Html;
-use davidhirtz\yii2\skeleton\web\View;
-use davidhirtz\yii2\skeleton\widgets\forms\FormContainer;
-use davidhirtz\yii2\tenant\models\Tenant;
-use davidhirtz\yii2\tenant\modules\admin\controllers\TenantController;
-use davidhirtz\yii2\tenant\modules\admin\widgets\forms\TenantActiveForm;
-use davidhirtz\yii2\tenant\modules\admin\widgets\navs\TenantSubmenu;
+use Hirtz\Skeleton\helpers\Html;
+use Hirtz\Skeleton\web\View;
+use Hirtz\Skeleton\widgets\forms\FormContainer;
+use Hirtz\Tenant\models\Tenant;
+use Hirtz\Tenant\modules\admin\controllers\TenantController;
+use Hirtz\Tenant\modules\admin\widgets\forms\TenantActiveForm;
+use Hirtz\Tenant\modules\admin\widgets\navs\TenantSubmenu;
 
 $this->title(Yii::t('tenant', 'TENANT_TITLE_CREATE'));
 

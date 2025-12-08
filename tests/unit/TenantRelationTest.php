@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace davidhirtz\yii2\tenant\tests\unit;
+namespace Hirtz\Tenant\tests\unit;
 
-use davidhirtz\yii2\skeleton\db\ActiveQuery;
-use davidhirtz\yii2\skeleton\db\ActiveRecord;
-use davidhirtz\yii2\tenant\models\collections\TenantCollection;
-use davidhirtz\yii2\tenant\models\queries\traits\TenantQueryTrait;
-use davidhirtz\yii2\tenant\models\Tenant;
-use davidhirtz\yii2\tenant\models\traits\TenantRelationTrait;
-use davidhirtz\yii2\tenant\test\TestCase;
+use Hirtz\Skeleton\db\ActiveQuery;
+use Hirtz\Skeleton\db\ActiveRecord;
+use Hirtz\Tenant\models\collections\TenantCollection;
+use Hirtz\Tenant\models\queries\traits\TenantQueryTrait;
+use Hirtz\Tenant\models\Tenant;
+use Hirtz\Tenant\models\traits\TenantRelationTrait;
+use Hirtz\Tenant\test\TestCase;
 use Override;
 use Yii;
 

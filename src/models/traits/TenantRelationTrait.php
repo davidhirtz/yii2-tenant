@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace davidhirtz\yii2\tenant\models\traits;
+namespace Hirtz\Tenant\models\traits;
 
-use davidhirtz\yii2\skeleton\db\ActiveRecord;
-use davidhirtz\yii2\tenant\models\queries\TenantQuery;
-use davidhirtz\yii2\tenant\models\Tenant;
+use Hirtz\Skeleton\db\ActiveRecord;
+use Hirtz\Tenant\models\queries\TenantQuery;
+use Hirtz\Tenant\models\Tenant;
 
 /**
  * @property int|null $tenant_id

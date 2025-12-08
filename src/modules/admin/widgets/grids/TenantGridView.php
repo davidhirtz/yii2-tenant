@@ -2,23 +2,23 @@
 
 declare(strict_types=1);
 
-namespace davidhirtz\yii2\tenant\modules\admin\widgets\grids;
+namespace Hirtz\Tenant\modules\admin\widgets\grids;
 
-use davidhirtz\yii2\skeleton\helpers\Html;
-use davidhirtz\yii2\skeleton\html\A;
-use davidhirtz\yii2\skeleton\html\Button;
-use davidhirtz\yii2\skeleton\html\Div;
-use davidhirtz\yii2\skeleton\widgets\grids\columns\ButtonColumn;
-use davidhirtz\yii2\skeleton\widgets\grids\columns\buttons\DraggableSortGridButton;
-use davidhirtz\yii2\skeleton\widgets\grids\columns\buttons\ViewGridButton;
-use davidhirtz\yii2\skeleton\widgets\grids\columns\Column;
-use davidhirtz\yii2\skeleton\widgets\grids\columns\DataColumn;
-use davidhirtz\yii2\skeleton\widgets\grids\columns\RelativeTimeColumn;
-use davidhirtz\yii2\skeleton\widgets\grids\GridView;
-use davidhirtz\yii2\skeleton\widgets\grids\toolbars\CreateButton;
-use davidhirtz\yii2\skeleton\widgets\grids\traits\StatusGridViewTrait;
-use davidhirtz\yii2\tenant\models\Tenant;
-use davidhirtz\yii2\tenant\modules\admin\data\TenantActiveDataProvider;
+use Hirtz\Skeleton\helpers\Html;
+use Hirtz\Skeleton\html\A;
+use Hirtz\Skeleton\html\Button;
+use Hirtz\Skeleton\html\Div;
+use Hirtz\Skeleton\widgets\grids\columns\ButtonColumn;
+use Hirtz\Skeleton\widgets\grids\columns\buttons\DraggableSortGridButton;
+use Hirtz\Skeleton\widgets\grids\columns\buttons\ViewGridButton;
+use Hirtz\Skeleton\widgets\grids\columns\Column;
+use Hirtz\Skeleton\widgets\grids\columns\DataColumn;
+use Hirtz\Skeleton\widgets\grids\columns\RelativeTimeColumn;
+use Hirtz\Skeleton\widgets\grids\GridView;
+use Hirtz\Skeleton\widgets\grids\toolbars\CreateButton;
+use Hirtz\Skeleton\widgets\grids\traits\StatusGridViewTrait;
+use Hirtz\Tenant\models\Tenant;
+use Hirtz\Tenant\modules\admin\data\TenantActiveDataProvider;
 use Stringable;
 use Yii;
 use yii\helpers\Url;

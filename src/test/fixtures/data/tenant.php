@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use davidhirtz\yii2\tenant\models\Tenant;
+use Hirtz\Tenant\models\Tenant;
 use yii\db\Expression;
 
 return [

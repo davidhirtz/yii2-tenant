@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace davidhirtz\yii2\tenant\modules\admin\data;
+namespace Hirtz\Tenant\modules\admin\data;
 
-use davidhirtz\yii2\skeleton\data\ActiveDataProvider;
-use davidhirtz\yii2\tenant\models\Tenant;
+use Hirtz\Skeleton\data\ActiveDataProvider;
+use Hirtz\Tenant\models\Tenant;
 use Override;
 use yii\data\Pagination;
 use yii\data\Sort;

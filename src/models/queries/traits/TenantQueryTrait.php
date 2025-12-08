@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace davidhirtz\yii2\tenant\models\queries\traits;
+namespace Hirtz\Tenant\models\queries\traits;
 
-use davidhirtz\yii2\tenant\models\Tenant;
+use Hirtz\Tenant\models\Tenant;
 use Yii;
 
 trait TenantQueryTrait

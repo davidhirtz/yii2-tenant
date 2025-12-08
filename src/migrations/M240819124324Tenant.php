@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace davidhirtz\yii2\tenant\migrations;
+namespace Hirtz\Tenant\migrations;
 
-use davidhirtz\yii2\skeleton\db\traits\MigrationTrait;
-use davidhirtz\yii2\skeleton\models\User;
-use davidhirtz\yii2\tenant\models\Tenant;
+use Hirtz\Skeleton\db\traits\MigrationTrait;
+use Hirtz\Skeleton\models\User;
+use Hirtz\Tenant\models\Tenant;
 use Yii;
 use yii\db\Migration;
 

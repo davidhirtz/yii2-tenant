@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace davidhirtz\yii2\tenant\web;
+namespace Hirtz\Tenant\web;
 
-use davidhirtz\yii2\skeleton\helpers\Url;
-use davidhirtz\yii2\skeleton\web\Request;
-use davidhirtz\yii2\tenant\models\collections\TenantCollection;
-use davidhirtz\yii2\tenant\models\Tenant;
+use Hirtz\Skeleton\helpers\Url;
+use Hirtz\Skeleton\web\Request;
+use Hirtz\Tenant\models\collections\TenantCollection;
+use Hirtz\Tenant\models\Tenant;
 use Override;
 use Yii;
 use yii\web\Cookie;
 
-class UrlManager extends \davidhirtz\yii2\skeleton\web\UrlManager
+class UrlManager extends \Hirtz\Skeleton\web\UrlManager
 {
     #[Override]
     public function init(): void

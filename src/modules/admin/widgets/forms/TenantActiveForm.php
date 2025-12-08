@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace davidhirtz\yii2\tenant\modules\admin\widgets\forms;
+namespace Hirtz\Tenant\modules\admin\widgets\forms;
 
-use davidhirtz\yii2\skeleton\widgets\forms\ActiveForm;
-use davidhirtz\yii2\skeleton\widgets\forms\fields\Field;
-use davidhirtz\yii2\skeleton\widgets\forms\fields\InputField;
-use davidhirtz\yii2\skeleton\widgets\forms\fields\SelectField;
-use davidhirtz\yii2\tenant\models\Tenant;
+use Hirtz\Skeleton\widgets\forms\ActiveForm;
+use Hirtz\Skeleton\widgets\forms\fields\Field;
+use Hirtz\Skeleton\widgets\forms\fields\InputField;
+use Hirtz\Skeleton\widgets\forms\fields\SelectField;
+use Hirtz\Tenant\models\Tenant;
 
 /**
  * @template T of Tenant

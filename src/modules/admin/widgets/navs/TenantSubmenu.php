@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace davidhirtz\yii2\tenant\modules\admin\widgets\navs;
+namespace Hirtz\Tenant\modules\admin\widgets\navs;
 
-use davidhirtz\yii2\skeleton\widgets\navs\NavItem;
-use davidhirtz\yii2\skeleton\widgets\navs\Submenu;
-use davidhirtz\yii2\skeleton\widgets\traits\ModelWidgetTrait;
-use davidhirtz\yii2\tenant\models\Tenant;
+use Hirtz\Skeleton\widgets\navs\NavItem;
+use Hirtz\Skeleton\widgets\navs\Submenu;
+use Hirtz\Skeleton\widgets\traits\ModelWidgetTrait;
+use Hirtz\Tenant\models\Tenant;
 use Yii;
 
 /**

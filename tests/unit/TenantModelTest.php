@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace davidhirtz\yii2\tenant\tests\unit;
+namespace Hirtz\Tenant\tests\unit;
 
-use davidhirtz\yii2\tenant\models\collections\TenantCollection;
-use davidhirtz\yii2\tenant\models\Tenant;
-use davidhirtz\yii2\tenant\test\TestCase;
+use Hirtz\Tenant\models\collections\TenantCollection;
+use Hirtz\Tenant\models\Tenant;
+use Hirtz\Tenant\test\TestCase;
 use Yii;
 
 final class TenantModelTest extends TestCase

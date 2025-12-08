@@ -20,16 +20,16 @@
   },
   "autoload": {
     "psr-4": {
-      "davidhirtz\\yii2\\tenant\\": "src"
+      "Hirtz\\Tenant\\": "src"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "davidhirtz\\yii2\\tenant\\tests\\": "tests"
+      "Hirtz\\Tenant\\tests\\": "tests"
     }
   },
   "extra": {
-    "bootstrap": "davidhirtz\\yii2\\tenant\\Bootstrap"
+    "bootstrap": "Hirtz\\Tenant\\Bootstrap"
   },
   "config": {
     "allow-plugins": {

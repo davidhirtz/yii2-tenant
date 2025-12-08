@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace davidhirtz\yii2\tenant\models\collections;
+namespace Hirtz\Tenant\models\collections;
 
-use davidhirtz\yii2\tenant\models\Tenant;
+use Hirtz\Tenant\models\Tenant;
 use Yii;
 use yii\base\InvalidConfigException;
 use yii\caching\TagDependency;

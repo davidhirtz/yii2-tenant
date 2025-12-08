@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace davidhirtz\yii2\tenant\test;
+namespace Hirtz\Tenant\test;
 
-use davidhirtz\yii2\tenant\models\collections\TenantCollection;
-use davidhirtz\yii2\tenant\models\Tenant;
-use davidhirtz\yii2\tenant\test\fixtures\TenantFixture;
+use Hirtz\Tenant\models\collections\TenantCollection;
+use Hirtz\Tenant\models\Tenant;
+use Hirtz\Tenant\test\fixtures\TenantFixture;
 use Override;
 
-class TestCase extends \davidhirtz\yii2\skeleton\test\TestCase
+class TestCase extends \Hirtz\Skeleton\test\TestCase
 {
     public function fixtures(): array
     {

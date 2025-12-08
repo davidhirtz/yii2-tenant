@@ -2,22 +2,22 @@
 
 declare(strict_types=1);
 
-namespace davidhirtz\yii2\tenant\models;
+namespace Hirtz\Tenant\models;
 
 use davidhirtz\yii2\datetime\DateTime;
 use davidhirtz\yii2\datetime\DateTimeBehavior;
-use davidhirtz\yii2\skeleton\behaviors\BlameableBehavior;
-use davidhirtz\yii2\skeleton\behaviors\TimestampBehavior;
-use davidhirtz\yii2\skeleton\behaviors\TrailBehavior;
-use davidhirtz\yii2\skeleton\db\ActiveRecord;
-use davidhirtz\yii2\skeleton\models\interfaces\DraftStatusAttributeInterface;
-use davidhirtz\yii2\skeleton\models\interfaces\TrailModelInterface;
-use davidhirtz\yii2\skeleton\models\traits\DraftStatusAttributeTrait;
-use davidhirtz\yii2\skeleton\models\traits\TrailModelTrait;
-use davidhirtz\yii2\skeleton\models\traits\UpdatedByUserTrait;
-use davidhirtz\yii2\skeleton\validators\DynamicRangeValidator;
-use davidhirtz\yii2\tenant\models\collections\TenantCollection;
-use davidhirtz\yii2\tenant\models\queries\TenantQuery;
+use Hirtz\Skeleton\behaviors\BlameableBehavior;
+use Hirtz\Skeleton\behaviors\TimestampBehavior;
+use Hirtz\Skeleton\behaviors\TrailBehavior;
+use Hirtz\Skeleton\db\ActiveRecord;
+use Hirtz\Skeleton\models\interfaces\DraftStatusAttributeInterface;
+use Hirtz\Skeleton\models\interfaces\TrailModelInterface;
+use Hirtz\Skeleton\models\traits\DraftStatusAttributeTrait;
+use Hirtz\Skeleton\models\traits\TrailModelTrait;
+use Hirtz\Skeleton\models\traits\UpdatedByUserTrait;
+use Hirtz\Skeleton\validators\DynamicRangeValidator;
+use Hirtz\Tenant\models\collections\TenantCollection;
+use Hirtz\Tenant\models\queries\TenantQuery;
 use Override;
 use Yii;
 
