@@ -2,24 +2,17 @@
 
 declare(strict_types=1);
 
-namespace davidhirtz\yii2\tenant\tests\unit\web;
+namespace davidhirtz\yii2\tenant\tests\unit;
 
-use Codeception\Test\Unit;
-use davidhirtz\yii2\tenant\tests\data\traits\RequestTrait;
-use davidhirtz\yii2\tenant\tests\data\traits\TenantFixtureTrait;
-use davidhirtz\yii2\tenant\tests\data\traits\UrlManagerTrait;
-use davidhirtz\yii2\tenant\tests\support\UnitTester;
+use davidhirtz\yii2\skeleton\web\Request;
+use davidhirtz\yii2\tenant\models\collections\TenantCollection;
+use davidhirtz\yii2\tenant\test\TestCase;
+use davidhirtz\yii2\tenant\web\UrlManager;
 use Yii;
 use yii\web\UrlNormalizerRedirectException;
 
-class UrlManagerTest extends Unit
+final class UrlManagerTest extends TestCase
 {
-    use RequestTrait;
-    use UrlManagerTrait;
-    use TenantFixtureTrait;
-
-    protected UnitTester $tester;
-
     public function testCreateUrl(): void
     {
         $manager = $this->getUrlManager();
@@ -56,12 +49,13 @@ class UrlManagerTest extends Unit
         $url = $manager->createUrl($params);
         self::assertEquals('/post/view?id=1&title=sample+post', $url);
 
-        $params['tenant'] = $this->tester->grabTenant('path');
+        $params['tenant'] = $this->getTenantFromFixture('path');
         $url = $manager->createUrl($params);
         self::assertEquals('/de/post/view?id=1&title=sample+post', $url);
 
-        $params['tenant'] = $this->tester->grabTenant('draft');
+        $params['tenant'] = $this->getTenantFromFixture('draft');
         $url = $manager->createUrl($params);
+
         self::assertEquals('https://www.example.com/post/view?id=1&title=sample+post', $url);
     }
 
@@ -85,7 +79,7 @@ class UrlManagerTest extends Unit
 
         $url = $manager->createDraftUrl([
             'post/view',
-            'tenant' => $this->tester->grabTenant('draft'),
+            'tenant' => $this->getTenantFromFixture('draft'),
         ]);
 
         self::assertEquals('https://draft.example.com/post/view', $url);
@@ -114,7 +108,7 @@ class UrlManagerTest extends Unit
 
         $manager->parseRequest($request);
 
-        $tenant = $this->tester->grabTenant('path');
+        $tenant = $this->getTenantFromFixture('path');
 
         self::assertEquals('https://www.domain.com', $manager->getHostInfo());
         self::assertEquals('de', Yii::$app->language);
@@ -137,6 +131,15 @@ class UrlManagerTest extends Unit
         self::assertEquals('de', Yii::$app->language);
         self::assertTrue($request->getIsDraft());
         self::assertEquals($tenant->id, Yii::$app->get('tenant')->id);
+
+        $request = $this->getRequest([
+            'hostInfo' => 'https://www.example.com',
+        ]);
+
+        $manager->parseRequest($request);
+
+        self::assertEquals('en-US', Yii::$app->language);
+        self::assertArrayHasKey('x-robots-tag', Yii::$app->getResponse()->getHeaders()->toArray());
     }
 
     public function testRedirectMap(): void
@@ -154,7 +157,6 @@ class UrlManagerTest extends Unit
 
         $request = $this->getRequest([
             'hostInfo' => 'https://www.domain.com',
-            'url' => '/',
         ]);
 
         $manager->parseRequest($request);
@@ -162,7 +164,7 @@ class UrlManagerTest extends Unit
 
         $request = $this->getRequest([
             'hostInfo' => 'https://www.domain.com',
-            'url' => '/old-url',
+            'pathInfo' => '/old-url',
         ]);
 
         try {
@@ -174,7 +176,7 @@ class UrlManagerTest extends Unit
 
         $request = $this->getRequest([
             'hostInfo' => 'https://www.domain.com',
-            'url' => '/old/test',
+            'pathInfo' => '/old/test',
         ]);
 
         try {
@@ -185,7 +187,6 @@ class UrlManagerTest extends Unit
             self::assertEquals(302, $e->statusCode);
         }
     }
-
 
     public function testImmutableRuleParams(): void
     {
@@ -213,5 +214,30 @@ class UrlManagerTest extends Unit
         ]);
 
         self::assertEquals(['new-posts', 'old_posts'], $manager->getImmutableRuleParams());
+    }
+
+    protected function getRequest($config = []): Request
+    {
+        Yii::$app->set('request', [
+            'class' => Request::class,
+            'url' => '/',
+            ...$config,
+        ]);
+
+        return Yii::$app->getRequest();
+    }
+
+    private function getUrlManager($config = []): UrlManager
+    {
+        Yii::$app->set('urlManager', [
+            'class' => UrlManager::class,
+            'tenant' => TenantCollection::getDefault(),
+            'baseUrl' => '',
+            ...$config,
+        ]);
+
+        /** @var UrlManager $manager */
+        $manager = Yii::$app->getUrlManager();
+        return $manager;
     }
 }

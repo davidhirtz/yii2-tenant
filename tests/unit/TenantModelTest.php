@@ -2,30 +2,24 @@
 
 declare(strict_types=1);
 
-namespace davidhirtz\yii2\tenant\tests\unit\models;
+namespace davidhirtz\yii2\tenant\tests\unit;
 
-use Codeception\Test\Unit;
 use davidhirtz\yii2\tenant\models\collections\TenantCollection;
 use davidhirtz\yii2\tenant\models\Tenant;
-use davidhirtz\yii2\tenant\tests\data\traits\TenantFixtureTrait;
-use davidhirtz\yii2\tenant\tests\support\UnitTester;
+use davidhirtz\yii2\tenant\test\TestCase;
 use Yii;
 
-class TenantTest extends Unit
+final class TenantModelTest extends TestCase
 {
-    use TenantFixtureTrait;
-
-    protected UnitTester $tester;
-
     public function testHostInfo(): void
     {
-        $tenant = $this->tester->grabTenant();
+        $tenant = $this->getTenantFromFixture();
         self::assertEquals('https://www.domain.com', $tenant->getHostInfo());
     }
 
     public function testPathInfo(): void
     {
-        $tenant = $this->tester->grabTenant('path');
+        $tenant = $this->getTenantFromFixture('path');
         self::assertEquals('/de', $tenant->getPathInfo());
     }
 
@@ -66,7 +60,6 @@ class TenantTest extends Unit
         $tenant->language = 'de';
 
         self::assertTrue($tenant->save());
-        codecept_debug($tenant->getErrors());
         self::assertEquals('de', $tenant->language);
 
         $tenant->language = 'invalid-language';
@@ -99,23 +92,25 @@ class TenantTest extends Unit
 
     public function testDelete(): void
     {
-        $tenant = $this->tester->grabTenant('draft');
+        $tenant = $this->getTenantFromFixture('draft');
 
         self::assertEquals(1, $tenant->delete());
         self::assertTrue($tenant->isDeleted());
         self::assertCount(2, TenantCollection::getAll());
 
-        $tenant = $this->tester->grabTenant();
+        $tenant = $this->getTenantFromFixture();
         self::assertEquals(1, $tenant->delete());
 
         $default = TenantCollection::getDefault();
-        self::assertEquals(2, $default->id);
+        $expected = $this->getTenantFromFixture('path');
+
+        self::assertEquals($expected->id, $default->id);
 
         self::assertFalse($default->delete());
         self::assertContains(Yii::t('tenant', 'TENANT_ERROR_DELETE_LAST'), $default->getErrors('id'));
     }
 
-    protected function createTenant(): Tenant
+    private function createTenant(): Tenant
     {
         $tenant = Tenant::create();
         $tenant->status = Tenant::STATUS_ENABLED;

@@ -2,22 +2,18 @@
 
 declare(strict_types=1);
 
-namespace davidhirtz\yii2\tenant\tests\unit\models\collections;
+namespace davidhirtz\yii2\tenant\tests\unit;
 
-use Codeception\Test\Unit;
+use davidhirtz\yii2\skeleton\web\Request;
 use davidhirtz\yii2\tenant\models\collections\TenantCollection;
-use davidhirtz\yii2\tenant\tests\data\traits\RequestTrait;
-use davidhirtz\yii2\tenant\tests\data\traits\TenantFixtureTrait;
+use davidhirtz\yii2\tenant\test\TestCase;
 use Yii;
 
-class TenantCollectionTest extends Unit
+final class TenantCollectionTest extends TestCase
 {
-    use RequestTrait;
-    use TenantFixtureTrait;
-
     public function testDefault(): void
     {
-        $tenant = $this->tester->grabTenant();
+        $tenant = $this->getTenantFromFixture();
         self::assertEquals($tenant->id, TenantCollection::getDefault()->id);
     }
 
@@ -31,7 +27,8 @@ class TenantCollectionTest extends Unit
 
     public function testFromRequest(): void
     {
-        $this->getRequest([
+        Yii::$app->set('request', [
+            'class' => Request::class,
             'hostInfo' => 'https://www.domain.com',
             'queryParams' => ['tenant' => 2],
         ]);

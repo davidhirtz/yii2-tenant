@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace davidhirtz\yii2\tenant\test;
 
+use davidhirtz\yii2\tenant\models\collections\TenantCollection;
+use davidhirtz\yii2\tenant\models\Tenant;
 use davidhirtz\yii2\tenant\test\fixtures\TenantFixture;
 use Override;
 
@@ -25,11 +27,16 @@ class TestCase extends \davidhirtz\yii2\skeleton\test\TestCase
         parent::setUp();
     }
 
-    protected function getTenantFixture(string $key = 'default'): array
+    protected function tearDown(): void
+    {
+        TenantCollection::invalidateCache();
+        parent::tearDown();
+    }
+
+    protected function getTenantFromFixture(string $key = 'default'): Tenant
     {
         /** @var TenantFixture $fixture */
         $fixture = $this->getFixture('tenant');
-        return $fixture->data[$key];
+        return Tenant::findOne($fixture->data[$key]['id']);
     }
-
 }

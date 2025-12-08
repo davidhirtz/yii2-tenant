@@ -11,7 +11,7 @@ use yii\caching\TagDependency;
 
 class TenantCollection
 {
-    public const CACHE_KEY = 'tenant-collection';
+    public const string CACHE_KEY = 'tenant-collection';
 
     protected static ?array $_tenants = null;
 
