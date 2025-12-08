@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Tenant\modules\admin\widgets\forms;
+namespace Hirtz\Tenant\Modules\Admin\Widgets\Forms;
 
-use Hirtz\Skeleton\widgets\forms\ActiveForm;
-use Hirtz\Skeleton\widgets\forms\fields\Field;
-use Hirtz\Skeleton\widgets\forms\fields\InputField;
-use Hirtz\Skeleton\widgets\forms\fields\SelectField;
+use Hirtz\Skeleton\Widgets\Forms\ActiveForm;
+use Hirtz\Skeleton\Widgets\Forms\Fields\Field;
+use Hirtz\Skeleton\Widgets\Forms\Fields\InputField;
+use Hirtz\Skeleton\Widgets\Forms\Fields\SelectField;
 use Hirtz\Tenant\models\Tenant;
 
 /**

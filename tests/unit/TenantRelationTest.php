@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Hirtz\Tenant\tests\unit;
 
-use Hirtz\Skeleton\db\ActiveQuery;
-use Hirtz\Skeleton\db\ActiveRecord;
+use Hirtz\Skeleton\Db\ActiveQuery;
+use Hirtz\Skeleton\Db\ActiveRecord;
 use Hirtz\Tenant\models\collections\TenantCollection;
 use Hirtz\Tenant\models\queries\traits\TenantQueryTrait;
 use Hirtz\Tenant\models\Tenant;

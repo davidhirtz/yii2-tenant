@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Hirtz\Tenant;
 
-use Hirtz\Skeleton\web\Application;
-use Hirtz\Skeleton\web\UrlManager;
-use Hirtz\Tenant\modules\admin\Module;
+use Hirtz\Skeleton\Web\Application;
+use Hirtz\Skeleton\Web\UrlManager;
+use Hirtz\Tenant\Modules\Admin\Module;
 use Yii;
 use yii\base\BootstrapInterface;
 use yii\i18n\PhpMessageSource;
@@ -22,12 +22,12 @@ class Bootstrap implements BootstrapInterface
 
         $app->getI18n()->translations['tenant'] ??= [
             'class' => PhpMessageSource::class,
-            'basePath' => '@tenant/messages',
+            'basePath' => '@tenant/../messages',
             'forceTranslation' => true,
         ];
 
         if (!Yii::$container->has(UrlManager::class)) {
-            Yii::$container->set(UrlManager::class, web\UrlManager::class);
+            Yii::$container->set(UrlManager::class, Web\UrlManager::class);
         }
 
         $app->extendModule('admin', [
@@ -38,6 +38,6 @@ class Bootstrap implements BootstrapInterface
             ],
         ]);
 
-        $app->setMigrationNamespace('Hirtz\Tenant\migrations');
+        $app->setMigrationNamespace('Hirtz\Tenant\Migrations');
     }
 }

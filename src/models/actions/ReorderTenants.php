@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Hirtz\Tenant\models\actions;
 
-use Hirtz\Skeleton\models\actions\ReorderActiveRecords;
-use Hirtz\Skeleton\models\Trail;
+use Hirtz\Skeleton\Models\Actions\ReorderActiveRecords;
+use Hirtz\Skeleton\Models\Trail;
 use Hirtz\Tenant\models\collections\TenantCollection;
 use Hirtz\Tenant\models\Tenant;
 use Yii;

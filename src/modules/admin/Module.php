@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace Hirtz\Tenant\modules\admin;
 
-use Hirtz\Skeleton\modules\admin\config\MainMenuItemConfig;
-use Hirtz\Skeleton\modules\admin\ModuleInterface;
+use Hirtz\Skeleton\Modules\Admin\Config\MainMenuItemConfig;
+use Hirtz\Skeleton\Modules\Admin\ModuleInterface;
 use Hirtz\Tenant\models\Tenant;
-use Hirtz\Tenant\modules\admin\controllers\TenantController;
+use Hirtz\Tenant\Modules\Admin\Controllers\TenantController;
 use Override;
 use Yii;
 use yii\helpers\ArrayHelper;
 
 /**
- * @property \Hirtz\Skeleton\modules\admin\Module $module
+ * @property \Hirtz\Skeleton\Modules\Admin\Module $module
  */
-class Module extends \Hirtz\Skeleton\base\Module implements ModuleInterface
+class Module extends \Hirtz\Skeleton\Base\Module implements ModuleInterface
 {
     public array|string $url = ['/admin/tenant/index'];
 

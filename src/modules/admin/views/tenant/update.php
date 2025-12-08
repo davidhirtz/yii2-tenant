@@ -10,13 +10,13 @@ declare(strict_types=1);
  * @var Tenant $tenant
  */
 
-use Hirtz\Skeleton\web\View;
-use Hirtz\Skeleton\widgets\forms\DeleteActiveForm;
-use Hirtz\Skeleton\widgets\forms\FormContainer;
+use Hirtz\Skeleton\Web\View;
+use Hirtz\Skeleton\Widgets\Forms\DeleteActiveForm;
+use Hirtz\Skeleton\Widgets\Forms\FormContainer;
 use Hirtz\Tenant\models\Tenant;
-use Hirtz\Tenant\modules\admin\controllers\TenantController;
-use Hirtz\Tenant\modules\admin\widgets\forms\TenantActiveForm;
-use Hirtz\Tenant\modules\admin\widgets\navs\TenantSubmenu;
+use Hirtz\Tenant\Modules\Admin\Controllers\TenantController;
+use Hirtz\Tenant\Modules\Admin\Widgets\Forms\TenantActiveForm;
+use Hirtz\Tenant\Modules\Admin\Widgets\Navs\TenantSubmenu;
 
 $this->title(Yii::t('tenant', 'TENANT_TITLE_UPDATE'));
 

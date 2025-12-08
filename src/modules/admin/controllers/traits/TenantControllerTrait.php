@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Tenant\modules\admin\controllers\traits;
+namespace Hirtz\Tenant\Modules\Admin\Controllers\Traits;
 
 use Hirtz\Tenant\models\Tenant;
 use Yii;

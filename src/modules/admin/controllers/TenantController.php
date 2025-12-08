@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Tenant\modules\admin\controllers;
+namespace Hirtz\Tenant\Modules\Admin\Controllers;
 
-use Hirtz\Skeleton\models\forms\DeleteForm;
-use Hirtz\Skeleton\web\Controller;
+use Hirtz\Skeleton\Models\Forms\DeleteForm;
+use Hirtz\Skeleton\Web\Controller;
 use Hirtz\Tenant\models\actions\ReorderTenants;
 use Hirtz\Tenant\models\collections\TenantCollection;
 use Hirtz\Tenant\models\Tenant;
-use Hirtz\Tenant\modules\admin\controllers\traits\TenantControllerTrait;
-use Hirtz\Tenant\modules\admin\data\TenantActiveDataProvider;
+use Hirtz\Tenant\Modules\Admin\Controllers\Traits\TenantControllerTrait;
+use Hirtz\Tenant\Modules\Admin\Data\TenantActiveDataProvider;
 use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;

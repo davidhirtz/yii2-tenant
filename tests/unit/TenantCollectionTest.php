@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Hirtz\Tenant\tests\unit;
 
-use Hirtz\Skeleton\web\Request;
+use Hirtz\Skeleton\Web\Request;
 use Hirtz\Tenant\models\collections\TenantCollection;
 use Hirtz\Tenant\test\TestCase;
 use Yii;

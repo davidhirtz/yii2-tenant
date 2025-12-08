@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Hirtz\Tenant\models\traits;
 
-use Hirtz\Skeleton\db\ActiveRecord;
+use Hirtz\Skeleton\Db\ActiveRecord;
 use Hirtz\Tenant\models\queries\TenantQuery;
 use Hirtz\Tenant\models\Tenant;
 

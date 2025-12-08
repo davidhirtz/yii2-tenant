@@ -9,11 +9,11 @@ declare(strict_types=1);
  * @var ActiveDataProvider $provider
  */
 
-use Hirtz\Skeleton\web\View;
-use Hirtz\Skeleton\widgets\grids\GridContainer;
-use Hirtz\Tenant\modules\admin\controllers\TenantController;
-use Hirtz\Tenant\modules\admin\widgets\grids\TenantGridView;
-use Hirtz\Tenant\modules\admin\widgets\navs\TenantSubmenu;
+use Hirtz\Skeleton\Web\View;
+use Hirtz\Skeleton\Widgets\Grids\GridContainer;
+use Hirtz\Tenant\Modules\Admin\Controllers\TenantController;
+use Hirtz\Tenant\Modules\Admin\Widgets\Grids\TenantGridView;
+use Hirtz\Tenant\Modules\Admin\Widgets\Navs\TenantSubmenu;
 use yii\data\ActiveDataProvider;
 
 $this->title(Yii::t('tenant', 'TENANT_NAME_PLURAL'));

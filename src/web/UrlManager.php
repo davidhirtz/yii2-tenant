@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Hirtz\Tenant\web;
 
-use Hirtz\Skeleton\helpers\Url;
-use Hirtz\Skeleton\web\Request;
+use Hirtz\Skeleton\Helpers\Url;
+use Hirtz\Skeleton\Web\Request;
 use Hirtz\Tenant\models\collections\TenantCollection;
 use Hirtz\Tenant\models\Tenant;
 use Override;
 use Yii;
 use yii\web\Cookie;
 
-class UrlManager extends \Hirtz\Skeleton\web\UrlManager
+class UrlManager extends \Hirtz\Skeleton\Web\UrlManager
 {
     #[Override]
     public function init(): void

@@ -9,7 +9,7 @@ use Hirtz\Tenant\models\Tenant;
 use Hirtz\Tenant\test\fixtures\TenantFixture;
 use Override;
 
-class TestCase extends \Hirtz\Skeleton\test\TestCase
+class TestCase extends \Hirtz\Skeleton\Test\TestCase
 {
     public function fixtures(): array
     {

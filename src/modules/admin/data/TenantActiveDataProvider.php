@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Tenant\modules\admin\data;
+namespace Hirtz\Tenant\Modules\Admin\Data;
 
-use Hirtz\Skeleton\data\ActiveDataProvider;
+use Hirtz\Skeleton\Data\ActiveDataProvider;
 use Hirtz\Tenant\models\Tenant;
 use Override;
 use yii\data\Pagination;

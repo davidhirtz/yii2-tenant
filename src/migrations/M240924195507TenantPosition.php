@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Tenant\migrations;
+namespace Hirtz\Tenant\Migrations;
 
-use Hirtz\Skeleton\db\traits\MigrationTrait;
+use Hirtz\Skeleton\Db\Traits\MigrationTrait;
 use Hirtz\Tenant\models\Tenant;
 use yii\db\Migration;
 
