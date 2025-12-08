@@ -79,7 +79,7 @@ final class TenantRelationTest extends TestCase
 
 /**
  * @property int $id
- * @property null $tenant_id
+ * @property int|null $tenant_id
  */
 class TestModel extends ActiveRecord
 {
@@ -101,6 +101,10 @@ class TestModel extends ActiveRecord
     }
 }
 
+/**
+ * @template T of TestModel
+ * @extends ActiveQuery<T>
+ */
 class TestActiveQuery extends ActiveQuery
 {
     use TenantQueryTrait;
