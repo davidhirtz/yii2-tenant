@@ -18,6 +18,7 @@ class TenantSubmenu extends Submenu
 {
     use ModelWidgetTrait;
 
+    #[\Override]
     protected function configure(): void
     {
         $this->title ??= Yii::t('tenant', 'TENANT_NAME_PLURAL');

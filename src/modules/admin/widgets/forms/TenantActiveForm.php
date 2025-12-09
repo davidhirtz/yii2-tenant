@@ -16,6 +16,7 @@ use Hirtz\Tenant\models\Tenant;
  */
 class TenantActiveForm extends ActiveForm
 {
+    #[\Override]
     protected function configure(): void
     {
         $this->rows ??= [

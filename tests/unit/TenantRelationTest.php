@@ -16,6 +16,7 @@ use Yii;
 
 final class TenantRelationTest extends TestCase
 {
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();
@@ -35,6 +36,7 @@ final class TenantRelationTest extends TestCase
         )->execute();
     }
 
+    #[\Override]
     protected function tearDown(): void
     {
         Yii::$app->getDb()->createCommand()->dropTable('test')->execute();

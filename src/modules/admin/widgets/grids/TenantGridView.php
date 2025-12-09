@@ -32,6 +32,7 @@ class TenantGridView extends GridView
 {
     use StatusGridViewTrait;
 
+    #[\Override]
     protected function configure(): void
     {
         $this->model ??= Tenant::instance();
@@ -127,6 +128,7 @@ class TenantGridView extends GridView
             : null;
     }
 
+    #[\Override]
     protected function isSortable(): bool
     {
         return parent::isSortable() && null === $this->provider->status;
