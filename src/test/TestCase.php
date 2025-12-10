@@ -15,6 +15,8 @@ class TestCase extends \Hirtz\Skeleton\Test\TestCase
     {
         $this->config = require(__DIR__ . '/../../tests/config.php');
         parent::setUp();
+
+        TenantCollection::invalidateCache();
     }
 
     #[Override]

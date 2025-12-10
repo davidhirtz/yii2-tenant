@@ -9,8 +9,8 @@ return [
     'default' => [
         'id' => 1,
         'status' => Tenant::STATUS_ENABLED,
-        'name' => 'Default Tenant',
-        'url' => 'https://www.example.com',
+        'name' => 'Default',
+        'url' => 'https://www.domain.com',
         'language' => 'en-US',
         'position' => 1,
         'created_at' => new Expression('UTC_TIMESTAMP()'),

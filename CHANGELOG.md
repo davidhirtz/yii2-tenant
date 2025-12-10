@@ -1,3 +1,6 @@
+## 3.0.0 (in development)
+
+
 ## 1.3.2 (Dec 6, 2025)
 
 - Fixed redirect URL after deleting a tenant
