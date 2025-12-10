@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Tenant\Models\collections;
+namespace Hirtz\Tenant\Models\Collections;
 
 use Hirtz\Tenant\Models\Tenant;
 use Yii;
@@ -84,14 +84,16 @@ class TenantCollection
             ->all();
     }
 
-    public static function insertDefault(): bool
+    public static function insertDefault(): void
     {
+        self::invalidateCache();
+
         $tenant = Tenant::create();
         $tenant->status = Tenant::STATUS_DEFAULT;
         $tenant->name = 'Default';
         $tenant->url = 'https://www.example.com/';
         $tenant->language = Yii::$app->language;
-        return $tenant->insert();
+        $tenant->insert();
     }
 
     public static function invalidateCache(): void

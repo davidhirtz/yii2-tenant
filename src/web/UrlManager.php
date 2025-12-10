@@ -6,7 +6,7 @@ namespace Hirtz\Tenant\web;
 
 use Hirtz\Skeleton\Helpers\Url;
 use Hirtz\Skeleton\Web\Request;
-use Hirtz\Tenant\Models\collections\TenantCollection;
+use Hirtz\Tenant\Models\Collections\TenantCollection;
 use Hirtz\Tenant\Models\Tenant;
 use Override;
 use Yii;

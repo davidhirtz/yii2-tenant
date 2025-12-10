@@ -18,10 +18,16 @@ trait TenantFixtureTrait
         ];
     }
 
-    protected function getTenantFromFixture(string $key): Tenant
+    protected function getTenantFixture(): TenantFixture
     {
         /** @var TenantFixture $fixture */
         $fixture = $this->getFixture('tenant');
+        return $fixture;
+    }
+
+    protected function getTenantFromFixture(string $key = 'default'): Tenant
+    {
+        $fixture = $this->getTenantFixture();
         return Tenant::findOne($fixture->data[$key]['id']);
     }
 }

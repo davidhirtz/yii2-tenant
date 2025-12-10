@@ -7,7 +7,7 @@ namespace Hirtz\Tenant\Modules\Admin\Controllers;
 use Hirtz\Skeleton\Models\Forms\DeleteForm;
 use Hirtz\Skeleton\Web\Controller;
 use Hirtz\Tenant\Models\Actions\ReorderTenants;
-use Hirtz\Tenant\Models\collections\TenantCollection;
+use Hirtz\Tenant\Models\Collections\TenantCollection;
 use Hirtz\Tenant\Models\Tenant;
 use Hirtz\Tenant\Modules\Admin\Controllers\Traits\TenantControllerTrait;
 use Hirtz\Tenant\Modules\Admin\Data\TenantActiveDataProvider;

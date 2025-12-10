@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Hirtz\Tenant\Tests\Unit;
 
 use Hirtz\Skeleton\Web\Request;
-use Hirtz\Tenant\Models\collections\TenantCollection;
+use Hirtz\Tenant\Models\Collections\TenantCollection;
 use Hirtz\Tenant\test\TestCase;
 use Hirtz\Tenant\Test\Traits\TenantFixtureTrait;
 use Yii;
@@ -16,7 +16,8 @@ final class TenantCollectionTest extends TestCase
 
     public function testDefault(): void
     {
-        self::assertEquals(1, TenantCollection::getDefault()->id);
+        $expected = $this->getTenantFixture()->data['default']['id'];
+        self::assertEquals($expected, TenantCollection::getDefault()->id);
     }
 
     public function testVisibleTenants(): void

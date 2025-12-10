@@ -16,7 +16,7 @@ use Hirtz\Skeleton\Models\Traits\DraftStatusAttributeTrait;
 use Hirtz\Skeleton\Models\Traits\TrailModelTrait;
 use Hirtz\Skeleton\Models\Traits\UpdatedByUserTrait;
 use Hirtz\Skeleton\Validators\DynamicRangeValidator;
-use Hirtz\Tenant\Models\collections\TenantCollection;
+use Hirtz\Tenant\Models\Collections\TenantCollection;
 use Hirtz\Tenant\Models\Queries\TenantQuery;
 use Override;
 use Yii;

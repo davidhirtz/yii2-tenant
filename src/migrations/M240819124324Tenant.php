@@ -6,7 +6,7 @@ namespace Hirtz\Tenant\Migrations;
 
 use Hirtz\Skeleton\Db\Traits\MigrationTrait;
 use Hirtz\Skeleton\Models\User;
-use Hirtz\Tenant\Models\collections\TenantCollection;
+use Hirtz\Tenant\Models\Collections\TenantCollection;
 use Hirtz\Tenant\Models\Tenant;
 use yii\db\Migration;
 

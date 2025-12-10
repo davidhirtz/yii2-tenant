@@ -5,14 +5,17 @@ declare(strict_types=1);
 namespace Hirtz\Tenant\Tests\Unit;
 
 use Hirtz\Skeleton\Web\Request;
-use Hirtz\Tenant\Models\collections\TenantCollection;
+use Hirtz\Tenant\Models\Collections\TenantCollection;
 use Hirtz\Tenant\test\TestCase;
+use Hirtz\Tenant\Test\Traits\TenantFixtureTrait;
 use Hirtz\Tenant\web\UrlManager;
 use Yii;
 use yii\web\UrlNormalizerRedirectException;
 
 final class UrlManagerTest extends TestCase
 {
+    use TenantFixtureTrait;
+
     public function testCreateUrl(): void
     {
         $manager = $this->getUrlManager();
@@ -49,14 +52,14 @@ final class UrlManagerTest extends TestCase
         $url = $manager->createUrl($params);
         self::assertEquals('/post/view?id=1&title=sample+post', $url);
 
-        $params['tenant'] = $this->getTenantFromFixture('path');
+        $params['tenant'] = $this->getTenantFromFixture('enabled');
         $url = $manager->createUrl($params);
         self::assertEquals('/de/post/view?id=1&title=sample+post', $url);
 
         $params['tenant'] = $this->getTenantFromFixture('draft');
         $url = $manager->createUrl($params);
 
-        self::assertEquals('https://www.example.com/post/view?id=1&title=sample+post', $url);
+        self::assertEquals('https://www.draft.com/post/view?id=1&title=sample+post', $url);
     }
 
     public function testCreateAbsoluteUrl(): void
@@ -82,7 +85,7 @@ final class UrlManagerTest extends TestCase
             'tenant' => $this->getTenantFromFixture('draft'),
         ]);
 
-        self::assertEquals('https://draft.example.com/post/view', $url);
+        self::assertEquals('https://draft.draft.com/post/view', $url);
 
         $manager->draftSubdomain = 'preview';
 
@@ -108,7 +111,7 @@ final class UrlManagerTest extends TestCase
 
         $manager->parseRequest($request);
 
-        $tenant = $this->getTenantFromFixture('path');
+        $tenant = $this->getTenantFromFixture('enabled');
 
         self::assertEquals('https://www.domain.com', $manager->getHostInfo());
         self::assertEquals('de', Yii::$app->language);
@@ -133,7 +136,7 @@ final class UrlManagerTest extends TestCase
         self::assertEquals($tenant->id, Yii::$app->get('tenant')->id);
 
         $request = $this->getRequest([
-            'hostInfo' => 'https://www.example.com',
+            'hostInfo' => 'https://www.draft.com',
         ]);
 
         $manager->parseRequest($request);
