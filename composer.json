@@ -3,7 +3,7 @@
   "description": "Multi-tenant support for Yii 2 framework",
   "license": "proprietary",
   "type": "yii2-extension",
-  "homepage": "https://www.github.com/davidhirtz/yii2-vite",
+  "homepage": "https://www.github.com/davidhirtz/yii2-tenant",
   "authors": [
     {
       "name": "David Hirtz",
@@ -37,7 +37,7 @@
     }
   },
   "scripts": {
-    "phpstan": "phpstan --memory-limit=1G",
+    "phpstan": "phpstan --memory-limit=2G",
     "test": "phpunit"
   }
 }
