@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Tenant\models\actions;
+namespace Hirtz\Tenant\Models\Actions;
 
 use Hirtz\Skeleton\Models\Actions\ReorderActiveRecords;
 use Hirtz\Skeleton\Models\Trail;
-use Hirtz\Tenant\models\collections\TenantCollection;
-use Hirtz\Tenant\models\Tenant;
+use Hirtz\Tenant\Models\collections\TenantCollection;
+use Hirtz\Tenant\Models\Tenant;
 use Yii;
 
 /**

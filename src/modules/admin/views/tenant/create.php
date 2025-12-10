@@ -12,7 +12,7 @@ declare(strict_types=1);
 use Hirtz\Skeleton\Helpers\Html;
 use Hirtz\Skeleton\Web\View;
 use Hirtz\Skeleton\Widgets\Forms\FormContainer;
-use Hirtz\Tenant\models\Tenant;
+use Hirtz\Tenant\Models\Tenant;
 use Hirtz\Tenant\Modules\Admin\Controllers\TenantController;
 use Hirtz\Tenant\Modules\Admin\Widgets\Forms\TenantActiveForm;
 use Hirtz\Tenant\Modules\Admin\Widgets\Navs\TenantSubmenu;

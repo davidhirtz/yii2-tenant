@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Tenant\tests\unit;
+namespace Hirtz\Tenant\Tests\Unit;
 
 use Hirtz\Skeleton\Web\Request;
-use Hirtz\Tenant\models\collections\TenantCollection;
+use Hirtz\Tenant\Models\collections\TenantCollection;
 use Hirtz\Tenant\test\TestCase;
 use Hirtz\Tenant\web\UrlManager;
 use Yii;

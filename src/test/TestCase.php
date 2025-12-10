@@ -2,24 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Tenant\test;
+namespace Hirtz\Tenant\Test;
 
-use Hirtz\Tenant\models\collections\TenantCollection;
-use Hirtz\Tenant\models\Tenant;
-use Hirtz\Tenant\test\fixtures\TenantFixture;
+use Hirtz\Tenant\Models\collections\TenantCollection;
 use Override;
 
 class TestCase extends \Hirtz\Skeleton\Test\TestCase
 {
-    public function fixtures(): array
-    {
-        return [
-            'tenant' => [
-                'class' => TenantFixture::class,
-            ],
-        ];
-    }
-
     #[Override]
     protected function setUp(): void
     {
@@ -27,17 +16,10 @@ class TestCase extends \Hirtz\Skeleton\Test\TestCase
         parent::setUp();
     }
 
-    #[\Override]
+    #[Override]
     protected function tearDown(): void
     {
         TenantCollection::invalidateCache();
         parent::tearDown();
-    }
-
-    protected function getTenantFromFixture(string $key = 'default'): Tenant
-    {
-        /** @var TenantFixture $fixture */
-        $fixture = $this->getFixture('tenant');
-        return Tenant::findOne($fixture->data[$key]['id']);
     }
 }

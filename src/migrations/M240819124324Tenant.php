@@ -6,8 +6,8 @@ namespace Hirtz\Tenant\Migrations;
 
 use Hirtz\Skeleton\Db\Traits\MigrationTrait;
 use Hirtz\Skeleton\Models\User;
-use Hirtz\Tenant\models\Tenant;
-use Yii;
+use Hirtz\Tenant\Models\collections\TenantCollection;
+use Hirtz\Tenant\Models\Tenant;
 use yii\db\Migration;
 
 /**
@@ -25,6 +25,7 @@ class M240819124324Tenant extends Migration
             'status' => $this->tinyInteger()->notNull()->defaultValue(Tenant::STATUS_DEFAULT),
             'name' => $this->string()->notNull(),
             'url' => $this->string(100)->notNull()->unique(),
+            'cookie_domain' => $this->string()->null(),
             'language' => $this->string(5)->notNull(),
             'position' => $this->integer()->unsigned()->notNull()->defaultValue(0),
             'updated_by_user_id' => $this->integer()->unsigned()->null(),
@@ -41,18 +42,7 @@ class M240819124324Tenant extends Migration
             'SET NULL'
         );
 
-        $this->insertDefaultTenant();
-    }
-
-    protected function insertDefaultTenant(): void
-    {
-        $tenant = Tenant::create();
-        $tenant->loadDefaultValues();
-        $tenant->name = 'Default';
-        $tenant->url = 'https://www.example.com/';
-        $tenant->language = Yii::$app->language;
-
-        $tenant->insert(false);
+        TenantCollection::insertDefault();
     }
 
     public function safeDown(): void

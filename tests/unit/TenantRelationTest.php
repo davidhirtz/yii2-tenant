@@ -2,21 +2,21 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Tenant\tests\unit;
+namespace Hirtz\Tenant\Tests\Unit;
 
 use Hirtz\Skeleton\Db\ActiveQuery;
 use Hirtz\Skeleton\Db\ActiveRecord;
-use Hirtz\Tenant\models\collections\TenantCollection;
-use Hirtz\Tenant\models\queries\traits\TenantQueryTrait;
-use Hirtz\Tenant\models\Tenant;
-use Hirtz\Tenant\models\traits\TenantRelationTrait;
+use Hirtz\Tenant\Models\collections\TenantCollection;
+use Hirtz\Tenant\Models\Queries\Traits\TenantQueryTrait;
+use Hirtz\Tenant\Models\Tenant;
+use Hirtz\Tenant\Models\Traits\TenantRelationTrait;
 use Hirtz\Tenant\test\TestCase;
 use Override;
 use Yii;
 
 final class TenantRelationTest extends TestCase
 {
-    #[\Override]
+    #[Override]
     protected function setUp(): void
     {
         parent::setUp();
@@ -36,7 +36,7 @@ final class TenantRelationTest extends TestCase
         )->execute();
     }
 
-    #[\Override]
+    #[Override]
     protected function tearDown(): void
     {
         Yii::$app->getDb()->createCommand()->dropTable('test')->execute();
@@ -82,6 +82,7 @@ final class TenantRelationTest extends TestCase
 /**
  * @property int $id
  * @property int|null $tenant_id
+ * @extends ActiveRecord<TestModel>
  */
 class TestModel extends ActiveRecord
 {

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Hirtz\Tenant\Modules\Admin\Data;
 
 use Hirtz\Skeleton\Data\ActiveDataProvider;
-use Hirtz\Tenant\models\Tenant;
+use Hirtz\Tenant\Models\Tenant;
 use Override;
 use yii\data\Pagination;
 use yii\data\Sort;

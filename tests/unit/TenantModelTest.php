@@ -2,24 +2,26 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Tenant\tests\unit;
+namespace Hirtz\Tenant\Tests\Unit;
 
-use Hirtz\Tenant\models\collections\TenantCollection;
-use Hirtz\Tenant\models\Tenant;
+use Hirtz\Tenant\Models\collections\TenantCollection;
+use Hirtz\Tenant\Models\Tenant;
 use Hirtz\Tenant\test\TestCase;
+use Hirtz\Tenant\Test\Traits\TenantFixtureTrait;
 use Yii;
 
 final class TenantModelTest extends TestCase
 {
+    use TenantFixtureTrait;
+
     public function testHostInfo(): void
     {
-        $tenant = $this->getTenantFromFixture();
-        self::assertEquals('https://www.domain.com', $tenant->getHostInfo());
+        self::assertEquals('https://www.domain.com', TenantCollection::getDefault()->getHostInfo());
     }
 
     public function testPathInfo(): void
     {
-        $tenant = $this->getTenantFromFixture('path');
+        $tenant = $this->getTenantFromFixture('enabled');
         self::assertEquals('/de', $tenant->getPathInfo());
     }
 
@@ -98,11 +100,11 @@ final class TenantModelTest extends TestCase
         self::assertTrue($tenant->isDeleted());
         self::assertCount(2, TenantCollection::getAll());
 
-        $tenant = $this->getTenantFromFixture();
+        $tenant = TenantCollection::getDefault();
         self::assertEquals(1, $tenant->delete());
 
         $default = TenantCollection::getDefault();
-        $expected = $this->getTenantFromFixture('path');
+        $expected = $this->getTenantFromFixture('enabled');
 
         self::assertEquals($expected->id, $default->id);
 

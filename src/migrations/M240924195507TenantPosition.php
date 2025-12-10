@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Hirtz\Tenant\Migrations;
 
 use Hirtz\Skeleton\Db\Traits\MigrationTrait;
-use Hirtz\Tenant\models\Tenant;
+use Hirtz\Tenant\Models\Tenant;
 use yii\db\Migration;
 
 /**

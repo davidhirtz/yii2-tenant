@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Tenant\models\queries;
+namespace Hirtz\Tenant\Models\Queries;
 
 use Hirtz\Skeleton\Db\ActiveQuery;
-use Hirtz\Tenant\models\Tenant;
+use Hirtz\Tenant\Models\Tenant;
 
 /**
  * @template T of Tenant

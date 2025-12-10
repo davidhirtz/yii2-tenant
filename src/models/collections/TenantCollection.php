@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Tenant\models\collections;
+namespace Hirtz\Tenant\Models\collections;
 
-use Hirtz\Tenant\models\Tenant;
+use Hirtz\Tenant\Models\Tenant;
 use Yii;
 use yii\base\InvalidConfigException;
 use yii\caching\TagDependency;
@@ -82,6 +82,16 @@ class TenantCollection
             ->orderBy(['position' => SORT_ASC])
             ->cache(0, $dependency)
             ->all();
+    }
+
+    public static function insertDefault(): bool
+    {
+        $tenant = Tenant::create();
+        $tenant->status = Tenant::STATUS_DEFAULT;
+        $tenant->name = 'Default';
+        $tenant->url = 'https://www.example.com/';
+        $tenant->language = Yii::$app->language;
+        return $tenant->insert();
     }
 
     public static function invalidateCache(): void

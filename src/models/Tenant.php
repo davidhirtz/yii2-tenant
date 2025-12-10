@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Tenant\models;
+namespace Hirtz\Tenant\Models;
 
 use davidhirtz\yii2\datetime\DateTime;
 use davidhirtz\yii2\datetime\DateTimeBehavior;
@@ -16,8 +16,8 @@ use Hirtz\Skeleton\Models\Traits\DraftStatusAttributeTrait;
 use Hirtz\Skeleton\Models\Traits\TrailModelTrait;
 use Hirtz\Skeleton\Models\Traits\UpdatedByUserTrait;
 use Hirtz\Skeleton\Validators\DynamicRangeValidator;
-use Hirtz\Tenant\models\collections\TenantCollection;
-use Hirtz\Tenant\models\queries\TenantQuery;
+use Hirtz\Tenant\Models\collections\TenantCollection;
+use Hirtz\Tenant\Models\Queries\TenantQuery;
 use Override;
 use Yii;
 

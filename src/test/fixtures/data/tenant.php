@@ -2,21 +2,11 @@
 
 declare(strict_types=1);
 
-use Hirtz\Tenant\models\Tenant;
+use Hirtz\Tenant\Models\Tenant;
 use yii\db\Expression;
 
 return [
-    'default' => [
-        'id' => 1,
-        'status' => Tenant::STATUS_ENABLED,
-        'name' => 'Default Tenant',
-        'url' => 'https://www.domain.com',
-        'cookie_domain' => '.domain.com',
-        'language' => 'en-US',
-        'position' => 1,
-        'created_at' => new Expression('UTC_TIMESTAMP()'),
-    ],
-    'path' => [
+    'enabled' => [
         'id' => 2,
         'status' => Tenant::STATUS_ENABLED,
         'name' => 'German Tenant',
