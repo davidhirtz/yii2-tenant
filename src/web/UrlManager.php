@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Tenant\web;
+namespace Hirtz\Tenant\Web;
 
 use Hirtz\Skeleton\Helpers\Url;
 use Hirtz\Skeleton\Web\Request;
