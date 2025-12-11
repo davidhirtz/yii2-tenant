@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Hirtz\Tenant\Test;
 
 use Hirtz\Tenant\Models\Collections\TenantCollection;
-use Hirtz\Tenant\Models\Tenant;
 use Override;
 
 class TestCase extends \Hirtz\Skeleton\Test\TestCase
@@ -17,12 +16,5 @@ class TestCase extends \Hirtz\Skeleton\Test\TestCase
         parent::setUp();
 
         TenantCollection::invalidateCache();
-    }
-
-    #[Override]
-    protected function tearDown(): void
-    {
-        parent::tearDown();
-        TenantCollection::insertDefault();
     }
 }

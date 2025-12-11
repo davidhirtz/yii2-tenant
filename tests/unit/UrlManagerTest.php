@@ -115,7 +115,7 @@ final class UrlManagerTest extends TestCase
 
         self::assertEquals('https://www.domain.com', $manager->getHostInfo());
         self::assertEquals('de', Yii::$app->language);
-        self::assertEquals($tenant->id, Yii::$app->get('tenant')->id);
+        self::assertEquals($tenant->id, $manager->tenant->id);
 
         $url = $manager->createAbsoluteUrl(['test']);
         self::assertEquals('https://www.domain.com/de/test', $url);
@@ -133,7 +133,7 @@ final class UrlManagerTest extends TestCase
         self::assertEquals('https://domain.com', $manager->getHostInfo());
         self::assertEquals('de', Yii::$app->language);
         self::assertTrue($request->getIsDraft());
-        self::assertEquals($tenant->id, Yii::$app->get('tenant')->id);
+        self::assertEquals($tenant->id, $manager->tenant->id);
 
         $request = $this->getRequest([
             'hostInfo' => 'https://www.draft.com',
@@ -234,13 +234,13 @@ final class UrlManagerTest extends TestCase
     {
         Yii::$app->set('urlManager', [
             'class' => UrlManager::class,
-            'tenant' => TenantCollection::getDefault(),
-            'baseUrl' => '',
             ...$config,
         ]);
 
         /** @var UrlManager $manager */
         $manager = Yii::$app->getUrlManager();
+        $manager->setTenant(TenantCollection::getDefault());
+
         return $manager;
     }
 }

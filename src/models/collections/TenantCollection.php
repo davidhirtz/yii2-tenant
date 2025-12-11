@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Hirtz\Tenant\Models\Collections;
 
 use Hirtz\Tenant\Models\Tenant;
+use Hirtz\Tenant\Web\UrlManager;
 use Yii;
 use yii\base\InvalidConfigException;
 use yii\caching\TagDependency;
@@ -23,15 +24,10 @@ class TenantCollection
         return static::$_tenants ??= static::findAll();
     }
 
-    public static function getDefault(): Tenant
+    public static function getDefault(): ?Tenant
     {
         $tenants = static::getAll();
-
-        if (!$tenants) {
-            throw new InvalidConfigException('No tenants found.');
-        }
-
-        return reset($tenants);
+        return $tenants ? reset($tenants) : null;
     }
 
     /**
@@ -39,8 +35,11 @@ class TenantCollection
      */
     public static function getVisibleTenants(): array
     {
-        $tenant = Yii::$app->get('tenant');
-        return array_filter(static::getAll(), fn (Tenant $current) => $current->status >= $tenant->status);
+        $manager = Yii::$app->getUrlManager();
+        $tenant = $manager instanceof UrlManager ? $manager->tenant : null;
+        $tenant ??= static::getDefault();
+
+        return array_filter(static::getAll(), fn (Tenant $current) => $current->status >= $tenant->status ?? 0);
     }
 
     public static function getByUrl(string $url): ?Tenant
@@ -82,18 +81,6 @@ class TenantCollection
             ->orderBy(['position' => SORT_ASC])
             ->cache(0, $dependency)
             ->all();
-    }
-
-    public static function insertDefault(): void
-    {
-        self::invalidateCache();
-
-        $tenant = Tenant::create();
-        $tenant->status = Tenant::STATUS_DEFAULT;
-        $tenant->name = 'Default';
-        $tenant->url = 'https://www.example.com/';
-        $tenant->language = Yii::$app->language;
-        $tenant->insert();
     }
 
     public static function invalidateCache(): void

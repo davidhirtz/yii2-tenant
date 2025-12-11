@@ -19,6 +19,7 @@ use Hirtz\Skeleton\Widgets\Grids\Toolbars\CreateButton;
 use Hirtz\Skeleton\Widgets\Grids\Traits\StatusGridViewTrait;
 use Hirtz\Tenant\Models\Tenant;
 use Hirtz\Tenant\Modules\Admin\Data\TenantActiveDataProvider;
+use Hirtz\Tenant\Web\UrlManager;
 use Stringable;
 use Yii;
 use yii\helpers\Url;
@@ -98,8 +99,10 @@ class TenantGridView extends GridView
     protected function getButtonColumnContent(Tenant $tenant): array
     {
         $buttons = [];
+        $manager = Yii::$app->getUrlManager();
+        $tenantId = $manager instanceof UrlManager ? $manager->tenant?->id : null;
 
-        if (Yii::$app->get('tenant')->id !== $tenant->id) {
+        if ($tenantId !== $tenant->id) {
             $buttons[] = Button::make()
                 ->secondary()
                 ->icon('toggle-on')

@@ -41,8 +41,6 @@ class M240819124324Tenant extends Migration
             'id',
             'SET NULL'
         );
-
-        TenantCollection::insertDefault();
     }
 
     public function safeDown(): void

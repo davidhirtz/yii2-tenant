@@ -1,5 +1,6 @@
 ## 3.0.0 (in development)
 
+- Removed default tenant
 
 ## 1.3.2 (Dec 6, 2025)
 

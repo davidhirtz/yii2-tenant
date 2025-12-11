@@ -14,6 +14,8 @@ use yii\web\Cookie;
 
 class UrlManager extends \Hirtz\Skeleton\Web\UrlManager
 {
+    public ?Tenant $tenant = null;
+
     #[Override]
     public function init(): void
     {
@@ -27,6 +29,11 @@ class UrlManager extends \Hirtz\Skeleton\Web\UrlManager
     public function createAbsoluteUrl($params, $scheme = null): string
     {
         $tenant = $this->getTenantFromParams($params);
+
+        if (!$tenant) {
+            return parent::createAbsoluteUrl($params, $scheme);
+        }
+
         $url = $this->createUrl($params);
 
         if (!str_contains($url, '://')) {
@@ -42,10 +49,13 @@ class UrlManager extends \Hirtz\Skeleton\Web\UrlManager
         $tenant = $this->getTenantFromParams($params, true);
 
         $url = parent::createUrl($params);
-        $url = $tenant->getPathInfo() . $url;
 
-        if ($tenant->getHostInfo() !== Yii::$app->get('tenant')->getHostInfo()) {
-            $url = $tenant->getHostInfo() . $url;
+        if ($tenant) {
+            $url = $tenant->getPathInfo() . $url;
+
+            if ($tenant->getHostInfo() !== $this->tenant?->getHostInfo()) {
+                $url = $tenant->getHostInfo() . $url;
+            }
         }
 
         return $url;
@@ -54,14 +64,39 @@ class UrlManager extends \Hirtz\Skeleton\Web\UrlManager
     #[Override]
     public function parseRequest($request): bool|array
     {
-        $tenant = $this->getTenantFromRequest($request);
-        $this->setTenant($tenant);
+        $this->setTenantFromRequest($request);
 
-        if ($tenant->isDraft()) {
+        if ($this->tenant?->isDraft()) {
             Yii::$app->getResponse()->getHeaders()->set('X-Robots-Tag', 'none');
         }
 
         return parent::parseRequest($request);
+    }
+
+    public function getTenantFromRequest(Request $request): ?Tenant
+    {
+        $params = $request->getQueryParams();
+        return $this->getTenantFromParams($params) ?? $this->getTenantFromUrl($request->getUrl());
+    }
+
+    protected function setTenantFromRequest(Request $request): void
+    {
+        $tenant = $this->getTenantFromUrl($request->getAbsoluteUrl());
+
+        if ($tenant) {
+            Yii::debug("Tenant found: $tenant->name", __METHOD__);
+            $request->setPathInfo(substr($request->getPathInfo(), strlen($tenant->getPathInfo())));
+            $this->setCookieDomain($tenant->getCookieDomain());
+            $this->setTenant($tenant);
+            return;
+        }
+
+        $tenant = TenantCollection::getDefault();
+
+        if ($tenant) {
+            Yii::debug("Tenant not found by host name or path info, using default tenant: $tenant->name");
+            $this->setTenant($tenant);
+        }
     }
 
     public function setTenant(Tenant $tenant): void
@@ -75,7 +110,12 @@ class UrlManager extends \Hirtz\Skeleton\Web\UrlManager
     #[Override]
     protected function setApplicationLanguage(Request $request): void
     {
-        Yii::$app->language = Yii::$app->get('tenant')->language;
+        if ($this->tenant) {
+            Yii::$app->language = $this->tenant->language;
+            return;
+        }
+
+        parent::setApplicationLanguage($request);
     }
 
     protected function setCookieDomain(string $domain): void
@@ -90,24 +130,6 @@ class UrlManager extends \Hirtz\Skeleton\Web\UrlManager
         Yii::$container->set(Cookie::class, $definition);
     }
 
-    protected function getTenantFromRequest(Request $request): Tenant
-    {
-        $tenant = $this->getTenantFromUrl($request->getAbsoluteUrl());
-
-        if ($tenant) {
-            Yii::debug("Tenant found: $tenant->name", __METHOD__);
-            $request->setPathInfo(substr($request->getPathInfo(), strlen($tenant->getPathInfo())));
-            $this->setCookieDomain($tenant->getCookieDomain());
-
-            return $tenant;
-        }
-
-        $tenant = TenantCollection::getDefault();
-
-        Yii::debug("Tenant not found by host name or path info, using tenant: $tenant->name", __METHOD__);
-        return $tenant;
-    }
-
     protected function getTenantFromUrl(string $url): ?Tenant
     {
         return TenantCollection::getByUrl($url)
@@ -118,7 +140,7 @@ class UrlManager extends \Hirtz\Skeleton\Web\UrlManager
             );
     }
 
-    private function getTenantFromParams(array|string &$params, bool $remove = false): Tenant
+    private function getTenantFromParams(array|string &$params, bool $remove = false): ?Tenant
     {
         $tenant = $params['tenant'] ?? null;
 
@@ -130,6 +152,6 @@ class UrlManager extends \Hirtz\Skeleton\Web\UrlManager
             return $tenant;
         }
 
-        return Yii::$app->get('tenant');
+        return $this->tenant;
     }
 }

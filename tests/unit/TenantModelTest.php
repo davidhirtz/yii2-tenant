@@ -16,7 +16,7 @@ final class TenantModelTest extends TestCase
 
     public function testHostInfo(): void
     {
-        self::assertEquals('https://www.domain.com', TenantCollection::getDefault()->getHostInfo());
+        self::assertEquals('https://www.domain.com', TenantCollection::getDefault()?->getHostInfo());
     }
 
     public function testPathInfo(): void
