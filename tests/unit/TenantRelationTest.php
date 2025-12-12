@@ -11,11 +11,14 @@ use Hirtz\Tenant\Models\Queries\Traits\TenantQueryTrait;
 use Hirtz\Tenant\Models\Tenant;
 use Hirtz\Tenant\Models\Traits\TenantRelationTrait;
 use Hirtz\Tenant\test\TestCase;
+use Hirtz\Tenant\Test\Traits\TenantFixtureTrait;
 use Override;
 use Yii;
 
 final class TenantRelationTest extends TestCase
 {
+    use TenantFixtureTrait;
+
     #[Override]
     protected function setUp(): void
     {

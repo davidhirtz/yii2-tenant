@@ -223,6 +223,7 @@ final class UrlManagerTest extends TestCase
     {
         Yii::$app->set('request', [
             'class' => Request::class,
+            'baseUrl' => '',
             'url' => '/',
             ...$config,
         ]);
