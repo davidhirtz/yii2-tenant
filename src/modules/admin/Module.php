@@ -31,7 +31,7 @@ class Module extends \Hirtz\Skeleton\Base\Module implements ModuleInterface
         return [
             'tenant' => [
                 'class' => TenantController::class,
-                'viewPath' => '@tenant/modules/admin/views/tenant',
+                'viewPath' => '@tenant/../resources/views/admin/tenant',
             ],
         ];
     }
@@ -54,8 +54,8 @@ class Module extends \Hirtz\Skeleton\Base\Module implements ModuleInterface
                 url: $this->url,
                 icon: 'network-wired',
                 roles: [
-                   Tenant::AUTH_TENANT_CREATE,
-                   Tenant::AUTH_TENANT_UPDATE,
+                    Tenant::AUTH_TENANT_CREATE,
+                    Tenant::AUTH_TENANT_UPDATE,
                 ],
                 routes: [
                     'admin/tenant/',
