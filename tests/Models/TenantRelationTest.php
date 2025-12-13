@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Tenant\Tests\Unit;
+namespace Hirtz\Tenant\Tests\Models;
 
 use Hirtz\Skeleton\Db\ActiveQuery;
 use Hirtz\Skeleton\Db\ActiveRecord;
@@ -10,7 +10,7 @@ use Hirtz\Tenant\Models\Collections\TenantCollection;
 use Hirtz\Tenant\Models\Queries\Traits\TenantQueryTrait;
 use Hirtz\Tenant\Models\Tenant;
 use Hirtz\Tenant\Models\Traits\TenantRelationTrait;
-use Hirtz\Tenant\test\TestCase;
+use Hirtz\Tenant\Test\TestCase;
 use Hirtz\Tenant\Test\Traits\TenantFixtureTrait;
 use Override;
 use Yii;
@@ -85,14 +85,13 @@ final class TenantRelationTest extends TestCase
 /**
  * @property int $id
  * @property int|null $tenant_id
- * @extends ActiveRecord<TestModel>
  */
 class TestModel extends ActiveRecord
 {
     use TenantRelationTrait;
 
     /**
-     * @return TestActiveQuery<TestModel>
+     * @return TestActiveQuery
      */
     #[Override]
     public static function find(): ActiveQuery
@@ -108,8 +107,7 @@ class TestModel extends ActiveRecord
 }
 
 /**
- * @template T of TestModel
- * @extends ActiveQuery<T>
+ * @extends ActiveQuery<TestModel>
  */
 class TestActiveQuery extends ActiveQuery
 {

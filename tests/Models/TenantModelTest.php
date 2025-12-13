@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Tenant\Tests\Unit;
+namespace Hirtz\Tenant\Tests\Models;
 
 use Hirtz\Tenant\Models\Collections\TenantCollection;
 use Hirtz\Tenant\Models\Tenant;
-use Hirtz\Tenant\test\TestCase;
+use Hirtz\Tenant\Test\TestCase;
 use Hirtz\Tenant\Test\Traits\TenantFixtureTrait;
 use Yii;
 

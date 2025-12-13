@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Tenant\Tests\Unit;
+namespace Hirtz\Tenant\Tests\Web;
 
 use Hirtz\Skeleton\Web\Request;
 use Hirtz\Tenant\Models\Collections\TenantCollection;
-use Hirtz\Tenant\test\TestCase;
+use Hirtz\Tenant\Test\TestCase;
 use Hirtz\Tenant\Test\Traits\TenantFixtureTrait;
-use Hirtz\Tenant\web\UrlManager;
+use Hirtz\Tenant\Web\UrlManager;
 use Yii;
 use yii\web\UrlNormalizerRedirectException;
 

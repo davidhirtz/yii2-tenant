@@ -38,7 +38,7 @@ class TenantCollection
         $tenant = $manager instanceof UrlManager ? $manager->tenant : null;
         $tenant ??= static::getDefault();
 
-        return array_filter(static::getAll(), fn (Tenant $current) => $current->status >= $tenant->status ?? 0);
+        return array_filter(static::getAll(), fn (Tenant $current) => $current->status >= ($tenant->status ?? 0));
     }
 
     public static function getByUrl(string $url): ?Tenant

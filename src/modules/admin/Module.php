@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Tenant\modules\admin;
+namespace Hirtz\Tenant\Modules\Admin;
 
 use Hirtz\Skeleton\Modules\Admin\Config\MainMenuItemConfig;
 use Hirtz\Skeleton\Modules\Admin\ModuleInterface;
