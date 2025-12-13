@@ -7,7 +7,6 @@ namespace Hirtz\Tenant\Models\Collections;
 use Hirtz\Tenant\Models\Tenant;
 use Hirtz\Tenant\Web\UrlManager;
 use Yii;
-use yii\base\InvalidConfigException;
 use yii\caching\TagDependency;
 
 class TenantCollection

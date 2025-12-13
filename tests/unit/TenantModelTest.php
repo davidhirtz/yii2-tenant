@@ -16,7 +16,7 @@ final class TenantModelTest extends TestCase
 
     public function testHostInfo(): void
     {
-        self::assertEquals('https://www.domain.com', TenantCollection::getDefault()?->getHostInfo());
+        self::assertEquals('https://www.domain.localhost', TenantCollection::getDefault()?->getHostInfo());
     }
 
     public function testPathInfo(): void
@@ -28,13 +28,13 @@ final class TenantModelTest extends TestCase
     public function testUrlValidation(): void
     {
         $tenant = $this->createTenant();
-        $tenant->url = 'www.domain.com';
+        $tenant->url = 'www.domain.localhost';
         $tenant->language = 'en-US';
 
         self::assertFalse($tenant->save());
         self::assertArrayHasKey('url', $tenant->getErrors());
 
-        $tenant->url = 'https://www.domain.com';
+        $tenant->url = 'https://www.domain.localhost';
 
         self::assertFalse($tenant->save());
 
@@ -45,10 +45,10 @@ final class TenantModelTest extends TestCase
 
         self::assertContains($error, $tenant->getErrors('url'));
 
-        $tenant->url = 'https://www.new-domain.com/';
+        $tenant->url = 'https://www.new-domain.localhost/';
 
         self::assertTrue($tenant->save());
-        self::assertEquals('https://www.new-domain.com', $tenant->url);
+        self::assertEquals('https://www.new-domain.localhost', $tenant->url);
         self::assertEquals(4, $tenant->position);
     }
 

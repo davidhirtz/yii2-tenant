@@ -6,7 +6,6 @@ namespace Hirtz\Tenant;
 
 use Hirtz\Skeleton\Web\Application;
 use Hirtz\Skeleton\Web\UrlManager;
-use Hirtz\Tenant\Models\Collections\TenantCollection;
 use Hirtz\Tenant\Modules\Admin\Module;
 use Yii;
 use yii\base\BootstrapInterface;
@@ -30,8 +29,6 @@ class Bootstrap implements BootstrapInterface
         if (!Yii::$container->has(UrlManager::class)) {
             Yii::$container->set(UrlManager::class, Web\UrlManager::class);
         }
-
-        $app->set('tenant', TenantCollection::getDefault());
 
         $app->extendModule('admin', [
             'modules' => [

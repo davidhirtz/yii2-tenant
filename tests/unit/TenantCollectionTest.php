@@ -32,7 +32,7 @@ final class TenantCollectionTest extends TestCase
     {
         Yii::$app->set('request', [
             'class' => Request::class,
-            'hostInfo' => 'https://www.domain.com',
+            'hostInfo' => 'https://www.domain.localhost',
             'queryParams' => ['tenant' => 2],
         ]);
 

@@ -59,7 +59,7 @@ final class UrlManagerTest extends TestCase
         $params['tenant'] = $this->getTenantFromFixture('draft');
         $url = $manager->createUrl($params);
 
-        self::assertEquals('https://www.draft.com/post/view?id=1&title=sample+post', $url);
+        self::assertEquals('https://www.draft.localhost/post/view?id=1&title=sample+post', $url);
     }
 
     public function testCreateAbsoluteUrl(): void
@@ -67,10 +67,10 @@ final class UrlManagerTest extends TestCase
         $manager = $this->getUrlManager();
 
         $url = $manager->createAbsoluteUrl('post/view');
-        self::assertEquals('https://www.domain.com/post/view', $url);
+        self::assertEquals('https://www.domain.localhost/post/view', $url);
 
         $url = $manager->createAbsoluteUrl(['post/view'], '');
-        self::assertEquals('//www.domain.com/post/view', $url);
+        self::assertEquals('//www.domain.localhost/post/view', $url);
     }
 
     public function testCreateDraftUrl(): void
@@ -78,34 +78,34 @@ final class UrlManagerTest extends TestCase
         $manager = $this->getUrlManager();
 
         $url = $manager->createDraftUrl('post/view');
-        self::assertEquals('https://draft.domain.com/post/view', $url);
+        self::assertEquals('https://draft.domain.localhost/post/view', $url);
 
         $url = $manager->createDraftUrl([
             'post/view',
             'tenant' => $this->getTenantFromFixture('draft'),
         ]);
 
-        self::assertEquals('https://draft.draft.com/post/view', $url);
+        self::assertEquals('https://draft.draft.localhost/post/view', $url);
 
         $manager->draftSubdomain = 'preview';
 
         $url = $manager->createDraftUrl('post/view');
-        self::assertEquals('https://preview.domain.com/post/view', $url);
+        self::assertEquals('https://preview.domain.localhost/post/view', $url);
 
         Yii::$app->getRequest()->setIsDraft(true);
         $manager->draftSubdomain = false;
 
         $url = $manager->createDraftUrl('post/view');
-        self::assertEquals('https://www.domain.com/post/view', $url);
+        self::assertEquals('https://www.domain.localhost/post/view', $url);
     }
 
     public function testTenantAsPath(): void
     {
         $manager = $this->getUrlManager();
-        self::assertEquals('https://www.domain.com', $manager->getHostInfo());
+        self::assertEquals('https://www.domain.localhost', $manager->getHostInfo());
 
         $request = $this->getRequest([
-            'hostInfo' => 'https://www.domain.com',
+            'hostInfo' => 'https://www.domain.localhost',
             'url' => '/de',
         ]);
 
@@ -113,30 +113,30 @@ final class UrlManagerTest extends TestCase
 
         $tenant = $this->getTenantFromFixture('enabled');
 
-        self::assertEquals('https://www.domain.com', $manager->getHostInfo());
+        self::assertEquals('https://www.domain.localhost', $manager->getHostInfo());
         self::assertEquals('de', Yii::$app->language);
         self::assertEquals($tenant->id, $manager->tenant->id);
 
         $url = $manager->createAbsoluteUrl(['test']);
-        self::assertEquals('https://www.domain.com/de/test', $url);
+        self::assertEquals('https://www.domain.localhost/de/test', $url);
 
         $url = $manager->createDraftUrl(['test']);
-        self::assertEquals('https://draft.domain.com/de/test', $url);
+        self::assertEquals('https://draft.domain.localhost/de/test', $url);
 
         $request = $this->getRequest([
-            'hostInfo' => 'https://draft.domain.com',
+            'hostInfo' => 'https://draft.domain.localhost',
             'url' => '/de',
         ]);
 
         $manager->parseRequest($request);
 
-        self::assertEquals('https://domain.com', $manager->getHostInfo());
+        self::assertEquals('https://domain.localhost', $manager->getHostInfo());
         self::assertEquals('de', Yii::$app->language);
         self::assertTrue($request->getIsDraft());
         self::assertEquals($tenant->id, $manager->tenant->id);
 
         $request = $this->getRequest([
-            'hostInfo' => 'https://www.draft.com',
+            'hostInfo' => 'https://www.draft.localhost',
         ]);
 
         $manager->parseRequest($request);
@@ -149,7 +149,7 @@ final class UrlManagerTest extends TestCase
     {
         $manager = $this->getUrlManager([
             'redirectMap' => [
-                'old-url' => 'https://www.new-domain.com/new-url',
+                'old-url' => 'https://www.new-domain.localhost/new-url',
                 [
                     'request' => ['old/*'],
                     'url' => 'temp/',
@@ -159,14 +159,14 @@ final class UrlManagerTest extends TestCase
         ]);
 
         $request = $this->getRequest([
-            'hostInfo' => 'https://www.domain.com',
+            'hostInfo' => 'https://www.domain.localhost',
         ]);
 
         $manager->parseRequest($request);
-        self::assertEquals('https://www.domain.com', $manager->getHostInfo());
+        self::assertEquals('https://www.domain.localhost', $manager->getHostInfo());
 
         $request = $this->getRequest([
-            'hostInfo' => 'https://www.domain.com',
+            'hostInfo' => 'https://www.domain.localhost',
             'pathInfo' => '/old-url',
         ]);
 
@@ -174,11 +174,11 @@ final class UrlManagerTest extends TestCase
             $manager->parseRequest($request);
             self::fail('UrlNormalizerRedirectException not thrown');
         } catch (UrlNormalizerRedirectException $e) {
-            self::assertEquals('https://www.new-domain.com/new-url', $e->url);
+            self::assertEquals('https://www.new-domain.localhost/new-url', $e->url);
         }
 
         $request = $this->getRequest([
-            'hostInfo' => 'https://www.domain.com',
+            'hostInfo' => 'https://www.domain.localhost',
             'pathInfo' => '/old/test',
         ]);
 

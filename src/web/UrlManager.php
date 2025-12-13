@@ -17,15 +17,6 @@ class UrlManager extends \Hirtz\Skeleton\Web\UrlManager
     public ?Tenant $tenant = null;
 
     #[Override]
-    public function init(): void
-    {
-        $this->i18nUrl = false;
-        $this->i18nSubdomain = false;
-
-        parent::init();
-    }
-
-    #[Override]
     public function createAbsoluteUrl($params, $scheme = null): string
     {
         $tenant = $this->getTenantFromParams($params);
