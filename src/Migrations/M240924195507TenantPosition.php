@@ -1,0 +1,36 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Hirtz\Tenant\Migrations;
+
+use Hirtz\Skeleton\Db\Traits\MigrationTrait;
+use Hirtz\Tenant\Models\Tenant;
+use yii\db\Migration;
+
+/**
+ * @noinspection PhpUnused
+ */
+
+class M240924195507TenantPosition extends Migration
+{
+    use MigrationTrait;
+
+    public function safeUp(): void
+    {
+        if ($this->getDb()->getTableSchema(Tenant::tableName())->getColumn('position')) {
+            return;
+        }
+
+        $this->addColumn(Tenant::tableName(), 'position', (string)$this->integer()
+            ->unsigned()
+            ->notNull()
+            ->defaultValue(0)
+            ->after('language'));
+    }
+
+    public function safeDown(): void
+    {
+        $this->dropColumn(Tenant::tableName(), 'position');
+    }
+}
