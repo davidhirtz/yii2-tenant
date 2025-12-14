@@ -6,6 +6,8 @@
 
 # Yii
 /runtime
+/tests/_output/coverage.xml
+/tests/_output/coverage.serialized
 
 # OS cache files
 .DS_Store

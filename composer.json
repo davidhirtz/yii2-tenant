@@ -38,12 +38,6 @@
       "yiisoft/yii2-composer": true
     }
   },
-  "repositories": [
-    {
-      "type": "composer",
-      "url": "https://asset-packagist.org"
-    }
-  ],
   "scripts": {
     "phpstan": "phpstan --memory-limit=2G",
     "test": "phpunit"
