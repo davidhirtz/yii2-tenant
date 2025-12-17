@@ -38,7 +38,10 @@ class UrlManager extends \davidhirtz\yii2\skeleton\web\UrlManager
         $tenant = $this->getTenantFromParams($params, true);
 
         $url = parent::createUrl($params);
-        $url = $tenant->getPathInfo() . $url;
+
+        if (!is_string($params) || !str_starts_with($params, $tenant->getPathInfo())) {
+            $url = $tenant->getPathInfo() . $url;
+        }
 
         if ($tenant->getHostInfo() !== Yii::$app->get('tenant')->getHostInfo()) {
             $url = $tenant->getHostInfo() . $url;
