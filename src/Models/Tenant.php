@@ -111,6 +111,8 @@ class Tenant extends ActiveRecord implements DraftStatusAttributeInterface, Trai
         $this->_hostInfo = null;
         $this->_pathInfo = null;
 
+        $this->language ??= Yii::$app->language;
+
         return parent::beforeValidate();
     }
 

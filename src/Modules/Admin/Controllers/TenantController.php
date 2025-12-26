@@ -11,6 +11,7 @@ use Hirtz\Tenant\Models\Collections\TenantCollection;
 use Hirtz\Tenant\Models\Tenant;
 use Hirtz\Tenant\Modules\Admin\Controllers\Traits\TenantControllerTrait;
 use Hirtz\Tenant\Modules\Admin\Data\TenantActiveDataProvider;
+use Override;
 use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -20,7 +21,7 @@ class TenantController extends Controller
 {
     use TenantControllerTrait;
 
-    #[\Override]
+    #[Override]
     public function behaviors(): array
     {
         return [
@@ -72,10 +73,12 @@ class TenantController extends Controller
         $tenant = Tenant::create();
         $tenant->loadDefaultValues();
 
-        if ($tenant->load(Yii::$app->getRequest()->post()) && $tenant->insert()) {
+        if ($tenant->load($this->request->post()) && $tenant->insert()) {
             $this->success(Yii::t('tenant', 'TENANT_FLASH_CREATED'));
             return $this->redirect($tenant->getAdminRoute());
         }
+
+        $tenant->url ??= $this->request->getHostInfo();
 
         return $this->render('create', [
             'tenant' => $tenant,
@@ -86,7 +89,7 @@ class TenantController extends Controller
     {
         $tenant = $this->findTenant($id, Tenant::AUTH_TENANT_UPDATE);
 
-        if ($tenant->load(Yii::$app->getRequest()->post()) && $tenant->update()) {
+        if ($tenant->load($this->request->post()) && $tenant->update()) {
             $this->success(Yii::t('tenant', 'TENANT_FLASH_UPDATED'));
             return $this->redirect($tenant->getAdminRoute());
         }
@@ -101,7 +104,7 @@ class TenantController extends Controller
         $tenant = $this->findTenant($id, Tenant::AUTH_TENANT_DELETE);
         $form = new DeleteForm($tenant, 'name');
 
-        if ($form->load(Yii::$app->getRequest()->post()) && $form->delete()) {
+        if ($form->load($this->request->post()) && $form->delete()) {
             $this->success(Yii::t('tenant', 'TENANT_FLASH_DELETED'));
             return $this->redirect(['index', 'tenant' => TenantCollection::getDefault()]);
         }
