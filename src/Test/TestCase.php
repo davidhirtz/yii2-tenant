@@ -18,6 +18,7 @@ class TestCase extends \Hirtz\Skeleton\Test\TestCase
         TenantCollection::invalidateCache();
     }
 
+    #[\Override]
     protected function tearDown(): void
     {
         TenantCollection::invalidateCache();
