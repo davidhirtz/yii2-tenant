@@ -22,7 +22,7 @@ use Hirtz\Tenant\Modules\Admin\Data\TenantActiveDataProvider;
 use Hirtz\Tenant\Web\UrlManager;
 use Stringable;
 use Yii;
-use yii\helpers\Url;
+use Hirtz\Skeleton\Helpers\Url;;
 
 /**
  * @template T of Tenant
