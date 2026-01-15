@@ -37,8 +37,13 @@ class UrlManager extends \Hirtz\Skeleton\Web\UrlManager
     #[Override]
     public function createUrl($params): string
     {
-        $tenant = $this->getTenantFromParams($params, true);
+        $params = (array)$params;
 
+        if (!array_key_exists('tenant', $params)) {
+            $params['tenant'] = Yii::$app->getRequest()->get('tenant');
+        }
+
+        $tenant = $this->getTenantFromParams($params, true);
         $url = parent::createUrl($params);
 
         if ($tenant) {

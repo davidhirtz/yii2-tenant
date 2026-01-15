@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Hirtz\Tenant\Modules\Admin\Widgets\Grids;
 
 use Hirtz\Skeleton\Helpers\Html;
+use Hirtz\Skeleton\Helpers\Url;
 use Hirtz\Skeleton\Html\A;
 use Hirtz\Skeleton\Html\Button;
 use Hirtz\Skeleton\Html\Div;
@@ -20,9 +21,12 @@ use Hirtz\Skeleton\Widgets\Grids\Traits\StatusGridViewTrait;
 use Hirtz\Tenant\Models\Tenant;
 use Hirtz\Tenant\Modules\Admin\Data\TenantActiveDataProvider;
 use Hirtz\Tenant\Web\UrlManager;
+use Iterator;
+use Override;
 use Stringable;
 use Yii;
-use Hirtz\Skeleton\Helpers\Url;;
+
+;
 
 /**
  * @template T of Tenant
@@ -33,7 +37,7 @@ class TenantGridView extends GridView
 {
     use StatusGridViewTrait;
 
-    #[\Override]
+    #[Override]
     protected function configure(): void
     {
         $this->model ??= Tenant::instance();
@@ -96,14 +100,13 @@ class TenantGridView extends GridView
             ->content($this->getButtonColumnContent(...));
     }
 
-    protected function getButtonColumnContent(Tenant $tenant): array
+    protected function getButtonColumnContent(Tenant $tenant): Iterator
     {
-        $buttons = [];
         $manager = Yii::$app->getUrlManager();
         $tenantId = $manager instanceof UrlManager ? $manager->tenant?->id : null;
 
         if ($tenantId !== $tenant->id) {
-            $buttons[] = Button::make()
+            yield Button::make()
                 ->secondary()
                 ->icon('toggle-on')
                 ->tooltip(Yii::t('tenant', 'TENANT_SWITCH_ADMIN_BUTTON'))
@@ -111,14 +114,12 @@ class TenantGridView extends GridView
         }
 
         if ($this->isSortable()) {
-            $buttons[] = DraggableSortGridButton::make();
+            yield DraggableSortGridButton::make();
         }
 
         if (Yii::$app->getUser()->can(Tenant::AUTH_TENANT_UPDATE, ['tenant' => $tenant])) {
-            $buttons[] = ViewGridButton::make();
+            yield ViewGridButton::make();
         }
-
-        return $buttons;
     }
 
     /**
@@ -131,7 +132,7 @@ class TenantGridView extends GridView
             : null;
     }
 
-    #[\Override]
+    #[Override]
     protected function isSortable(): bool
     {
         return parent::isSortable() && null === $this->provider->status;
