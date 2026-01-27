@@ -13,6 +13,7 @@ class TenantSubmenu extends Submenu
 {
     public ?Tenant $model = null;
 
+    #[\Override]
     public function init(): void
     {
         $this->title ??= Html::a(Yii::t('tenant', 'TENANT_NAME_PLURAL'), ['/admin/tenant/']);

@@ -11,6 +11,7 @@ use davidhirtz\yii2\tenant\models\collections\TenantCollection;
 use davidhirtz\yii2\tenant\models\Tenant;
 use davidhirtz\yii2\tenant\modules\admin\controllers\traits\TenantControllerTrait;
 use davidhirtz\yii2\tenant\modules\admin\data\TenantActiveDataProvider;
+use Override;
 use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -20,6 +21,7 @@ class TenantController extends Controller
 {
     use TenantControllerTrait;
 
+    #[Override]
     public function behaviors(): array
     {
         return array_merge(parent::behaviors(), [

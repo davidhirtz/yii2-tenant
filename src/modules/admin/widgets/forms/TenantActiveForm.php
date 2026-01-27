@@ -19,6 +19,7 @@ class TenantActiveForm extends ActiveForm
     use ModelTimestampTrait;
     use StatusFieldTrait;
     
+    #[\Override]
     public function init(): void
     {
         $this->fields ??= [

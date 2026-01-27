@@ -35,13 +35,14 @@ class Tenant extends ActiveRecord implements DraftStatusAttributeInterface
     use DraftStatusAttributeTrait;
     use UpdatedByUserTrait;
 
-    final public const AUTH_TENANT_CREATE = 'tenantCreate';
-    final public const AUTH_TENANT_DELETE = 'tenantDelete';
-    final public const AUTH_TENANT_UPDATE = 'tenantUpdate';
+    final public const string AUTH_TENANT_CREATE = 'tenantCreate';
+    final public const string AUTH_TENANT_DELETE = 'tenantDelete';
+    final public const string AUTH_TENANT_UPDATE = 'tenantUpdate';
 
     private ?string $_hostInfo = null;
     private ?string $_pathInfo = null;
 
+    #[\Override]
     public function behaviors(): array
     {
         return [
@@ -53,6 +54,7 @@ class Tenant extends ActiveRecord implements DraftStatusAttributeInterface
         ];
     }
 
+    #[\Override]
     public function rules(): array
     {
         return [
@@ -99,6 +101,7 @@ class Tenant extends ActiveRecord implements DraftStatusAttributeInterface
         ];
     }
 
+    #[\Override]
     public function beforeValidate(): bool
     {
         $this->_hostInfo = null;
@@ -160,18 +163,21 @@ class Tenant extends ActiveRecord implements DraftStatusAttributeInterface
         }
     }
 
+    #[\Override]
     public function beforeSave($insert): bool
     {
         $this->setDefaultPosition();
         return parent::beforeSave($insert);
     }
 
+    #[\Override]
     public function afterSave($insert, $changedAttributes): void
     {
         TenantCollection::invalidateCache();
         parent::afterSave($insert, $changedAttributes);
     }
 
+    #[\Override]
     public function beforeDelete(): bool
     {
         if (!parent::beforeDelete()) {
@@ -190,6 +196,7 @@ class Tenant extends ActiveRecord implements DraftStatusAttributeInterface
         return true;
     }
 
+    #[\Override]
     public function afterDelete(): void
     {
         TenantCollection::invalidateCache();
@@ -201,6 +208,7 @@ class Tenant extends ActiveRecord implements DraftStatusAttributeInterface
         return static::find()->count() > 1;
     }
 
+    #[\Override]
     public static function find(): TenantQuery
     {
         return Yii::createObject(TenantQuery::class, [static::class]);
@@ -298,6 +306,7 @@ class Tenant extends ActiveRecord implements DraftStatusAttributeInterface
         }
     }
 
+    #[\Override]
     public function attributeLabels(): array
     {
         return [
@@ -310,6 +319,7 @@ class Tenant extends ActiveRecord implements DraftStatusAttributeInterface
         ];
     }
 
+    #[\Override]
     public static function tableName(): string
     {
         return '{{%tenant}}';

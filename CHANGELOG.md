@@ -1,3 +1,7 @@
+## 1.4.0 (in development)
+
+- Enhanced `UrlManager` to support I18N URLs with tenant domains
+
 ## 1.3.3 (Dec 17, 2025)
 
 - Fixed `UrlManager::createUrl` with string parameters and draft domains

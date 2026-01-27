@@ -21,6 +21,7 @@ class TenantGridView extends GridView
 {
     use StatusGridViewTrait;
 
+    #[\Override]
     public function init(): void
     {
         if (!$this->columns) {
@@ -131,6 +132,7 @@ class TenantGridView extends GridView
         ];
     }
 
+    #[\Override]
     public function isSortedByPosition(): bool
     {
         return parent::isSortedByPosition() && $this->status === null;
