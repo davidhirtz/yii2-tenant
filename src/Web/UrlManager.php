@@ -103,7 +103,6 @@ class UrlManager extends \Hirtz\Skeleton\Web\UrlManager
         $this->setHostInfo($tenant->getHostInfo());
     }
 
-    #[Override]
     protected function setApplicationLanguage(Request $request): void
     {
         if ($this->tenant) {

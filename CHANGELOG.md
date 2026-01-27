@@ -2,6 +2,14 @@
 
 - Removed default tenant
 
+## 1.4.0 (Jan 27, 2026)
+
+- Enhanced `UrlManager` to support I18N URLs with tenant domains
+
+## 1.3.3 (Dec 17, 2025)
+
+- Fixed `UrlManager::createUrl` with string parameters and draft domains
+
 ## 1.3.2 (Dec 6, 2025)
 
 - Fixed redirect URL after deleting a tenant

@@ -108,10 +108,10 @@ class Tenant extends ActiveRecord implements DraftStatusAttributeInterface, Trai
     #[Override]
     public function beforeValidate(): bool
     {
+        $this->language ??= Yii::$app->language;
+
         $this->_hostInfo = null;
         $this->_pathInfo = null;
-
-        $this->language ??= Yii::$app->language;
 
         return parent::beforeValidate();
     }
