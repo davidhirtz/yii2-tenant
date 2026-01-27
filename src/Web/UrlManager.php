@@ -98,16 +98,13 @@ class UrlManager extends \Hirtz\Skeleton\Web\UrlManager
     public function setTenant(Tenant $tenant): void
     {
         $this->tenant = $tenant;
-        Yii::$app->language = $tenant->language;
-
         $this->setHostInfo($tenant->getHostInfo());
     }
 
     protected function setApplicationLanguage(Request $request): void
     {
         if ($this->tenant) {
-            Yii::$app->language = $this->tenant->language;
-            return;
+            $this->defaultLanguage = $this->tenant->language;
         }
 
         parent::setApplicationLanguage($request);
