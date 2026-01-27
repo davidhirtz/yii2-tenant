@@ -31,9 +31,6 @@
   "autoload": {
     "psr-4": {
       "davidhirtz\\yii2\\tenant\\": "src"
-    },
-    "platform": {
-      "php": "8.3"
     }
   },
   "autoload-dev": {
@@ -48,6 +45,9 @@
     "allow-plugins": {
       "yiisoft/yii2-composer": true,
       "phpro/grumphp-shim": true
+    },
+    "platform": {
+      "php": "8.3"
     }
   },
   "repositories": [

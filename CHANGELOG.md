@@ -1,4 +1,4 @@
-## 1.4.0 (in development)
+## 1.4.0 (Jan 27, 2026)
 
 - Enhanced `UrlManager` to support I18N URLs with tenant domains
 
