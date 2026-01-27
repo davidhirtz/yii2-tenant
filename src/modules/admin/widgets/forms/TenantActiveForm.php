@@ -10,6 +10,8 @@ use davidhirtz\yii2\skeleton\widgets\bootstrap\ActiveField;
 use davidhirtz\yii2\skeleton\widgets\bootstrap\ActiveForm;
 use davidhirtz\yii2\skeleton\widgets\forms\DynamicRangeDropdown;
 use davidhirtz\yii2\tenant\models\Tenant;
+use Override;
+use Yii;
 
 /**
  * @property Tenant $model
@@ -18,8 +20,11 @@ class TenantActiveForm extends ActiveForm
 {
     use ModelTimestampTrait;
     use StatusFieldTrait;
-    
-    #[\Override]
+
+    /**
+     * @see self::languageField()
+     */
+    #[Override]
     public function init(): void
     {
         $this->fields ??= [
@@ -36,10 +41,11 @@ class TenantActiveForm extends ActiveForm
 
     /**
      * @see Tenant::getLanguages()
-     * @noinspection PhpUnused
      */
     public function languageField(array $options = []): ActiveField|string
     {
-        return $this->field($this->model, 'language', $options)->widget(DynamicRangeDropdown::class);
+        return !Yii::$app->getUrlManager()->hasI18nUrls()
+            ? $this->field($this->model, 'language', $options)->widget(DynamicRangeDropdown::class)
+            : '';
     }
 }
