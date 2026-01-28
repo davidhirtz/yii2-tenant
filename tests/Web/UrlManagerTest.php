@@ -101,6 +101,8 @@ final class UrlManagerTest extends TestCase
 
     public function testTenantAsPath(): void
     {
+        Yii::$app->getI18n()->languages = ['de', 'en-US'];
+
         $manager = $this->getUrlManager();
         self::assertEquals('https://www.domain.localhost', $manager->getHostInfo());
 
@@ -114,8 +116,8 @@ final class UrlManagerTest extends TestCase
         $tenant = $this->getTenantFromFixture('enabled');
 
         self::assertEquals('https://www.domain.localhost', $manager->getHostInfo());
-        self::assertEquals('de', Yii::$app->language);
         self::assertEquals($tenant->id, $manager->tenant->id);
+        self::assertEquals('de', Yii::$app->language);
 
         $url = $manager->createAbsoluteUrl(['test']);
         self::assertEquals('https://www.domain.localhost/de/test', $url);
