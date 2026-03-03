@@ -87,7 +87,8 @@ class UrlManager extends \davidhirtz\yii2\skeleton\web\UrlManager
 
     protected function getTenantFromRequest(Request $request): Tenant
     {
-        $tenant = $this->getTenantFromUrl($request->getAbsoluteUrl());
+        $url = preg_replace('/[?#].*$/', '', $request->getAbsoluteUrl());
+        $tenant = $this->getTenantFromUrl($url);
 
         if ($tenant) {
             Yii::debug("Tenant found: $tenant->name", __METHOD__);

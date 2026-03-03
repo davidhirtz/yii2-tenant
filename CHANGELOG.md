@@ -1,3 +1,7 @@
+## 1.4.1 (Jan 27, 2026)
+
+- Fixed matching tenant domains with URLs containing query parameters
+
 ## 1.4.0 (Jan 27, 2026)
 
 - Enhanced `UrlManager` to support I18N URLs with tenant domains
