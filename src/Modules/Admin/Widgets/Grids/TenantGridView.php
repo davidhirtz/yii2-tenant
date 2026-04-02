@@ -9,6 +9,7 @@ use Hirtz\Skeleton\Helpers\Url;
 use Hirtz\Skeleton\Html\A;
 use Hirtz\Skeleton\Html\Div;
 use Hirtz\Skeleton\Widgets\Buttons\Button;
+use Hirtz\Skeleton\Widgets\Buttons\CreateButton;
 use Hirtz\Skeleton\Widgets\Grids\Columns\ButtonColumn;
 use Hirtz\Skeleton\Widgets\Grids\Columns\Buttons\DraggableSortGridButton;
 use Hirtz\Skeleton\Widgets\Grids\Columns\Buttons\ViewGridButton;
@@ -16,7 +17,6 @@ use Hirtz\Skeleton\Widgets\Grids\Columns\Column;
 use Hirtz\Skeleton\Widgets\Grids\Columns\DataColumn;
 use Hirtz\Skeleton\Widgets\Grids\Columns\RelativeTimeColumn;
 use Hirtz\Skeleton\Widgets\Grids\GridView;
-use Hirtz\Skeleton\Widgets\Grids\Toolbars\CreateButton;
 use Hirtz\Skeleton\Widgets\Grids\Traits\StatusGridViewTrait;
 use Hirtz\Tenant\Models\Tenant;
 use Hirtz\Tenant\Modules\Admin\Data\TenantActiveDataProvider;
@@ -125,11 +125,11 @@ class TenantGridView extends GridView
     /**
      * @see TenantController::actionCreate()
      */
-    protected function getCreateTenantButton(): ?Stringable
+    protected function getCreateTenantButton(): string|Stringable
     {
-        return Yii::$app->getUser()->can(Tenant::AUTH_TENANT_CREATE)
-            ? CreateButton::make()->text(Yii::t('tenant', 'TENANT_CREATE_BUTTON'))
-            : null;
+        return CreateButton::make()
+            ->roles([Tenant::AUTH_TENANT_CREATE])
+            ->text(Yii::t('tenant', 'TENANT_CREATE_BUTTON'));
     }
 
     #[Override]
