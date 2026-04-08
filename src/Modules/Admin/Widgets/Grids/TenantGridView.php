@@ -26,8 +26,6 @@ use Override;
 use Stringable;
 use Yii;
 
-;
-
 /**
  * @template T of Tenant
  * @extends GridView<T>
@@ -128,8 +126,8 @@ class TenantGridView extends GridView
     protected function getCreateTenantButton(): string|Stringable
     {
         return CreateButton::make()
-            ->roles([Tenant::AUTH_TENANT_CREATE])
-            ->text(Yii::t('tenant', 'TENANT_CREATE_BUTTON'));
+            ->label(Yii::t('tenant', 'TENANT_CREATE_BUTTON'))
+            ->roles([Tenant::AUTH_TENANT_CREATE]);
     }
 
     #[Override]
