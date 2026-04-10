@@ -6,6 +6,7 @@ namespace Hirtz\Tenant\Modules\Admin;
 
 use Hirtz\Skeleton\Modules\Admin\ModuleInterface;
 use Hirtz\Skeleton\Widgets\Navs\Nav;
+use Hirtz\Skeleton\Widgets\Panels\Dashboard;
 use Hirtz\Tenant\Modules\Admin\Widgets\Navs\TenantNavItem;
 use Override;
 use Yii;
@@ -17,9 +18,10 @@ class Module extends \Hirtz\Skeleton\Base\Module implements ModuleInterface
 {
     public $defaultRoute = 'tenant';
 
-    public function getDashboardPanels(): array
+    #[Override]
+    public function dashboard(Dashboard $dashboard): Dashboard
     {
-        return [];
+        return $dashboard;
     }
 
     public function getName(): string

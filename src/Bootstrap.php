@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Hirtz\Tenant;
 
+use Hirtz\Skeleton\Modules\Admin\Controllers\DashboardController;
 use Hirtz\Skeleton\Web\Application;
 use Hirtz\Skeleton\Web\UrlManager;
+use Hirtz\Tenant\Models\Tenant;
 use Hirtz\Tenant\Modules\Admin\Module;
 use Yii;
 use yii\base\BootstrapInterface;
@@ -36,6 +38,10 @@ class Bootstrap implements BootstrapInterface
                     'class' => Module::class
                 ],
             ],
+        ]);
+
+        DashboardController::addRoles([
+            Tenant::AUTH_TENANT_UPDATE,
         ]);
 
         $app->setMigrationNamespace('Hirtz\Tenant\Migrations');
