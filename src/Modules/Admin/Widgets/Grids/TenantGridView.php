@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Hirtz\Tenant\Modules\Admin\Widgets\Grids;
 
-use Hirtz\Skeleton\Helpers\Html;
 use Hirtz\Skeleton\Helpers\Url;
 use Hirtz\Skeleton\Html\A;
 use Hirtz\Skeleton\Html\Div;
@@ -17,6 +16,7 @@ use Hirtz\Skeleton\Widgets\Grids\Columns\Column;
 use Hirtz\Skeleton\Widgets\Grids\Columns\DataColumn;
 use Hirtz\Skeleton\Widgets\Grids\Columns\RelativeTimeColumn;
 use Hirtz\Skeleton\Widgets\Grids\GridView;
+use Hirtz\Skeleton\Widgets\Grids\Toolbars\GridSearchForm;
 use Hirtz\Skeleton\Widgets\Grids\Traits\StatusGridViewTrait;
 use Hirtz\Tenant\Models\Tenant;
 use Hirtz\Tenant\Modules\Admin\Data\TenantActiveDataProvider;
@@ -42,7 +42,7 @@ class TenantGridView extends GridView
 
         $this->header ??= [
             $this->getStatusDropdown(),
-            $this->search->getToolbarItem(),
+            GridSearchForm::make()->grid($this),
         ];
 
         $this->columns ??= [
@@ -68,7 +68,7 @@ class TenantGridView extends GridView
 
     protected function getNameColumnContent(Tenant $tenant): string
     {
-        $name = Html::markKeywords(Html::encode($tenant->name), $this->search->getKeywords());
+        $name = $this->search->markKeywords($tenant->name);
         $url = $tenant->getAbsoluteUrl();
 
         return A::make()
