@@ -6,19 +6,19 @@ namespace Hirtz\Tenant\Modules\Admin\Widgets\Navs;
 
 use Hirtz\Skeleton\Widgets\Navs\NavItem;
 use Hirtz\Skeleton\Widgets\Navs\Submenu;
-use Hirtz\Skeleton\Widgets\Traits\ModelWidgetTrait;
+use Hirtz\Skeleton\Widgets\Traits\ModelTrait;
 use Hirtz\Tenant\Models\Tenant;
+use Override;
 use Yii;
 
-/**
- * @template T of Tenant
- * @property T $tenant
- */
 class TenantSubmenu extends Submenu
 {
-    use ModelWidgetTrait;
+    /**
+     * @use ModelTrait<Tenant>
+     */
+    use ModelTrait;
 
-    #[\Override]
+    #[Override]
     protected function configure(): void
     {
         $this->title ??= Yii::t('tenant', 'TENANT_NAME_PLURAL');
