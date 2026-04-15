@@ -38,8 +38,6 @@ class TenantGridView extends GridView
     #[Override]
     protected function configure(): void
     {
-        $this->model ??= Tenant::instance();
-
         $this->header ??= [
             $this->getStatusDropdown(),
             GridSearchForm::make()->grid($this),
