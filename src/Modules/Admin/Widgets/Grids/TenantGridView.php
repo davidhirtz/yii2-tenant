@@ -13,7 +13,7 @@ use Hirtz\Skeleton\Widgets\Grids\Columns\ButtonColumn;
 use Hirtz\Skeleton\Widgets\Grids\Columns\Buttons\DraggableSortGridButton;
 use Hirtz\Skeleton\Widgets\Grids\Columns\Buttons\ViewGridButton;
 use Hirtz\Skeleton\Widgets\Grids\Columns\Column;
-use Hirtz\Skeleton\Widgets\Grids\Columns\DataColumn;
+use Hirtz\Skeleton\Widgets\Grids\Columns\PropertyColumn;
 use Hirtz\Skeleton\Widgets\Grids\Columns\RelativeTimeColumn;
 use Hirtz\Skeleton\Widgets\Grids\GridView;
 use Hirtz\Skeleton\Widgets\Grids\Toolbars\GridSearchForm;
@@ -27,9 +27,8 @@ use Stringable;
 use Yii;
 
 /**
- * @template T of Tenant
- * @extends GridView<T>
- * @property TenantActiveDataProvider $provider
+ * @template T of TenantActiveDataProvider
+ * @property T $provider
  */
 class TenantGridView extends GridView
 {
@@ -59,7 +58,7 @@ class TenantGridView extends GridView
 
     protected function getNameColumn(): ?Column
     {
-        return DataColumn::make()
+        return PropertyColumn::make()
             ->property('name')
             ->content($this->getNameColumnContent(...));
     }
