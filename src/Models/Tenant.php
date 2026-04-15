@@ -230,7 +230,7 @@ class Tenant extends ActiveRecord implements DraftStatusAttributeInterface, Trai
      */
     public function getAdminRoute(): array
     {
-        return ['/admin/tenant/update', 'id' => $this->id];
+        return $this->id ? ['/admin/tenant/tenant/update', 'id' => $this->id] : ['/admin/tenant/tenant/index'];
     }
 
     public function getCookieDomain(): string
