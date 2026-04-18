@@ -15,9 +15,9 @@ use Hirtz\Skeleton\Widgets\Grids\Columns\Buttons\ViewGridButton;
 use Hirtz\Skeleton\Widgets\Grids\Columns\Column;
 use Hirtz\Skeleton\Widgets\Grids\Columns\DataColumn;
 use Hirtz\Skeleton\Widgets\Grids\Columns\RelativeTimeColumn;
+use Hirtz\Skeleton\Widgets\Grids\Columns\StatusIconColumn;
 use Hirtz\Skeleton\Widgets\Grids\GridView;
-use Hirtz\Skeleton\Widgets\Grids\Toolbars\GridSearchForm;
-use Hirtz\Skeleton\Widgets\Grids\Traits\StatusGridViewTrait;
+use Hirtz\Skeleton\Widgets\Grids\Toolbars\StatusFilterDropdown;
 use Hirtz\Tenant\Models\Tenant;
 use Hirtz\Tenant\Modules\Admin\Data\TenantActiveDataProvider;
 use Hirtz\Tenant\Web\UrlManager;
@@ -32,8 +32,6 @@ use Yii;
  */
 class TenantGridView extends GridView
 {
-    use StatusGridViewTrait;
-
     #[Override]
     protected function configure(): void
     {
@@ -56,9 +54,15 @@ class TenantGridView extends GridView
         parent::configure();
     }
 
-    protected function getStatusDropdownItems(): array
+    protected function getStatusDropdown(): ?Stringable
     {
-        return Tenant::instance()::getStatuses();
+        return StatusFilterDropdown::make()
+            ->model(Tenant::instance());
+    }
+
+    protected function getStatusColumn(): ?Column
+    {
+        return StatusIconColumn::make();
     }
 
     protected function getNameColumn(): ?Column
