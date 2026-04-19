@@ -9,18 +9,15 @@ declare(strict_types=1);
  * @var Tenant $tenant
  */
 
-use Hirtz\Skeleton\Helpers\Html;
 use Hirtz\Skeleton\Web\View;
 use Hirtz\Skeleton\Widgets\Forms\FormContainer;
 use Hirtz\Tenant\Models\Tenant;
 use Hirtz\Tenant\Modules\Admin\Controllers\TenantController;
 use Hirtz\Tenant\Modules\Admin\Widgets\Forms\TenantActiveForm;
-use Hirtz\Tenant\Modules\Admin\Widgets\Navs\TenantSubmenu;
+use Hirtz\Tenant\Modules\Admin\Widgets\Navs\TenantHeader;
 
-$this->title(Yii::t('tenant', 'TENANT_TITLE_CREATE'));
-
-echo TenantSubmenu::make()
-    ->model($tenant);
+echo TenantHeader::make()
+    ->title(Yii::t('tenant', 'TENANT_TITLE_CREATE'));
 
 echo FormContainer::make()
     ->title(Yii::t('tenant', 'TENANT_TITLE_CREATE'))

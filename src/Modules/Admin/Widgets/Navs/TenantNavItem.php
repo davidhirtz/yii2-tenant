@@ -16,6 +16,7 @@ class TenantNavItem extends NavItem
         $this->label ??= Yii::t('tenant', 'TENANT_NAME_PLURAL');
         $this->order ??= 80;
         $this->roles ??= [Tenant::AUTH_TENANT_CREATE, Tenant::AUTH_TENANT_UPDATE];
+        $this->routes =  ['admin/tenant'];
         $this->url ??= ['/admin/tenant/tenant/index'];
 
         parent::__construct($config);

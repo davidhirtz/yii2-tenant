@@ -47,10 +47,6 @@ class TenantGridView extends GridView
             $this->getButtonColumn(),
         ];
 
-        $this->footer ??= [
-            $this->getCreateTenantButton(),
-        ];
-
         parent::configure();
     }
 
@@ -122,18 +118,9 @@ class TenantGridView extends GridView
         }
 
         if (Yii::$app->getUser()->can(Tenant::AUTH_TENANT_UPDATE, ['tenant' => $tenant])) {
-            yield ViewGridButton::make();
+            yield ViewGridButton::make()
+                ->model($tenant);
         }
-    }
-
-    /**
-     * @see TenantController::actionCreate()
-     */
-    protected function getCreateTenantButton(): string|Stringable
-    {
-        return CreateButton::make()
-            ->label(Yii::t('tenant', 'TENANT_CREATE_BUTTON'))
-            ->roles([Tenant::AUTH_TENANT_CREATE]);
     }
 
     #[Override]
