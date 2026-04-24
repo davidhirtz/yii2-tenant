@@ -110,7 +110,7 @@ class TenantGridView extends GridView
                 ->secondary()
                 ->icon('toggle-on')
                 ->tooltip(Yii::t('tenant', 'TENANT_SWITCH_ADMIN_BUTTON'))
-                ->href(Url::current(['tenant' => $tenant]));
+                ->url(Url::current(['tenant' => $tenant]));
         }
 
         if ($this->isSortable()) {
