@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Hirtz\Tenant\Models;
 
+use Hirtz\Skeleton\I18n\Lang;
 use davidhirtz\yii2\datetime\DateTime;
 use davidhirtz\yii2\datetime\DateTimeBehavior;
 use Hirtz\Skeleton\Behaviors\BlameableBehavior;
@@ -151,7 +152,7 @@ class Tenant extends ActiveRecord implements DraftStatusAttributeInterface, Trai
                 || is_dir($path)
                 || is_file($path)
             ) {
-                $this->addError('url', Yii::t('tenant', 'TENANT_ERROR_PATH_PROTECTED', [
+                $this->addError('url', Lang::t('tenant', 'TENANT_ERROR_PATH_PROTECTED', [
                     'path' => $param,
                 ]));
             }
@@ -188,14 +189,14 @@ class Tenant extends ActiveRecord implements DraftStatusAttributeInterface, Trai
     {
         if (!parent::beforeDelete()) {
             if (!$this->hasErrors()) {
-                $this->addError('id', Yii::t('tenant', 'TENANT_ERROR_DELETE_RELATION'));
+                $this->addError('id', Lang::t('tenant', 'TENANT_ERROR_DELETE_RELATION'));
             }
 
             return false;
         }
 
         if (self::find()->count() === 1) {
-            $this->addError('id', Yii::t('tenant', 'TENANT_ERROR_DELETE_LAST'));
+            $this->addError('id', Lang::t('tenant', 'TENANT_ERROR_DELETE_LAST'));
             return false;
         }
 
@@ -282,7 +283,7 @@ class Tenant extends ActiveRecord implements DraftStatusAttributeInterface, Trai
 
     public function getTrailModelType(): string
     {
-        return Yii::t('tenant', 'TENANT_NAME');
+        return Lang::t('tenant', 'TENANT_NAME');
     }
 
     /**
@@ -317,11 +318,11 @@ class Tenant extends ActiveRecord implements DraftStatusAttributeInterface, Trai
     {
         return [
             ...parent::attributeLabels(),
-            'name' => Yii::t('tenant', 'TENANT_LABEL_NAME'),
-            'url' => Yii::t('tenant', 'TENANT_LABEL_URL'),
-            'language' => Yii::t('tenant', 'TENANT_LABEL_LANGUAGE'),
-            'cookie_domain' => Yii::t('tenant', 'TENANT_LABEL_COOKIE_DOMAIN'),
-            'position' => Yii::t('tenant', 'TENANT_LABEL_POSITION'),
+            'name' => Lang::t('tenant', 'TENANT_LABEL_NAME'),
+            'url' => Lang::t('tenant', 'TENANT_LABEL_URL'),
+            'language' => Lang::t('tenant', 'TENANT_LABEL_LANGUAGE'),
+            'cookie_domain' => Lang::t('tenant', 'TENANT_LABEL_COOKIE_DOMAIN'),
+            'position' => Lang::t('tenant', 'TENANT_LABEL_POSITION'),
         ];
     }
 

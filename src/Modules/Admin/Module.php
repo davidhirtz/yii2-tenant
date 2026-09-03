@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Hirtz\Tenant\Modules\Admin;
 
+use Hirtz\Skeleton\I18n\Lang;
 use Hirtz\Skeleton\Modules\Admin\ModuleInterface;
 use Hirtz\Skeleton\Widgets\Navs\Nav;
 use Hirtz\Skeleton\Widgets\Panels\Dashboard;
@@ -26,7 +27,7 @@ class Module extends \Hirtz\Skeleton\Base\Module implements ModuleInterface
 
     public function getName(): string
     {
-        return Yii::t('tenant', 'TENANT_NAME_PLURAL');
+        return Lang::t('tenant', 'TENANT_NAME_PLURAL');
     }
 
     #[Override]

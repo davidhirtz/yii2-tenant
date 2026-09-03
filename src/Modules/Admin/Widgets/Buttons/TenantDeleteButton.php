@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Hirtz\Tenant\Modules\Admin\Widgets\Buttons;
 
+use Hirtz\Skeleton\I18n\Lang;
 use Hirtz\Skeleton\Widgets\Buttons\DeleteButton;
 use Hirtz\Skeleton\Widgets\Traits\ModelTrait;
 use Hirtz\Tenant\Models\Tenant;
@@ -32,7 +33,7 @@ class TenantDeleteButton extends DeleteButton
     protected function configure(): void
     {
         $this->property ??= 'name';
-        $this->title ??= Yii::t('tenant', 'TENANT_TITLE_DELETE');
+        $this->title ??= Lang::t('tenant', 'TENANT_TITLE_DELETE');
 
         parent::configure();
     }

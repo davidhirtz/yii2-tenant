@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Hirtz\Tenant\Migrations;
 
+use Hirtz\Skeleton\I18n\Lang;
 use Hirtz\Skeleton\Db\Traits\MigrationTrait;
 use Hirtz\Skeleton\Models\User;
 use Hirtz\Tenant\Models\Tenant;
@@ -24,20 +25,20 @@ class M240905060625Roles extends Migration
         $admin = $auth->getRole(User::AUTH_ROLE_ADMIN);
 
         $tenantUpdate = $auth->createPermission(Tenant::AUTH_TENANT_UPDATE);
-        $tenantUpdate->description = Yii::t('tenant', 'TENANT_AUTH_UPDATE', [], Yii::$app->sourceLanguage);
+        $tenantUpdate->description = Lang::t('tenant', 'TENANT_AUTH_UPDATE', [], Yii::$app->sourceLanguage);
         $auth->add($tenantUpdate);
 
         $auth->addChild($admin, $tenantUpdate);
 
         $tenantCreate = $auth->createPermission(Tenant::AUTH_TENANT_CREATE);
-        $tenantCreate->description = Yii::t('tenant', 'TENANT_AUTH_CREATE', [], Yii::$app->sourceLanguage);
+        $tenantCreate->description = Lang::t('tenant', 'TENANT_AUTH_CREATE', [], Yii::$app->sourceLanguage);
         $auth->add($tenantCreate);
 
         $auth->addChild($admin, $tenantCreate);
         $auth->addChild($tenantUpdate, $tenantCreate);
 
         $tenantDelete = $auth->createPermission(Tenant::AUTH_TENANT_DELETE);
-        $tenantDelete->description = Yii::t('tenant', 'TENANT_AUTH_DELETE', [], Yii::$app->sourceLanguage);
+        $tenantDelete->description = Lang::t('tenant', 'TENANT_AUTH_DELETE', [], Yii::$app->sourceLanguage);
         $auth->add($tenantDelete);
 
         $auth->addChild($admin, $tenantDelete);

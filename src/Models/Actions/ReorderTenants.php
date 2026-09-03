@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Hirtz\Tenant\Models\Actions;
 
+use Hirtz\Skeleton\I18n\Lang;
 use Hirtz\Skeleton\Models\Actions\ReorderActiveRecords;
 use Hirtz\Skeleton\Models\Trail;
 use Hirtz\Tenant\Models\Collections\TenantCollection;
@@ -30,7 +31,7 @@ class ReorderTenants extends ReorderActiveRecords
 
     protected function afterReorder(): void
     {
-        Trail::createOrderTrail(null, Yii::t('tenant', 'TENANT_TRAIL_REORDERED'));
+        Trail::createOrderTrail(null, Lang::t('tenant', 'TENANT_TRAIL_REORDERED'));
         TenantCollection::invalidateCache();
 
         parent::afterReorder();
