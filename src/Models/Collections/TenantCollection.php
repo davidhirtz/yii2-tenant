@@ -63,7 +63,7 @@ class TenantCollection
 
     public static function getFromRequest(): ?Tenant
     {
-        $tenantId = Yii::$app->getRequest()->get('tenant');
+        $tenantId = Yii::$app->getRequest()->get('tenant', '');
         return static::getAll()[$tenantId] ?? null;
     }
 
