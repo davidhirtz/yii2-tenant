@@ -25,6 +25,7 @@ class TenantDeleteButton extends DeleteButton
     public function isVisible(): bool
     {
         return parent::isVisible()
+            && $this->model instanceof Tenant
             && $this->model->isDeletable()
             && $this->webuser->can(Tenant::AUTH_TENANT_DELETE, ['tenant' => $this->model]);
     }
