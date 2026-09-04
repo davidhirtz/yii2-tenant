@@ -7,7 +7,6 @@ namespace Hirtz\Tenant\Modules\Admin\Widgets\Navs;
 use Hirtz\Skeleton\I18n\Lang;
 use Hirtz\Skeleton\Widgets\Navs\NavItem;
 use Hirtz\Tenant\Models\Tenant;
-use Yii;
 
 class TenantNavItem extends NavItem
 {
