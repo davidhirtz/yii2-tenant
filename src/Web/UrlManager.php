@@ -101,13 +101,14 @@ class UrlManager extends \Hirtz\Skeleton\Web\UrlManager
         $this->setHostInfo($tenant->getHostInfo());
     }
 
-    protected function setApplicationLanguage(Request $request): void
+    #[Override]
+    protected function setLanguage(Request $request): void
     {
         if ($this->tenant) {
             $this->defaultLanguage = $this->tenant->language;
         }
 
-        parent::setApplicationLanguage($request);
+        parent::setLanguage($request);
     }
 
     protected function setCookieDomain(string $domain): void
