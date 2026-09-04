@@ -19,6 +19,7 @@ return [
     'TENANT_LABEL_URL' => 'URL',
     'TENANT_NAME' => 'Mandant',
     'TENANT_NAME_PLURAL' => 'Mandanten',
+    'TENANT_PROMPT_LANGUAGE' => 'Vom Browser erkennen',
     'TENANT_SUCCESS_CREATED' => 'Der Mandant wurde erfolgreich erstellt.',
     'TENANT_SUCCESS_DELETED' => 'Der Mandant wurde erfolgreich gelöscht.',
     'TENANT_SUCCESS_UPDATED' => 'Der Mandant wurde erfolgreich aktualisiert.',

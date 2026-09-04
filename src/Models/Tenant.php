@@ -28,7 +28,7 @@ use Yii;
  * @property string $name
  * @property string $url
  * @property string|null $cookie_domain
- * @property string $language
+ * @property string|null $language
  * @property int|false $position
  * @property int $updated_by_user_id
  * @property DateTime $updated_at
@@ -65,7 +65,7 @@ class Tenant extends ActiveRecord implements DraftStatusAttributeInterface, Trai
         return [
             ...parent::rules(),
             [
-                ['status', 'name', 'language', 'url'],
+                ['status', 'name', 'url'],
                 'required',
             ],
             [
@@ -100,6 +100,10 @@ class Tenant extends ActiveRecord implements DraftStatusAttributeInterface, Trai
             ],
             [
                 ['language'],
+                'default',
+            ],
+            [
+                ['language'],
                 DynamicRangeValidator::class,
                 'integerOnly' => false,
             ],
@@ -109,8 +113,6 @@ class Tenant extends ActiveRecord implements DraftStatusAttributeInterface, Trai
     #[Override]
     public function beforeValidate(): bool
     {
-        $this->language ??= Yii::$app->language;
-
         $this->_hostInfo = null;
         $this->_pathInfo = null;
 

@@ -19,6 +19,7 @@ return [
     'TENANT_LABEL_URL' => 'URL',
     'TENANT_NAME' => 'Tenant',
     'TENANT_NAME_PLURAL' => 'Tenants',
+    'TENANT_PROMPT_LANGUAGE' => 'Detect from browser',
     'TENANT_SUCCESS_CREATED' => 'Tenant has been created.',
     'TENANT_SUCCESS_DELETED' => 'Tenant has been deleted.',
     'TENANT_SUCCESS_UPDATED' => 'Tenant has been updated.',

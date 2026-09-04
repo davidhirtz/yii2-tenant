@@ -70,6 +70,18 @@ final class TenantModelTest extends TestCase
         self::assertArrayHasKey('language', $tenant->getErrors());
     }
 
+    public function testLanguageIsOptional(): void
+    {
+        Yii::$app->getI18n()->setLanguages(['en-US', 'de']);
+
+        $tenant = $this->createTenant();
+        $tenant->url = 'https://www.no-language.localhost';
+        $tenant->language = '';
+
+        self::assertTrue($tenant->validate());
+        self::assertNull($tenant->language);
+    }
+
     public function testCookieDomainValidation(): void
     {
         $tenant = $this->createTenant();

@@ -1,5 +1,8 @@
 ## 3.0.0 (in development)
 
+- Changed `Tenant::$language` to be nullable; leave it empty to detect the language from the browser via
+  `Request::getPreferredLanguage()` instead of forcing a fixed tenant language (migration `NullableLanguage`)
+- Renamed `UrlManager::setApplicationLanguage()` override to `UrlManager::setLanguage()`
 - Removed default tenant
 
 ## 1.4.0 (Jan 27, 2026)

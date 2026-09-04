@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Hirtz\Tenant\Modules\Admin\Widgets\Forms;
 
+use Hirtz\Skeleton\I18n\Lang;
 use Hirtz\Skeleton\Widgets\Forms\ActiveForm;
 use Hirtz\Skeleton\Widgets\Forms\Fields\Field;
 use Hirtz\Skeleton\Widgets\Forms\Fields\InputField;
@@ -49,7 +50,8 @@ class TenantActiveForm extends ActiveForm
     protected function getLanguageField(): ?Field
     {
         return SelectField::make()
-            ->property('language');
+            ->property('language')
+            ->prompt(Lang::t('tenant', 'TENANT_PROMPT_LANGUAGE'));
     }
 
     protected function getCookieDomainField(): ?Field
