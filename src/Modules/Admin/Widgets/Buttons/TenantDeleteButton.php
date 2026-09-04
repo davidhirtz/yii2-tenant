@@ -6,7 +6,6 @@ namespace Hirtz\Tenant\Modules\Admin\Widgets\Buttons;
 
 use Hirtz\Skeleton\I18n\Lang;
 use Hirtz\Skeleton\Widgets\Buttons\DeleteButton;
-use Hirtz\Skeleton\Widgets\Traits\ModelTrait;
 use Hirtz\Tenant\Models\Tenant;
 use Hirtz\Tenant\Modules\Admin\Controllers\TenantController;
 use Override;
@@ -14,18 +13,14 @@ use Yii;
 
 /**
  * @see TenantController::actionDelete()
+ *
+ * @extends DeleteButton<Tenant>
  */
 class TenantDeleteButton extends DeleteButton
 {
-    /**
-     * @use ModelTrait<Tenant>
-     */
-    use ModelTrait;
-
     public function isVisible(): bool
     {
         return parent::isVisible()
-            && $this->model instanceof Tenant
             && $this->model->isDeletable()
             && $this->webuser->can(Tenant::AUTH_TENANT_DELETE, ['tenant' => $this->model]);
     }
