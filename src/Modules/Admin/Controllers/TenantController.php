@@ -7,6 +7,7 @@ namespace Hirtz\Tenant\Modules\Admin\Controllers;
 use Hirtz\Skeleton\I18n\Lang;
 use Hirtz\Skeleton\Models\Forms\DeleteForm;
 use Hirtz\Skeleton\Web\Controller;
+use Hirtz\Skeleton\Widgets\Flashes;
 use Hirtz\Tenant\Models\Actions\ReorderTenants;
 use Hirtz\Tenant\Models\Collections\TenantCollection;
 use Hirtz\Tenant\Models\Tenant;
@@ -117,8 +118,14 @@ class TenantController extends Controller
     /**
      * @noinspection PhpUnused
      */
-    public function actionOrder(): void
+    public function actionOrder(): string
     {
-        ReorderTenants::runWithBodyParam('tenant');
+        $success = ReorderTenants::runWithBodyParam('tenant');
+
+        if ($success) {
+            $this->success(Lang::t('tenant', 'TENANT_SUCCESS_ORDERED'));
+        }
+
+        return (string) Flashes::make();
     }
 }

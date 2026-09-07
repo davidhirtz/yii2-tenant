@@ -22,6 +22,7 @@ return [
     'TENANT_PROMPT_LANGUAGE' => '',
     'TENANT_SUCCESS_CREATED' => 'Tenant has been created.',
     'TENANT_SUCCESS_DELETED' => 'Tenant has been deleted.',
+    'TENANT_SUCCESS_ORDERED' => '',
     'TENANT_SUCCESS_UPDATED' => 'Tenant has been updated.',
     'TENANT_SWITCH_ADMIN_BUTTON' => 'Switch to tenant',
     'TENANT_TITLE_CREATE' => 'Create New Tenant',

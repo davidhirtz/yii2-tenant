@@ -1,5 +1,7 @@
 ## 3.0.0 (in development)
 
+- `TenantController::actionOrder()` now returns a flash fragment (was `void`) and emits a success flash
+  after a reorder; added the `TENANT_SUCCESS_ORDERED` message
 - Changed `Tenant::$language` to be nullable; leave it empty to detect the language from the browser via
   `Request::getPreferredLanguage()` instead of forcing a fixed tenant language (migration `NullableLanguage`)
 - Renamed `UrlManager::setApplicationLanguage()` override to `UrlManager::setLanguage()`

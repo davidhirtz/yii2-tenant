@@ -22,6 +22,7 @@ return [
     'TENANT_PROMPT_LANGUAGE' => 'Vom Browser erkennen',
     'TENANT_SUCCESS_CREATED' => 'Der Mandant wurde erfolgreich erstellt.',
     'TENANT_SUCCESS_DELETED' => 'Der Mandant wurde erfolgreich gelöscht.',
+    'TENANT_SUCCESS_ORDERED' => 'Die Reihenfolge der Mandanten wurde erfolgreich geändert.',
     'TENANT_SUCCESS_UPDATED' => 'Der Mandant wurde erfolgreich aktualisiert.',
     'TENANT_SWITCH_ADMIN_BUTTON' => 'Zu Mandant wechseln',
     'TENANT_TITLE_CREATE' => 'Neuen Mandant erstellen',
