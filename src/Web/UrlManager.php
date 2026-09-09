@@ -147,4 +147,12 @@ class UrlManager extends \Hirtz\Skeleton\Web\UrlManager
 
         return $this->tenant;
     }
+
+    #[Override]
+    public function getDraftHostInfo(): string
+    {
+        return $this->draftSubdomain
+            ? $this->replaceSubdomain($this->draftSubdomain, $this->tenant->getHostInfo())
+            : $this->tenant->getHostInfo();
+    }
 }
