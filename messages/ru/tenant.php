@@ -25,7 +25,7 @@ return [
     'TENANT_SUCCESS_ORDERED' => '',
     'TENANT_SUCCESS_UPDATED' => 'Tenant has been updated.',
     'TENANT_SWITCH_ADMIN_BUTTON' => 'Switch to tenant',
-    'TENANT_TITLE_CREATE' => 'Create New Tenant',
+    'TENANT_CREATE_TITLE' => 'Create New Tenant',
     'TENANT_TITLE_DELETE' => 'Delete Tenant',
     'TENANT_TITLE_UPDATE' => 'Update Tenant',
     'TENANT_TRAIL_REORDERED' => 'Tenant order has been changed.',

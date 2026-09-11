@@ -17,9 +17,8 @@ use Hirtz\Tenant\Modules\Admin\Widgets\Forms\TenantActiveForm;
 use Hirtz\Tenant\Modules\Admin\Widgets\Navs\TenantHeader;
 
 echo TenantHeader::make()
-    ->title(Yii::t('tenant', 'TENANT_TITLE_CREATE'));
+    ->title(Yii::t('tenant', 'TENANT_CREATE_TITLE'));
 
 echo FormContainer::make()
-    ->title(Yii::t('tenant', 'TENANT_TITLE_CREATE'))
     ->form(TenantActiveForm::make()
         ->model($tenant));

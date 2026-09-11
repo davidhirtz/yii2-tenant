@@ -20,6 +20,5 @@ echo TenantHeader::make()
     ->model($tenant);
 
 echo FormContainer::make()
-    ->title(Yii::t('tenant', 'TENANT_TITLE_UPDATE'))
     ->form(TenantActiveForm::make()
         ->model($tenant));

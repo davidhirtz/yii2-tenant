@@ -25,7 +25,7 @@ return [
     'TENANT_SUCCESS_ORDERED' => 'Die Reihenfolge der Mandanten wurde erfolgreich geändert.',
     'TENANT_SUCCESS_UPDATED' => 'Der Mandant wurde erfolgreich aktualisiert.',
     'TENANT_SWITCH_ADMIN_BUTTON' => 'Zu Mandant wechseln',
-    'TENANT_TITLE_CREATE' => 'Neuen Mandant erstellen',
+    'TENANT_CREATE_TITLE' => 'Neuen Mandant erstellen',
     'TENANT_TITLE_DELETE' => 'Mandant löschen',
     'TENANT_TITLE_UPDATE' => 'Mandant bearbeiten',
     'TENANT_TRAIL_REORDERED' => 'Mandanten-Reihenfolge wurde geändert.',
