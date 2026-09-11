@@ -20,10 +20,8 @@ final class TenantRelationTest extends TestCase
     use TenantFixtureTrait;
 
     #[Override]
-    protected function setUp(): void
+    protected function setUpSchema(): void
     {
-        parent::setUp();
-
         Yii::$app->getDb()->createCommand()->createTable(TestModel::tableName(), [
             'id' => 'pk auto_increment',
             'tenant_id' => 'integer unsigned NOT NULL',
@@ -40,10 +38,9 @@ final class TenantRelationTest extends TestCase
     }
 
     #[Override]
-    protected function tearDown(): void
+    protected function tearDownSchema(): void
     {
         Yii::$app->getDb()->createCommand()->dropTable('test')->execute();
-        parent::tearDown();
     }
 
     public function testRelationMethods(): TestModel
