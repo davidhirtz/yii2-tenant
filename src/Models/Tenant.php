@@ -11,6 +11,7 @@ use Hirtz\Skeleton\Behaviors\BlameableBehavior;
 use Hirtz\Skeleton\Behaviors\TimestampBehavior;
 use Hirtz\Skeleton\Behaviors\TrailBehavior;
 use Hirtz\Skeleton\Db\ActiveRecord;
+use Hirtz\Skeleton\Models\Interfaces\AdminRouteInterface;
 use Hirtz\Skeleton\Models\Interfaces\CustomAttributeInterface;
 use Hirtz\Skeleton\Models\Interfaces\DraftStatusAttributeInterface;
 use Hirtz\Skeleton\Models\Interfaces\TrailModelInterface;
@@ -37,6 +38,7 @@ use Yii;
  * @property DateTime $created_at
  */
 class Tenant extends ActiveRecord implements
+    AdminRouteInterface,
     CustomAttributeInterface,
     DraftStatusAttributeInterface,
     TrailModelInterface
@@ -293,14 +295,6 @@ class Tenant extends ActiveRecord implements
     public function getTrailModelType(): string
     {
         return Lang::t('tenant', 'TENANT_NAME');
-    }
-
-    /**
-     * @noinspection PhpUnused
-     */
-    public function getTrailModelAdminRoute(): array|false
-    {
-        return $this->getAdminRoute();
     }
 
     public static function getLanguages(): array

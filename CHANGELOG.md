@@ -1,5 +1,7 @@
 ## 3.0.0 (in development)
 
+- `Models\Tenant` implements the skeleton `Models\Interfaces\AdminRouteInterface` and dropped its
+  `getTrailModelAdminRoute()`
 - `Models\Tenant` implements `CustomAttributeInterface`. Added the `custom_attributes` column to `tenant`, excluded
   from the trail. `Tenant` has no `type`, so a project declares its definitions by overriding `getCustomAttributes()`
 - `TenantActiveForm` renders the custom attribute fields and `TenantController` guards its save with
