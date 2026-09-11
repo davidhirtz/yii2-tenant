@@ -9,6 +9,7 @@ use Hirtz\Skeleton\Widgets\Forms\ActiveForm;
 use Hirtz\Skeleton\Widgets\Forms\Fields\Field;
 use Hirtz\Skeleton\Widgets\Forms\Fields\InputField;
 use Hirtz\Skeleton\Widgets\Forms\Fields\SelectField;
+use Hirtz\Skeleton\Widgets\Forms\Traits\CustomAttributeFieldsTrait;
 use Hirtz\Tenant\Models\Tenant;
 
 /**
@@ -17,6 +18,7 @@ use Hirtz\Tenant\Models\Tenant;
  */
 class TenantActiveForm extends ActiveForm
 {
+    use CustomAttributeFieldsTrait;
     #[\Override]
     protected function configure(): void
     {
@@ -25,6 +27,7 @@ class TenantActiveForm extends ActiveForm
                 $this->getStatusField(),
                 $this->getNameField(),
                 $this->getLanguageField(),
+                ...$this->getCustomAttributeFields(),
             ],
             [
                 $this->getUrlField(),

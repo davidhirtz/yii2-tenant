@@ -75,7 +75,7 @@ class TenantController extends Controller
         $tenant = Tenant::create();
         $tenant->loadDefaultValues();
 
-        if ($tenant->load($this->request->post()) && $tenant->insert()) {
+        if ($tenant->load($this->request->post()) && !$this->request->isFormReload() && $tenant->insert()) {
             $this->success(Lang::t('tenant', 'TENANT_SUCCESS_CREATED'));
             return $this->redirect($tenant->getAdminRoute());
         }
@@ -91,7 +91,7 @@ class TenantController extends Controller
     {
         $tenant = $this->findTenant($id, Tenant::AUTH_TENANT_UPDATE);
 
-        if ($tenant->load($this->request->post()) && $tenant->update()) {
+        if ($tenant->load($this->request->post()) && !$this->request->isFormReload() && $tenant->update()) {
             $this->success(Lang::t('tenant', 'TENANT_SUCCESS_UPDATED'));
             return $this->redirect($tenant->getAdminRoute());
         }

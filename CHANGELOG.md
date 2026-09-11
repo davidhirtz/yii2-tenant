@@ -1,5 +1,10 @@
 ## 3.0.0 (in development)
 
+- `Models\Tenant` implements `CustomAttributeInterface`. Added the `custom_attributes` column to `tenant`, excluded
+  from the trail. `Tenant` has no `type`, so a project declares its definitions by overriding `getCustomAttributes()`
+- `TenantActiveForm` renders the custom attribute fields and `TenantController` guards its save with
+  `Request::isFormReload()`
+
 - `TenantController::actionOrder()` now returns a flash fragment (was `void`) and emits a success flash
   after a reorder; added the `TENANT_SUCCESS_ORDERED` message
 - Changed `Tenant::$language` to be nullable; leave it empty to detect the language from the browser via

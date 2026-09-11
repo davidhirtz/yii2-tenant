@@ -11,8 +11,10 @@ use Hirtz\Skeleton\Behaviors\BlameableBehavior;
 use Hirtz\Skeleton\Behaviors\TimestampBehavior;
 use Hirtz\Skeleton\Behaviors\TrailBehavior;
 use Hirtz\Skeleton\Db\ActiveRecord;
+use Hirtz\Skeleton\Models\Interfaces\CustomAttributeInterface;
 use Hirtz\Skeleton\Models\Interfaces\DraftStatusAttributeInterface;
 use Hirtz\Skeleton\Models\Interfaces\TrailModelInterface;
+use Hirtz\Skeleton\Models\Traits\CustomAttributesTrait;
 use Hirtz\Skeleton\Models\Traits\DraftStatusAttributeTrait;
 use Hirtz\Skeleton\Models\Traits\TrailModelTrait;
 use Hirtz\Skeleton\Models\Traits\UpdatedByUserTrait;
@@ -34,8 +36,12 @@ use Yii;
  * @property DateTime $updated_at
  * @property DateTime $created_at
  */
-class Tenant extends ActiveRecord implements DraftStatusAttributeInterface, TrailModelInterface
+class Tenant extends ActiveRecord implements
+    CustomAttributeInterface,
+    DraftStatusAttributeInterface,
+    TrailModelInterface
 {
+    use CustomAttributesTrait;
     use DraftStatusAttributeTrait;
     use TrailModelTrait;
     use UpdatedByUserTrait;
@@ -268,6 +274,7 @@ class Tenant extends ActiveRecord implements DraftStatusAttributeInterface, Trai
     public function getTrailAttributes(): array
     {
         return array_diff($this->attributes(), [
+            $this->getCustomAttributesColumn(),
             'position',
             'updated_by_user_id',
             'updated_at',
