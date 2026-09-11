@@ -1,5 +1,15 @@
 ## 3.0.0 (in development)
 
+- Added `Module`, registered as the application module `tenant`, with `$enableAdminModule`. Set it to `false`
+  and the admin module and its dashboard roles are not registered at all, so the routes 404 instead of a hidden
+  nav item covering a live controller. Added `Modules\ModuleTrait` with the static `getModule()`
+- `Filters\PageCache` moved here from `yii2-cms-tenant` and `Bootstrap` maps the skeleton `Filters\PageCache`
+  to it, the way it maps the URL manager. The sitemap `variations` callback is registered here too
+- `Models\Queries\Traits\TenantQueryTrait::andWhereTenant()` prefixes `tenant_id` with the query's table alias,
+  so it survives a join against another table that has the column
+- `Test\Fixtures\TenantFixture` clears the table before it loads: every migrated database now carries a seeded
+  tenant row, and it invalidates the collection cache, which is static and outlives a test's application
+
 - `Models\Tenant` implements the skeleton `Models\Interfaces\AdminRouteInterface` and dropped its
   `getTrailModelAdminRoute()`
 - `Models\Tenant` implements `CustomAttributeInterface`. Added the `custom_attributes` column to `tenant`, excluded

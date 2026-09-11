@@ -20,6 +20,6 @@ trait TenantQueryTrait
 
     public function andWhereTenant(Tenant $tenant): static
     {
-        return $this->andWhere(['tenant_id' => $tenant->id]);
+        return $this->andWhere([$this->getTableAlias() . '.[[tenant_id]]' => $tenant->id]);
     }
 }

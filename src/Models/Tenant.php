@@ -22,6 +22,7 @@ use Hirtz\Skeleton\Models\Traits\UpdatedByUserTrait;
 use Hirtz\Skeleton\Validators\DynamicRangeValidator;
 use Hirtz\Tenant\Models\Collections\TenantCollection;
 use Hirtz\Tenant\Models\Queries\TenantQuery;
+use Hirtz\Tenant\Modules\ModuleTrait;
 use Override;
 use Yii;
 
@@ -45,6 +46,7 @@ class Tenant extends ActiveRecord implements
 {
     use CustomAttributesTrait;
     use DraftStatusAttributeTrait;
+    use ModuleTrait;
     use TrailModelTrait;
     use UpdatedByUserTrait;
 
