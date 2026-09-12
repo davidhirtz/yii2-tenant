@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Hirtz\Tenant\Modules\Admin\Widgets\Forms;
 
-use Hirtz\Skeleton\I18n\Lang;
 use Hirtz\Skeleton\Widgets\Forms\ActiveForm;
 use Hirtz\Skeleton\Widgets\Forms\Fields\Field;
 use Hirtz\Skeleton\Widgets\Forms\Fields\InputField;
 use Hirtz\Skeleton\Widgets\Forms\Fields\SelectField;
 use Hirtz\Skeleton\Widgets\Forms\Traits\CustomAttributeFieldsTrait;
 use Hirtz\Tenant\Models\Tenant;
+use Yii;
 
 /**
  * @template T of Tenant
@@ -54,7 +54,7 @@ class TenantActiveForm extends ActiveForm
     {
         return SelectField::make()
             ->property('language')
-            ->prompt(Lang::t('tenant', 'TENANT_PROMPT_LANGUAGE'));
+            ->prompt(Yii::t('tenant', 'TENANT_PROMPT_LANGUAGE'));
     }
 
     protected function getCookieDomainField(): ?Field

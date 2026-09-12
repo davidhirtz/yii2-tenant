@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Hirtz\Tenant\Modules\Admin\Controllers;
 
-use Hirtz\Skeleton\I18n\Lang;
 use Hirtz\Skeleton\Models\Forms\DeleteForm;
 use Hirtz\Skeleton\Web\Controller;
 use Hirtz\Skeleton\Widgets\Flashes;
@@ -76,7 +75,7 @@ class TenantController extends Controller
         $tenant->loadDefaultValues();
 
         if ($tenant->load($this->request->post()) && !$this->request->isFormReload() && $tenant->insert()) {
-            $this->success(Lang::t('tenant', 'TENANT_SUCCESS_CREATED'));
+            $this->success(Yii::t('tenant', 'TENANT_SUCCESS_CREATED'));
             return $this->redirect($tenant->getAdminRoute());
         }
 
@@ -92,7 +91,7 @@ class TenantController extends Controller
         $tenant = $this->findTenant($id, Tenant::AUTH_TENANT_UPDATE);
 
         if ($tenant->load($this->request->post()) && !$this->request->isFormReload() && $tenant->update()) {
-            $this->success(Lang::t('tenant', 'TENANT_SUCCESS_UPDATED'));
+            $this->success(Yii::t('tenant', 'TENANT_SUCCESS_UPDATED'));
             return $this->redirect($tenant->getAdminRoute());
         }
 
@@ -107,7 +106,7 @@ class TenantController extends Controller
         $form = new DeleteForm($tenant, 'name');
 
         if ($form->load($this->request->post()) && $form->delete()) {
-            $this->success(Lang::t('tenant', 'TENANT_SUCCESS_DELETED'));
+            $this->success(Yii::t('tenant', 'TENANT_SUCCESS_DELETED'));
             return $this->redirect(['index', 'tenant' => TenantCollection::getDefault()]);
         }
 
@@ -123,7 +122,7 @@ class TenantController extends Controller
         $success = ReorderTenants::runWithBodyParam('tenant');
 
         if ($success) {
-            $this->success(Lang::t('tenant', 'TENANT_SUCCESS_ORDERED'));
+            $this->success(Yii::t('tenant', 'TENANT_SUCCESS_ORDERED'));
         }
 
         return (string) Flashes::make();

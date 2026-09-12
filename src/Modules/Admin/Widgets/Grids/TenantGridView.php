@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Hirtz\Tenant\Modules\Admin\Widgets\Grids;
 
-use Hirtz\Skeleton\I18n\Lang;
 use Hirtz\Skeleton\Helpers\Url;
 use Hirtz\Skeleton\Html\A;
 use Hirtz\Skeleton\Html\Div;
@@ -110,7 +109,7 @@ class TenantGridView extends GridView
             yield Button::make()
                 ->secondary()
                 ->icon('toggle-on')
-                ->tooltip(Lang::t('tenant', 'TENANT_SWITCH_ADMIN_BUTTON'))
+                ->tooltip(Yii::t('tenant', 'TENANT_SWITCH_ADMIN_BUTTON'))
                 ->url(Url::current(['tenant' => $tenant]));
         }
 
@@ -118,7 +117,7 @@ class TenantGridView extends GridView
             yield DraggableSortGridButton::make();
         }
 
-        if (Yii::$app->getUser()->can(Tenant::AUTH_TENANT_UPDATE, ['tenant' => $tenant])) {
+        if ($this->webuser->can(Tenant::AUTH_TENANT_UPDATE, ['tenant' => $tenant])) {
             yield ViewGridButton::make()
                 ->model($tenant);
         }

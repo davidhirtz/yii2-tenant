@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Hirtz\Tenant\Modules\Admin\Controllers\Traits;
 
 use Hirtz\Tenant\Models\Tenant;
-use Yii;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 
@@ -19,7 +18,7 @@ trait TenantControllerTrait
             throw new NotFoundHttpException();
         }
 
-        if ($permission && !Yii::$app->getUser()->can($permission, ['tenant' => $tenant])) {
+        if ($permission && !$this->webuser->can($permission, ['tenant' => $tenant])) {
             throw new ForbiddenHttpException();
         }
 

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Hirtz\Tenant\Modules\Admin\Widgets\Navs;
 
-use Hirtz\Skeleton\I18n\Lang;
 use Hirtz\Skeleton\Widgets\Buttons\CreateButton;
 use Hirtz\Skeleton\Widgets\Navs\Header;
 use Hirtz\Skeleton\Widgets\Traits\ModelTrait;
@@ -30,7 +29,7 @@ class TenantHeader extends Header
     #[Override]
     protected function configure(): void
     {
-        $this->title ??= $this->model?->getOldAttribute('name') ?? Lang::t('tenant', 'TENANT_NAME_PLURAL');
+        $this->title ??= $this->model?->getOldAttribute('name') ?? Yii::t('tenant', 'TENANT_NAME_PLURAL');
 
         if ($this->model) {
             $this->addContent($this->getTenantActionDropdown());
@@ -41,7 +40,7 @@ class TenantHeader extends Header
         }
 
         if (!$this->provider) {
-            $this->view->addBreadcrumb(Lang::t('tenant', 'TENANT_NAME_PLURAL'), ['/admin/tenant/']);
+            $this->view->addBreadcrumb(Yii::t('tenant', 'TENANT_NAME_PLURAL'), ['/admin/tenant/']);
         }
 
         parent::configure();
@@ -59,7 +58,7 @@ class TenantHeader extends Header
     protected function getCreateTenantButton(): string|Stringable
     {
         return CreateButton::make()
-            ->label(Lang::t('tenant', 'TENANT_CREATE_BUTTON'))
+            ->label(Yii::t('tenant', 'TENANT_CREATE_BUTTON'))
             ->roles([Tenant::AUTH_TENANT_CREATE]);
     }
 }
