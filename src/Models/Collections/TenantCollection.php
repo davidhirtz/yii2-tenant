@@ -85,6 +85,15 @@ class TenantCollection
     public static function invalidateCache(): void
     {
         TagDependency::invalidate(Yii::$app->getCache(), static::CACHE_KEY);
+        self::reset();
+    }
+
+    /**
+     * The static outlives the application; `Bootstrap` resets it, so a test's application does not start with the
+     * tenants of the one before.
+     */
+    public static function reset(): void
+    {
         self::$_tenants = null;
     }
 }

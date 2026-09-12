@@ -8,6 +8,7 @@ use Hirtz\Skeleton\Filters\PageCache;
 use Hirtz\Skeleton\Modules\Admin\Controllers\DashboardController;
 use Hirtz\Skeleton\Web\Application;
 use Hirtz\Skeleton\Web\UrlManager;
+use Hirtz\Tenant\Models\Collections\TenantCollection;
 use Hirtz\Tenant\Models\Tenant;
 use Yii;
 use yii\base\BootstrapInterface;
@@ -21,6 +22,7 @@ class Bootstrap implements BootstrapInterface
     public function bootstrap($app): void
     {
         Yii::setAlias('@tenant', __DIR__);
+        TenantCollection::reset();
 
         $app->getI18n()->translations['tenant'] ??= [
             'class' => PhpMessageSource::class,
