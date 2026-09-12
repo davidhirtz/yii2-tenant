@@ -1,5 +1,9 @@
 ## 3.0.0 (in development)
 
+- `Web\UrlManager::parseRequest()` sets `hostInfo` to the tenant's canonical host *after* the skeleton's parse, which
+  used to overwrite it with the request host. So a draft request or a request on a host that only fell back to the
+  default tenant now generates absolute URLs on the tenant's host, and the 404 handler matches host-qualified
+  redirects on it
 - Added `Module`, registered as the application module `tenant`, with `$enableAdminModule`. Set it to `false`
   and the admin module and its dashboard roles are not registered at all, so the routes 404 instead of a hidden
   nav item covering a live controller. Added `Modules\ModuleTrait` with the static `getModule()`

@@ -132,7 +132,8 @@ final class UrlManagerTest extends TestCase
 
         $manager->parseRequest($request);
 
-        self::assertEquals('https://domain.localhost', $manager->getHostInfo());
+        // The tenant's canonical host, not the request host with the draft prefix stripped.
+        self::assertEquals('https://www.domain.localhost', $manager->getHostInfo());
         self::assertEquals('de', Yii::$app->language);
         self::assertTrue($request->getIsDraft());
         self::assertEquals($tenant->id, $manager->tenant->id);

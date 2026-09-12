@@ -66,7 +66,15 @@ class UrlManager extends \Hirtz\Skeleton\Web\UrlManager
             Yii::$app->getResponse()->getHeaders()->set('X-Robots-Tag', 'none');
         }
 
-        return parent::parseRequest($request);
+        $result = parent::parseRequest($request);
+
+        // The parent resets the host to the request's; the tenant's canonical host has to win, also on a host that
+        // only fell back to the default tenant.
+        if ($this->tenant) {
+            $this->setHostInfo($this->tenant->getHostInfo());
+        }
+
+        return $result;
     }
 
     public function getTenantFromRequest(Request $request): ?Tenant
