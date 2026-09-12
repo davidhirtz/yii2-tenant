@@ -13,14 +13,14 @@ class TenantCollection
 {
     public const string CACHE_KEY = 'tenant-collection';
 
-    protected static ?array $_tenants = null;
+    protected static ?array $tenants = null;
 
     /**
      * @return array<int, Tenant>
      */
     public static function getAll(): array
     {
-        return static::$_tenants ??= static::findAll();
+        return static::$tenants ??= static::findAll();
     }
 
     public static function getDefault(): ?Tenant
@@ -94,6 +94,6 @@ class TenantCollection
      */
     public static function reset(): void
     {
-        self::$_tenants = null;
+        self::$tenants = null;
     }
 }
