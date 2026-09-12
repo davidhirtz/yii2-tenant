@@ -53,8 +53,8 @@ class Tenant extends ActiveRecord implements
     final public const string AUTH_TENANT_DELETE = 'tenantDelete';
     final public const string AUTH_TENANT_UPDATE = 'tenantUpdate';
 
-    private ?string $_hostInfo = null;
-    private ?string $_pathInfo = null;
+    private ?string $hostInfo = null;
+    private ?string $pathInfo = null;
 
     #[Override]
     public function behaviors(): array
@@ -122,8 +122,8 @@ class Tenant extends ActiveRecord implements
     #[Override]
     public function beforeValidate(): bool
     {
-        $this->_hostInfo = null;
-        $this->_pathInfo = null;
+        $this->hostInfo = null;
+        $this->pathInfo = null;
 
         return parent::beforeValidate();
     }
@@ -252,12 +252,12 @@ class Tenant extends ActiveRecord implements
 
     public function getHostInfo(): string
     {
-        if ($this->_hostInfo === null) {
+        if ($this->hostInfo === null) {
             $scheme = parse_url($this->url, PHP_URL_SCHEME);
-            $this->_hostInfo = ($scheme ? "$scheme://" : '//') . parse_url($this->url, PHP_URL_HOST);
+            $this->hostInfo = ($scheme ? "$scheme://" : '//') . parse_url($this->url, PHP_URL_HOST);
         }
 
-        return $this->_hostInfo;
+        return $this->hostInfo;
     }
 
     public function getMaxPosition(): int
@@ -267,8 +267,8 @@ class Tenant extends ActiveRecord implements
 
     public function getPathInfo(): string
     {
-        $this->_pathInfo ??= parse_url(trim($this->url, '/'), PHP_URL_PATH) ?? '';
-        return $this->_pathInfo;
+        $this->pathInfo ??= parse_url(trim($this->url, '/'), PHP_URL_PATH) ?? '';
+        return $this->pathInfo;
     }
 
     /**
