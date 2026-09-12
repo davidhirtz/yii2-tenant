@@ -103,7 +103,10 @@ class TenantController extends Controller
     public function actionDelete(int $id): Response
     {
         $tenant = $this->findTenant($id, Tenant::AUTH_TENANT_DELETE);
-        $form = new DeleteForm($tenant, 'name');
+        $form = DeleteForm::create([
+            'model' => $tenant,
+            'attribute' => 'name',
+        ]);
 
         if ($form->load($this->request->post()) && $form->delete()) {
             $this->success(Yii::t('tenant', 'TENANT_SUCCESS_DELETED'));
