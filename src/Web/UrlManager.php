@@ -40,7 +40,10 @@ class UrlManager extends \Hirtz\Skeleton\Web\UrlManager
         $params = (array)$params;
 
         if (!array_key_exists('tenant', $params)) {
-            $params['tenant'] = Yii::$app->getRequest()->get('tenant');
+            // A console command builds URLs too — a mailed reset link, a sitemap — and there is no request to
+            // read the current tenant from there.
+            $request = Yii::$app->getRequest();
+            $params['tenant'] = $request instanceof Request ? $request->get('tenant') : null;
         }
 
         $tenant = $this->getTenantFromParams($params, true);

@@ -1,5 +1,8 @@
 ## 3.0.0 (in development)
 
+- `Web\UrlManager::createUrl()` no longer assumes a web request. It read the current tenant off
+  `Request::get('tenant')`, so any URL built from a console command — the reset link
+  `skeleton/upgrade/passwords` mails, for one — died on `Calling unknown method: yii\console\Request::get()`
 - `Models\Tenant` implements the skeleton's `Models\Interfaces\AdminModelInterface` in place of
   `AdminRouteInterface`: `getTrailModelType()` is `getAdminType()` and `getTrailModelName()` is
   `Models\Traits\AdminModelTrait`'s `getAdminName()`
