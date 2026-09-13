@@ -10,10 +10,10 @@ use Hirtz\Skeleton\Behaviors\BlameableBehavior;
 use Hirtz\Skeleton\Behaviors\TimestampBehavior;
 use Hirtz\Skeleton\Behaviors\TrailBehavior;
 use Hirtz\Skeleton\Db\ActiveRecord;
-use Hirtz\Skeleton\Models\Interfaces\AdminRouteInterface;
 use Hirtz\Skeleton\Models\Interfaces\CustomAttributeInterface;
 use Hirtz\Skeleton\Models\Interfaces\DraftStatusAttributeInterface;
 use Hirtz\Skeleton\Models\Interfaces\TrailModelInterface;
+use Hirtz\Skeleton\Models\Traits\AdminModelTrait;
 use Hirtz\Skeleton\Models\Traits\CustomAttributesTrait;
 use Hirtz\Skeleton\Models\Traits\DraftStatusAttributeTrait;
 use Hirtz\Skeleton\Models\Traits\TrailModelTrait;
@@ -38,11 +38,11 @@ use Yii;
  * @property DateTime $created_at
  */
 class Tenant extends ActiveRecord implements
-    AdminRouteInterface,
     CustomAttributeInterface,
     DraftStatusAttributeInterface,
     TrailModelInterface
 {
+    use AdminModelTrait;
     use CustomAttributesTrait;
     use DraftStatusAttributeTrait;
     use ModuleTrait;
@@ -285,15 +285,7 @@ class Tenant extends ActiveRecord implements
         ]);
     }
 
-    /**
-     * @noinspection PhpUnused
-     */
-    public function getTrailModelName(): string
-    {
-        return $this->name ?? $this->getTrailModelType();
-    }
-
-    public function getTrailModelType(): string
+    public function getAdminType(): string
     {
         return Yii::t('tenant', 'TENANT_NAME');
     }

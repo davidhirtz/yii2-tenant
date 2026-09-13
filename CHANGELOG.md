@@ -1,5 +1,8 @@
 ## 3.0.0 (in development)
 
+- `Models\Tenant` implements the skeleton's `Models\Interfaces\AdminModelInterface` in place of
+  `AdminRouteInterface`: `getTrailModelType()` is `getAdminType()` and `getTrailModelName()` is
+  `Models\Traits\AdminModelTrait`'s `getAdminName()`
 - `Web\UrlManager::parseRequest()` sets `hostInfo` to the tenant's canonical host *after* the skeleton's parse, which
   used to overwrite it with the request host. So a draft request or a request on a host that only fell back to the
   default tenant now generates absolute URLs on the tenant's host, and the 404 handler matches host-qualified
