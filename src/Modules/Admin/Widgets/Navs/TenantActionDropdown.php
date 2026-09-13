@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Hirtz\Tenant\Modules\Admin\Widgets\Navs;
