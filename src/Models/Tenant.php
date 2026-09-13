@@ -49,9 +49,7 @@ class Tenant extends ActiveRecord implements
     use TrailModelTrait;
     use UpdatedByUserTrait;
 
-    final public const string AUTH_TENANT_CREATE = 'tenantCreate';
-    final public const string AUTH_TENANT_DELETE = 'tenantDelete';
-    final public const string AUTH_TENANT_UPDATE = 'tenantUpdate';
+    final public const string AUTH_TENANT = 'tenant';
 
     private ?string $hostInfo = null;
     private ?string $pathInfo = null;

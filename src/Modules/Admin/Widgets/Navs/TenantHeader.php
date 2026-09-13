@@ -59,6 +59,6 @@ class TenantHeader extends Header
     {
         return CreateButton::make()
             ->label(Yii::t('tenant', 'TENANT_CREATE_BUTTON'))
-            ->roles([Tenant::AUTH_TENANT_CREATE]);
+            ->roles([Tenant::AUTH_TENANT]);
     }
 }

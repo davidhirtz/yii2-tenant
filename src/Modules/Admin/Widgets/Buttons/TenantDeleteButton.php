@@ -22,7 +22,7 @@ class TenantDeleteButton extends DeleteButton
     {
         return parent::isVisible()
             && $this->model->isDeletable()
-            && $this->webuser->can(Tenant::AUTH_TENANT_DELETE, ['tenant' => $this->model]);
+            && $this->webuser->can(Tenant::AUTH_TENANT);
     }
 
     #[Override]

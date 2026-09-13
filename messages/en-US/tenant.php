@@ -5,9 +5,7 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
-    'TENANT_AUTH_CREATE' => 'Create tenants',
-    'TENANT_AUTH_DELETE' => 'Delete tenants',
-    'TENANT_AUTH_UPDATE' => 'Update tenants',
+    'AUTH_TENANT_DESCRIPTION' => 'Manage tenants',
     'TENANT_CREATE_BUTTON' => 'New Tenant',
     'TENANT_ERROR_DELETE_LAST' => 'This is the only tenant and thus cannot be deleted.',
     'TENANT_ERROR_DELETE_RELATION' => 'This tenant cannot be deleted because it is linked to other relations.',

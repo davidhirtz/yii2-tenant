@@ -117,7 +117,7 @@ class TenantGridView extends GridView
             yield DraggableSortGridButton::make();
         }
 
-        if ($this->webuser->can(Tenant::AUTH_TENANT_UPDATE, ['tenant' => $tenant])) {
+        if ($this->webuser->can(Tenant::AUTH_TENANT)) {
             yield ViewGridButton::make()
                 ->model($tenant);
         }

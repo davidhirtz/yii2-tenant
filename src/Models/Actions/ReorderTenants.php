@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Hirtz\Tenant\Models\Actions;
 
 use Hirtz\Skeleton\Models\Actions\ReorderActiveRecords;
+use Hirtz\Skeleton\I18n\Message;
 use Hirtz\Skeleton\Models\Trail;
 use Hirtz\Tenant\Models\Collections\TenantCollection;
 use Hirtz\Tenant\Models\Tenant;
-use Yii;
 
 /**
  * @extends ReorderActiveRecords<Tenant>
@@ -30,7 +30,7 @@ class ReorderTenants extends ReorderActiveRecords
 
     protected function afterReorder(): void
     {
-        Trail::createOrderTrail(null, Yii::t('tenant', 'TENANT_TRAIL_REORDERED'));
+        Trail::createOrderTrail(null, Message::make('tenant', 'TENANT_TRAIL_REORDERED'));
         TenantCollection::invalidateCache();
 
         parent::afterReorder();

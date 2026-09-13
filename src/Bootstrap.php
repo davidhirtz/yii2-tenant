@@ -59,7 +59,7 @@ class Bootstrap implements BootstrapInterface
             ]);
 
             DashboardController::addRoles([
-                Tenant::AUTH_TENANT_UPDATE,
+                Tenant::AUTH_TENANT,
             ]);
         }
 

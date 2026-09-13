@@ -32,18 +32,8 @@ class TenantController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['create'],
-                        'roles' => [Tenant::AUTH_TENANT_CREATE],
-                    ],
-                    [
-                        'allow' => true,
-                        'actions' => ['index', 'order', 'update'],
-                        'roles' => [Tenant::AUTH_TENANT_UPDATE],
-                    ],
-                    [
-                        'allow' => true,
-                        'actions' => ['delete'],
-                        'roles' => [Tenant::AUTH_TENANT_DELETE],
+                        'actions' => ['create', 'delete', 'index', 'order', 'update'],
+                        'roles' => [Tenant::AUTH_TENANT],
                     ],
                 ],
             ],
@@ -88,7 +78,7 @@ class TenantController extends Controller
 
     public function actionUpdate(int $id): Response|string
     {
-        $tenant = $this->findTenant($id, Tenant::AUTH_TENANT_UPDATE);
+        $tenant = $this->findTenant($id);
 
         if ($tenant->load($this->request->post()) && !$this->request->isFormReload() && $tenant->update()) {
             $this->success(Yii::t('tenant', 'TENANT_SUCCESS_UPDATED'));
@@ -102,7 +92,7 @@ class TenantController extends Controller
 
     public function actionDelete(int $id): Response
     {
-        $tenant = $this->findTenant($id, Tenant::AUTH_TENANT_DELETE);
+        $tenant = $this->findTenant($id);
         $form = DeleteForm::create([
             'model' => $tenant,
             'attribute' => 'name',

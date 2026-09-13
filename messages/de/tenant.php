@@ -5,9 +5,7 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
-    'TENANT_AUTH_CREATE' => 'Mandanten erstellen',
-    'TENANT_AUTH_DELETE' => 'Mandanten löschen',
-    'TENANT_AUTH_UPDATE' => 'Mandanten bearbeiten',
+    'AUTH_TENANT_DESCRIPTION' => 'Mandanten verwalten',
     'TENANT_CREATE_BUTTON' => 'Neuer Mandant',
     'TENANT_ERROR_DELETE_LAST' => 'Dies ist der letzte Mandant und kann deshalb nicht gelöscht werden.',
     'TENANT_ERROR_DELETE_RELATION' => 'Der Mandant kann nicht gelöscht werden, da er mit anderen Einträgen verknüpft ist.',
