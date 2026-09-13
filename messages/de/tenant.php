@@ -7,6 +7,7 @@
 return [
     'AUTH_TENANT_DESCRIPTION' => 'Mandanten verwalten',
     'TENANT_CREATE_BUTTON' => 'Neuer Mandant',
+    'TENANT_CREATE_TITLE' => 'Neuen Mandant erstellen',
     'TENANT_ERROR_DELETE_LAST' => 'Dies ist der letzte Mandant und kann deshalb nicht gelöscht werden.',
     'TENANT_ERROR_DELETE_RELATION' => 'Der Mandant kann nicht gelöscht werden, da er mit anderen Einträgen verknüpft ist.',
     'TENANT_ERROR_PATH_PROTECTED' => 'Die URL "{path}" ist geschützt.',
@@ -23,8 +24,6 @@ return [
     'TENANT_SUCCESS_ORDERED' => 'Die Reihenfolge der Mandanten wurde erfolgreich geändert.',
     'TENANT_SUCCESS_UPDATED' => 'Der Mandant wurde erfolgreich aktualisiert.',
     'TENANT_SWITCH_ADMIN_BUTTON' => 'Zu Mandant wechseln',
-    'TENANT_CREATE_TITLE' => 'Neuen Mandant erstellen',
     'TENANT_TITLE_DELETE' => 'Mandant löschen',
-    'TENANT_TITLE_UPDATE' => 'Mandant bearbeiten',
     'TENANT_TRAIL_REORDERED' => 'Mandanten-Reihenfolge wurde geändert.',
 ];

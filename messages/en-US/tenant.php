@@ -7,6 +7,7 @@
 return [
     'AUTH_TENANT_DESCRIPTION' => 'Manage tenants',
     'TENANT_CREATE_BUTTON' => 'New Tenant',
+    'TENANT_CREATE_TITLE' => 'Create New Tenant',
     'TENANT_ERROR_DELETE_LAST' => 'This is the only tenant and thus cannot be deleted.',
     'TENANT_ERROR_DELETE_RELATION' => 'This tenant cannot be deleted because it is linked to other relations.',
     'TENANT_ERROR_PATH_PROTECTED' => 'The URL "{path}" is protected.',
@@ -23,8 +24,6 @@ return [
     'TENANT_SUCCESS_ORDERED' => 'Tenant order has been changed.',
     'TENANT_SUCCESS_UPDATED' => 'Tenant has been updated.',
     'TENANT_SWITCH_ADMIN_BUTTON' => 'Switch to tenant',
-    'TENANT_CREATE_TITLE' => 'Create New Tenant',
     'TENANT_TITLE_DELETE' => 'Delete Tenant',
-    'TENANT_TITLE_UPDATE' => 'Update Tenant',
     'TENANT_TRAIL_REORDERED' => 'Tenant order has been changed.',
 ];
