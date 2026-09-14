@@ -58,7 +58,7 @@ class Bootstrap implements BootstrapInterface
                 ],
             ]);
 
-            DashboardController::addRoles([
+            DashboardController::addRoles(static fn (): array => [
                 Tenant::AUTH_TENANT,
             ]);
         }
