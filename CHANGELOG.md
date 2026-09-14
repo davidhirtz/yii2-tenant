@@ -1,5 +1,8 @@
 ## 3.0.0 (in development)
 
+- `Migrations\M260915170000CustomAttributesColumn` moves `tenant.custom_attributes` after `language` — cosmetic
+  column order only.
+
 - **One permission per admin-managed model.** `Models\Tenant::AUTH_TENANT` (`tenant`) replaces
   `AUTH_TENANT_CREATE`, `AUTH_TENANT_UPDATE` and `AUTH_TENANT_DELETE`, and its description key is
   `AUTH_TENANT_DESCRIPTION` rather than the off-convention `TENANT_AUTH_*`.
