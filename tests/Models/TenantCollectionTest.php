@@ -28,6 +28,20 @@ final class TenantCollectionTest extends TestCase
         self::assertCount(2, $tenants);
     }
 
+    /**
+     * The records a request loaded must never reach the next one, so `Bootstrap` drops them — a reset that only
+     * ran in the tests would leave a resident application serving them forever.
+     */
+    public function testTheTenantsDoNotOutliveTheApplication(): void
+    {
+        $tenant = TenantCollection::getDefault();
+        self::assertNotNull($tenant);
+
+        $this->reloadApplication();
+
+        self::assertNotSame($tenant, TenantCollection::getDefault());
+    }
+
     public function testFromRequest(): void
     {
         Yii::$app->set('request', [
