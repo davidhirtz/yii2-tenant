@@ -122,6 +122,31 @@ class TenantControllerTest extends TestCase
         self::assertNotEmpty($this->getWebSession()->getFlash('success'));
     }
 
+    /**
+     * An option without a `value` posts its label, which the language is validated against.
+     */
+    public function testTheLanguagePromptPinsNoLanguage(): void
+    {
+        $this->login();
+
+        $html = Yii::$app->runAction('admin/tenant/tenant/create');
+
+        self::assertIsString($html);
+        self::assertStringContainsString('<option value="">Detect from browser</option>', $html);
+
+        $response = $this->post('admin/tenant/tenant/create', [], [
+            'Tenant' => [
+                'status' => Tenant::STATUS_ENABLED,
+                'name' => 'No language',
+                'url' => 'https://www.nolanguage.localhost',
+                'language' => '',
+            ],
+        ]);
+
+        self::assertInstanceOf(Response::class, $response);
+        self::assertNull(Tenant::findOne(['name' => 'No language'])?->language);
+    }
+
     public function testAFormReloadDoesNotSave(): void
     {
         $this->login();
