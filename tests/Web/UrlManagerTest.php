@@ -148,6 +148,29 @@ final class UrlManagerTest extends TestCase
         self::assertArrayHasKey('x-robots-tag', $this->getWebResponse()->getHeaders()->toArray());
     }
 
+    public function testATenantWithoutAUrlKeepsTheRequestHost(): void
+    {
+        $tenant = $this->getTenantFromFixture();
+        $tenant->url = null;
+
+        self::assertNotFalse($tenant->update());
+
+        $manager = $this->getUrlManager();
+
+        $request = $this->getRequest([
+            'hostInfo' => 'https://www.anything.localhost',
+            'url' => '/',
+        ]);
+
+        $manager->parseRequest($request);
+
+        self::assertEquals($tenant->id, $manager->tenant?->id);
+        self::assertEquals('https://www.anything.localhost', $manager->getHostInfo());
+        self::assertEquals('/post/view', $manager->createUrl('post/view'));
+        self::assertEquals('https://www.anything.localhost/post/view', $manager->createAbsoluteUrl('post/view'));
+        self::assertEquals('https://draft.anything.localhost/post/view', $manager->createDraftUrl('post/view'));
+    }
+
     public function testRedirectMap(): void
     {
         $manager = $this->getUrlManager([

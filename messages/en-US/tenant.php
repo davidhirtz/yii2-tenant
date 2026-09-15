@@ -11,6 +11,7 @@ return [
     'TENANT_ERROR_DELETE_LAST' => 'This is the only tenant and thus cannot be deleted.',
     'TENANT_ERROR_DELETE_RELATION' => 'This tenant cannot be deleted because it is linked to other relations.',
     'TENANT_ERROR_PATH_PROTECTED' => 'The URL "{path}" is protected.',
+    'TENANT_HINT_URL' => 'The canonical address of this tenant. Leave it empty to follow the host the request came in on.',
     'TENANT_LABEL_COOKIE_DOMAIN' => 'Cookie domain',
     'TENANT_LABEL_LANGUAGE' => 'Language',
     'TENANT_LABEL_NAME' => 'Name',

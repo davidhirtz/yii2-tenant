@@ -24,15 +24,16 @@ class UrlManager extends \Hirtz\Skeleton\Web\UrlManager
     public function createAbsoluteUrl($params, $scheme = null): string
     {
         $tenant = $this->getTenantFromParams($params);
+        $hostInfo = $tenant?->getHostInfo();
 
-        if (!$tenant) {
+        if (!$hostInfo) {
             return parent::createAbsoluteUrl($params, $scheme);
         }
 
         $url = $this->createUrl($params);
 
         if (!str_contains($url, '://')) {
-            $url = $tenant->getHostInfo() . $url;
+            $url = $hostInfo . $url;
         }
 
         return Url::ensureScheme($url, $scheme);
@@ -57,9 +58,10 @@ class UrlManager extends \Hirtz\Skeleton\Web\UrlManager
 
         if ($tenant) {
             $url = $tenant->getPathInfo() . $url;
+            $hostInfo = $tenant->getHostInfo();
 
-            if ($tenant->getHostInfo() !== $this->tenant?->getHostInfo()) {
-                $url = $tenant->getHostInfo() . $url;
+            if ($hostInfo && $hostInfo !== $this->tenant?->getHostInfo()) {
+                $url = $hostInfo . $url;
             }
         }
 
@@ -81,9 +83,9 @@ class UrlManager extends \Hirtz\Skeleton\Web\UrlManager
         $result = parent::parseRequest($request);
 
         // The parent resets the host to the request's; the tenant's canonical host has to win, also on a host that
-        // only fell back to the default tenant.
-        if ($this->tenant) {
-            $this->setHostInfo($this->tenant->getHostInfo());
+        // only fell back to the default tenant. A tenant without a URL names none, so the request's host stands.
+        if ($hostInfo = $this->tenant?->getHostInfo()) {
+            $this->setHostInfo($hostInfo);
         }
 
         return $result;
@@ -102,7 +104,11 @@ class UrlManager extends \Hirtz\Skeleton\Web\UrlManager
         if ($tenant) {
             Yii::debug("Tenant found: $tenant->name", __METHOD__);
             $request->setPathInfo(substr($request->getPathInfo(), strlen($tenant->getPathInfo())));
-            $this->setCookieDomain($tenant->getCookieDomain());
+
+            if ($cookieDomain = $tenant->getCookieDomain()) {
+                $this->setCookieDomain($cookieDomain);
+            }
+
             $this->setTenant($tenant);
             return;
         }
@@ -118,7 +124,11 @@ class UrlManager extends \Hirtz\Skeleton\Web\UrlManager
     public function setTenant(Tenant $tenant): void
     {
         $this->tenant = $tenant;
-        $this->setHostInfo($tenant->getHostInfo());
+        $hostInfo = $tenant->getHostInfo();
+
+        if ($hostInfo) {
+            $this->setHostInfo($hostInfo);
+        }
     }
 
     #[Override]
@@ -177,10 +187,12 @@ class UrlManager extends \Hirtz\Skeleton\Web\UrlManager
     #[Override]
     public function getDraftHostInfo(): string
     {
-        if ($this->tenant) {
+        $hostInfo = $this->tenant?->getHostInfo();
+
+        if ($hostInfo) {
             return $this->draftSubdomain
-                ? $this->replaceSubdomain($this->draftSubdomain, $this->tenant->getHostInfo())
-                : $this->tenant->getHostInfo();
+                ? $this->replaceSubdomain($this->draftSubdomain, $hostInfo)
+                : $hostInfo;
         }
 
         return parent::getDraftHostInfo();

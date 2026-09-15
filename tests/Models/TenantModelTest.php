@@ -84,6 +84,30 @@ final class TenantModelTest extends TestCase
         self::assertNull($tenant->language);
     }
 
+    public function testUrlIsOptional(): void
+    {
+        $tenant = $this->createTenant();
+        $tenant->url = '';
+
+        self::assertTrue($tenant->save());
+        self::assertNull($tenant->url);
+        self::assertNull($tenant->getHostInfo());
+        self::assertNull($tenant->getCookieDomain());
+        self::assertSame('', $tenant->getPathInfo());
+    }
+
+    public function testASecondTenantWithoutAUrlIsNotATakenUrl(): void
+    {
+        $first = $this->createTenant();
+        $first->url = null;
+
+        $second = $this->createTenant();
+        $second->url = null;
+
+        self::assertTrue($first->save());
+        self::assertTrue($second->save());
+    }
+
     public function testCookieDomainValidation(): void
     {
         $tenant = $this->createTenant();

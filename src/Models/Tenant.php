@@ -29,7 +29,7 @@ use Yii;
  * @property int $id
  * @property int $status
  * @property string $name
- * @property string $url
+ * @property string|null $url
  * @property string|null $cookie_domain
  * @property string|null $language
  * @property int|false $position
@@ -72,7 +72,7 @@ class Tenant extends ActiveRecord implements
         return [
             ...parent::rules(),
             [
-                ['status', 'name', 'url'],
+                ['status', 'name'],
                 'required',
             ],
             [
@@ -87,6 +87,10 @@ class Tenant extends ActiveRecord implements
             [
                 ['url', 'cookie_domain'],
                 'trim',
+            ],
+            [
+                ['url'],
+                'default',
             ],
             [
                 ['url'],
@@ -132,7 +136,11 @@ class Tenant extends ActiveRecord implements
             return;
         }
 
-        $this->url = trim(strtok($this->url, '?') ?: '', '/ ');
+        $this->url = trim(strtok((string)$this->url, '?') ?: '', '/ ') ?: null;
+
+        if (!$this->url) {
+            return;
+        }
 
         if (str_contains($this->url, '//draft.')) {
             $this->addInvalidAttributeError('url');
@@ -172,7 +180,7 @@ class Tenant extends ActiveRecord implements
     {
         if (
             str_starts_with((string)$this->cookie_domain, 'http')
-            || !str_contains($this->url, ltrim((string)$this->cookie_domain, '.'))
+            || !str_contains((string)$this->url, ltrim((string)$this->cookie_domain, '.'))
             || !preg_match('/^[a-z.]/', (string)$this->cookie_domain)
         ) {
             $this->addInvalidAttributeError('cookie_domain');
@@ -249,13 +257,21 @@ class Tenant extends ActiveRecord implements
         return $this->id ? ['/admin/tenant/tenant/update', 'id' => $this->id] : ['/admin/tenant/tenant/index'];
     }
 
-    public function getCookieDomain(): string
+    public function getCookieDomain(): ?string
     {
-        return $this->cookie_domain ?? (string)(parse_url($this->url, PHP_URL_HOST) ?: '');
+        return $this->cookie_domain ?? (($this->url ? parse_url($this->url, PHP_URL_HOST) : null) ?: null);
     }
 
-    public function getHostInfo(): string
+    /**
+     * A tenant without a URL pins no host: the URL manager keeps the one the request came in on, which is what an
+     * installation that never wanted tenants runs on.
+     */
+    public function getHostInfo(): ?string
     {
+        if (!$this->url) {
+            return null;
+        }
+
         if ($this->hostInfo === null) {
             $scheme = parse_url($this->url, PHP_URL_SCHEME);
             $this->hostInfo = ($scheme ? "$scheme://" : '//') . parse_url($this->url, PHP_URL_HOST);
@@ -271,7 +287,7 @@ class Tenant extends ActiveRecord implements
 
     public function getPathInfo(): string
     {
-        $this->pathInfo ??= (string)(parse_url(trim($this->url, '/'), PHP_URL_PATH) ?: '');
+        $this->pathInfo ??= (string)(parse_url(trim((string)$this->url, '/'), PHP_URL_PATH) ?: '');
         return $this->pathInfo;
     }
 
@@ -316,6 +332,18 @@ class Tenant extends ActiveRecord implements
         if (!$this->position) {
             $this->position = $this->position !== false ? ($this->getMaxPosition() + 1) : 0;
         }
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    #[Override]
+    public function attributeHints(): array
+    {
+        return [
+            ...parent::attributeHints(),
+            'url' => Yii::t('tenant', 'TENANT_HINT_URL'),
+        ];
     }
 
     #[Override]

@@ -1,5 +1,13 @@
 ## 3.0.0 (in development)
 
+- **`tenant.url` is optional.** A tenant without one pins no host: `Models\Tenant::getHostInfo()` and
+  `getCookieDomain()` answer `null`, `getPathInfo()` an empty string, and `Web\UrlManager` leaves the URL
+  manager on whichever host the request came in on — so an installation that never wanted tenants runs on
+  localhost, staging and production without a bogus canonical URL in its one row, and without
+  `params['tenantUrl']`. `Migrations\M260907110000NullableUrl` alters the column; its name orders it before the
+  cms tenant seed, which is what inserts such a row. Reverting it numbers the URL-less rows
+  `https://tenant-<id>.invalid`, since the unique index takes any number of NULLs but no second empty string
+
 - **`Web\UrlManager::getTenantFromUrl()` fatalled for a tenant URL carrying no path**: `strrpos()` answers
   `false`, which `substr()` rejects under `strict_types`. Found by PHPStan level 7
 

@@ -11,6 +11,7 @@ return [
     'TENANT_ERROR_DELETE_LAST' => 'Dies ist der letzte Mandant und kann deshalb nicht gelöscht werden.',
     'TENANT_ERROR_DELETE_RELATION' => 'Der Mandant kann nicht gelöscht werden, da er mit anderen Einträgen verknüpft ist.',
     'TENANT_ERROR_PATH_PROTECTED' => 'Die URL "{path}" ist geschützt.',
+    'TENANT_HINT_URL' => 'Die kanonische Adresse dieses Mandanten. Leer lassen, um dem Host des Requests zu folgen.',
     'TENANT_LABEL_COOKIE_DOMAIN' => 'Cookie Domain',
     'TENANT_LABEL_LANGUAGE' => 'Sprache',
     'TENANT_LABEL_NAME' => 'Name',
