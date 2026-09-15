@@ -281,13 +281,13 @@ class Tenant extends ActiveRecord implements
      */
     public function getTrailAttributes(): array
     {
-        return array_diff($this->attributes(), [
+        return array_values(array_diff($this->attributes(), [
             $this->getCustomAttributesColumn(),
             'position',
             'updated_by_user_id',
             'updated_at',
             'created_at',
-        ]);
+        ]));
     }
 
     public function getAdminType(): string

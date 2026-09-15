@@ -19,7 +19,7 @@ class PageCache extends \Hirtz\Skeleton\Filters\PageCache
             $manager = Yii::$app->getUrlManager();
 
             if ($manager instanceof UrlManager && $manager->tenant !== null) {
-                $this->variations[] = $manager->tenant->id;
+                $this->variations = [...(array)$this->variations, (string)$manager->tenant->id];
             }
         }
     }

@@ -42,8 +42,8 @@ class PageCacheTest extends TestCase
         $first = $this->createFilterForTenant(1);
         $second = $this->createFilterForTenant(2);
 
-        self::assertContains(1, $first->variations);
-        self::assertContains(2, $second->variations);
+        self::assertContains('1', $first->variations);
+        self::assertContains('2', $second->variations);
 
         self::assertNotSame($first->variations, $second->variations);
     }
