@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Hirtz\Tenant\Models\Collections;
 
+use Hirtz\Skeleton\Web\Request;
 use Hirtz\Tenant\Models\Tenant;
 use Hirtz\Tenant\Web\UrlManager;
 use Yii;
@@ -66,7 +67,7 @@ class TenantCollection
 
     public static function getFromRequest(): ?Tenant
     {
-        $tenantId = Yii::$app->getRequest()->get('tenant', '');
+        $tenantId = Request::current()?->get('tenant', '') ?? '';
         return static::getAll()[$tenantId] ?? null;
     }
 

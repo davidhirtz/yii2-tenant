@@ -54,7 +54,9 @@ class TenantActiveDataProvider extends ActiveDataProvider
     #[Override]
     public function getSort(): Sort|false
     {
-        return !$this->isOrderedByPosition() ? parent::getSort() : false;
+        $sort = parent::getSort();
+
+        return !$this->isOrderedByPosition() && $sort instanceof Sort ? $sort : false;
     }
 
     /**

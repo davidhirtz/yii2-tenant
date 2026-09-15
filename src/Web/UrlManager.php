@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Hirtz\Tenant\Web;
 
 use Hirtz\Skeleton\Helpers\Url;
+use Hirtz\Skeleton\Web\Application;
 use Hirtz\Skeleton\Web\Request;
 use Hirtz\Tenant\Models\Collections\TenantCollection;
 use Hirtz\Tenant\Models\Tenant;
@@ -48,8 +49,7 @@ class UrlManager extends \Hirtz\Skeleton\Web\UrlManager
         if (!array_key_exists('tenant', $params)) {
             // A console command builds URLs too — a mailed reset link, a sitemap — and there is no request to
             // read the current tenant from there.
-            $request = Yii::$app->getRequest();
-            $params['tenant'] = $request instanceof Request ? $request->get('tenant') : null;
+            $params['tenant'] = Request::current()?->get('tenant');
         }
 
         $tenant = $this->getTenantFromParams($params, true);
@@ -75,7 +75,7 @@ class UrlManager extends \Hirtz\Skeleton\Web\UrlManager
         $this->setTenantFromRequest($request);
 
         if ($this->tenant?->isDraft()) {
-            Yii::$app->getResponse()->getHeaders()->set('X-Robots-Tag', 'none');
+            Application::current()->getResponse()->getHeaders()->set('X-Robots-Tag', 'none');
         }
 
         $result = parent::parseRequest($request);
@@ -145,12 +145,15 @@ class UrlManager extends \Hirtz\Skeleton\Web\UrlManager
 
     protected function getTenantFromUrl(string $url): ?Tenant
     {
-        return TenantCollection::getByUrl($url)
-            ?? (
-                strlen($url) > 6
-                ? $this->getTenantFromUrl(substr($url, 0, strrpos($url, '/')))
-                : null
-            );
+        $tenant = TenantCollection::getByUrl($url);
+
+        if ($tenant || strlen($url) <= 6) {
+            return $tenant;
+        }
+
+        $position = strrpos($url, '/');
+
+        return $position !== false ? $this->getTenantFromUrl(substr($url, 0, $position)) : null;
     }
 
     /**

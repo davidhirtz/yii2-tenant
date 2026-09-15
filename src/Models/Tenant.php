@@ -132,7 +132,7 @@ class Tenant extends ActiveRecord implements
             return;
         }
 
-        $this->url = trim(strtok($this->url, '?'), '/ ');
+        $this->url = trim(strtok($this->url, '?') ?: '', '/ ');
 
         if (str_contains($this->url, '//draft.')) {
             $this->addInvalidAttributeError('url');
@@ -251,7 +251,7 @@ class Tenant extends ActiveRecord implements
 
     public function getCookieDomain(): string
     {
-        return $this->cookie_domain ?? parse_url($this->url, PHP_URL_HOST);
+        return $this->cookie_domain ?? (string)(parse_url($this->url, PHP_URL_HOST) ?: '');
     }
 
     public function getHostInfo(): string
@@ -271,7 +271,7 @@ class Tenant extends ActiveRecord implements
 
     public function getPathInfo(): string
     {
-        $this->pathInfo ??= parse_url(trim($this->url, '/'), PHP_URL_PATH) ?? '';
+        $this->pathInfo ??= (string)(parse_url(trim($this->url, '/'), PHP_URL_PATH) ?: '');
         return $this->pathInfo;
     }
 
