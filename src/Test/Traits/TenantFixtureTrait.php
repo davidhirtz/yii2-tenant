@@ -6,6 +6,7 @@ namespace Hirtz\Tenant\Test\Traits;
 
 use Hirtz\Tenant\Models\Tenant;
 use Hirtz\Tenant\Test\Fixtures\TenantFixture;
+use RuntimeException;
 
 trait TenantFixtureTrait
 {
@@ -31,6 +32,7 @@ trait TenantFixtureTrait
     protected function getTenantFromFixture(string $key = 'default'): Tenant
     {
         $fixture = $this->getTenantFixture();
-        return Tenant::findOne($fixture->data[$key]['id']);
+        return Tenant::findOne($fixture->data[$key]['id'])
+            ?? throw new RuntimeException("Tenant fixture \"$key\" was not loaded.");
     }
 }
