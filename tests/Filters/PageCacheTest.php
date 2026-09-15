@@ -42,6 +42,9 @@ class PageCacheTest extends TestCase
         $first = $this->createFilterForTenant(1);
         $second = $this->createFilterForTenant(2);
 
+        self::assertIsArray($first->variations);
+        self::assertIsArray($second->variations);
+
         self::assertContains('1', $first->variations);
         self::assertContains('2', $second->variations);
 
@@ -52,6 +55,7 @@ class PageCacheTest extends TestCase
     {
         $filter = $this->createFilter();
 
+        self::assertIsArray($filter->variations);
         self::assertNotEmpty($filter->variations);
         self::assertSame(Yii::$app->language, end($filter->variations));
     }

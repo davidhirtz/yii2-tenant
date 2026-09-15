@@ -1,5 +1,8 @@
 ## 3.0.0 (in development)
 
+- **`Web\UrlManager::getTenantFromUrl()` fatalled for a tenant URL carrying no path**: `strrpos()` answers
+  `false`, which `substr()` rejects under `strict_types`. Found by PHPStan level 7
+
 - **`Migrations\M260915190000ManagerTenantPermission` takes `tenant` out of the `manager` role.** A tenant cuts
   the whole installation, so the permission is the administrator's alone, as `system` is;
   `Skeleton\Migrations\M260914190000ManagerRole` had handed `manager` every permission that existed at the time.
