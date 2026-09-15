@@ -92,7 +92,7 @@ final class UrlManagerTest extends TestCase
         $url = $manager->createDraftUrl('post/view');
         self::assertEquals('https://preview.domain.localhost/post/view', $url);
 
-        Yii::$app->getRequest()->setIsDraft(true);
+        $this->getWebRequest()->setIsDraft(true);
         $manager->draftSubdomain = false;
 
         $url = $manager->createDraftUrl('post/view');
@@ -145,7 +145,7 @@ final class UrlManagerTest extends TestCase
         $manager->parseRequest($request);
 
         self::assertEquals('en-US', Yii::$app->language);
-        self::assertArrayHasKey('x-robots-tag', Yii::$app->getResponse()->getHeaders()->toArray());
+        self::assertArrayHasKey('x-robots-tag', $this->getWebResponse()->getHeaders()->toArray());
     }
 
     public function testRedirectMap(): void
@@ -234,7 +234,7 @@ final class UrlManagerTest extends TestCase
             ...$config,
         ]);
 
-        return Yii::$app->getRequest();
+        return $this->getWebRequest();
     }
 
     /**

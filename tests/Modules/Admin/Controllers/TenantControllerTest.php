@@ -84,7 +84,7 @@ class TenantControllerTest extends TestCase
 
     public function testIndexIsForbiddenWithoutThePermission(): void
     {
-        Yii::$app->getUser()->setIdentity($this->getUserFromFixture('admin'));
+        $this->getWebUser()->setIdentity($this->getUserFromFixture('admin'));
 
         $this->expectException(ForbiddenHttpException::class);
         Yii::$app->runAction('admin/tenant/tenant/index');
@@ -101,7 +101,7 @@ class TenantControllerTest extends TestCase
 
         self::assertIsString($html);
         self::assertStringContainsString('name="Tenant[url]"', $html);
-        self::assertStringContainsString(Yii::$app->getRequest()->getHostInfo(), $html);
+        self::assertStringContainsString($this->getWebRequest()->getHostInfo(), $html);
     }
 
     public function testCreateInsertsTheTenant(): void
@@ -119,7 +119,7 @@ class TenantControllerTest extends TestCase
 
         self::assertInstanceOf(Response::class, $response);
         self::assertNotNull(Tenant::findOne(['name' => 'A new tenant']));
-        self::assertNotEmpty(Yii::$app->getSession()->getFlash('success'));
+        self::assertNotEmpty($this->getWebSession()->getFlash('success'));
     }
 
     public function testAFormReloadDoesNotSave(): void
@@ -191,12 +191,12 @@ class TenantControllerTest extends TestCase
         $this->post('admin/tenant/tenant/delete', ['id' => 3], ['value' => 'Wrong']);
 
         self::assertNotNull(Tenant::findOne(3));
-        self::assertNotEmpty(Yii::$app->getSession()->getFlash('danger'));
+        self::assertNotEmpty($this->getWebSession()->getFlash('danger'));
 
         $this->post('admin/tenant/tenant/delete', ['id' => 3], ['value' => 'Draft Tenant']);
 
         self::assertNull(Tenant::findOne(3));
-        self::assertNotEmpty(Yii::$app->getSession()->getFlash('success'));
+        self::assertNotEmpty($this->getWebSession()->getFlash('success'));
     }
 
     public function testDeleteRefusesAGetRequest(): void
@@ -217,7 +217,7 @@ class TenantControllerTest extends TestCase
 
         self::assertIsString($html);
         self::assertLessThan(Tenant::findOne(1)->position, Tenant::findOne(3)->position);
-        self::assertNotEmpty(Yii::$app->getSession()->getFlash('success'));
+        self::assertNotEmpty($this->getWebSession()->getFlash('success'));
     }
 
     /**
@@ -228,7 +228,7 @@ class TenantControllerTest extends TestCase
     {
         $_SERVER['REQUEST_METHOD'] = 'POST';
 
-        $request = Yii::$app->getRequest();
+        $request = $this->getWebRequest();
         $request->setBodyParams([...$bodyParams, $request->csrfParam => $request->getCsrfToken()]);
 
         if ($reload) {
@@ -245,7 +245,7 @@ class TenantControllerTest extends TestCase
         $permission = Yii::$app->getAuthManager()->getPermission(Tenant::AUTH_TENANT);
         Yii::$app->getAuthManager()->assign($permission, $user->id);
 
-        Yii::$app->getUser()->setIdentity($user);
+        $this->getWebUser()->setIdentity($user);
 
         return $user;
     }

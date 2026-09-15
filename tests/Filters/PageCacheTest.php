@@ -75,7 +75,7 @@ class PageCacheTest extends TestCase
 
         self::assertTrue($this->createFilter()->enabled);
 
-        Yii::$app->getRequest()->setIsDraft(true);
+        $this->getWebRequest()->setIsDraft(true);
         self::assertFalse($this->createFilter()->enabled);
     }
 
