@@ -1,5 +1,9 @@
 ## 3.0.0 (in development)
 
+- **`tenant.language` is optional too, and an empty one pins no language.** `Web\UrlManager::setLanguage()`
+  assigned it to `defaultLanguage` unconditionally, so a tenant with no language wiped the one the application
+  configured and every language — the configured default included — was served under a path prefix.
+
 - **`tenant.url` is optional.** A tenant without one pins no host: `Models\Tenant::getHostInfo()` and
   `getCookieDomain()` answer `null`, `getPathInfo()` an empty string, and `Web\UrlManager` leaves the URL
   manager on whichever host the request came in on — so an installation that never wanted tenants runs on

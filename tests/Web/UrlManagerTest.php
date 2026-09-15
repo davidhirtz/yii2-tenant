@@ -171,6 +171,36 @@ final class UrlManagerTest extends TestCase
         self::assertEquals('https://draft.anything.localhost/post/view', $manager->createDraftUrl('post/view'));
     }
 
+    /**
+     * A tenant without a language pins none, the way one without a URL leaves the request host alone — so the
+     * configured default is what decides which language goes without a path prefix.
+     */
+    public function testATenantWithoutALanguageKeepsTheConfiguredDefaultLanguage(): void
+    {
+        Yii::$app->getI18n()->languages = ['de', 'en-US'];
+
+        $tenant = $this->getTenantFromFixture();
+        $tenant->language = null;
+
+        self::assertNotFalse($tenant->update());
+
+        $manager = $this->getUrlManager([
+            'i18nUrl' => true,
+            'defaultLanguage' => 'de',
+        ]);
+
+        $manager->parseRequest($this->getRequest([
+            'hostInfo' => 'https://www.domain.localhost',
+            'url' => '/',
+        ]));
+
+        self::assertEquals('de', $manager->defaultLanguage);
+        self::assertEquals('de', Yii::$app->language);
+
+        self::assertEquals('/post/view', $manager->createUrl(['post/view', 'language' => 'de']));
+        self::assertEquals('/en/post/view', $manager->createUrl(['post/view', 'language' => 'en-US']));
+    }
+
     public function testRedirectMap(): void
     {
         $manager = $this->getUrlManager([

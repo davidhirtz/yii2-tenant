@@ -131,10 +131,14 @@ class UrlManager extends \Hirtz\Skeleton\Web\UrlManager
         }
     }
 
+    /**
+     * A tenant without a language pins none, as one without a URL pins no host — the configured `defaultLanguage`
+     * stands, rather than being wiped by the empty column.
+     */
     #[Override]
     protected function setLanguage(Request $request): void
     {
-        if ($this->tenant) {
+        if ($this->tenant?->language) {
             $this->defaultLanguage = $this->tenant->language;
         }
 
