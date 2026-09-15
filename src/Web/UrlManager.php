@@ -16,6 +16,9 @@ class UrlManager extends \Hirtz\Skeleton\Web\UrlManager
 {
     public ?Tenant $tenant = null;
 
+    /**
+     * @param array<int|string, mixed>|string $params
+     */
     #[Override]
     public function createAbsoluteUrl($params, $scheme = null): string
     {
@@ -34,6 +37,9 @@ class UrlManager extends \Hirtz\Skeleton\Web\UrlManager
         return Url::ensureScheme($url, $scheme);
     }
 
+    /**
+     * @param array<int|string, mixed>|string $params
+     */
     #[Override]
     public function createUrl($params): string
     {
@@ -60,6 +66,9 @@ class UrlManager extends \Hirtz\Skeleton\Web\UrlManager
         return $url;
     }
 
+    /**
+     * @return array{string, array<string, mixed>}|false
+     */
     #[Override]
     public function parseRequest($request): bool|array
     {
@@ -144,6 +153,9 @@ class UrlManager extends \Hirtz\Skeleton\Web\UrlManager
             );
     }
 
+    /**
+     * @param array<int|string, mixed>|string $params
+     */
     private function getTenantFromParams(array|string &$params, bool $remove = false): ?Tenant
     {
         $tenant = $params['tenant'] ?? null;

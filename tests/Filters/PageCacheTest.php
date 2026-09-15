@@ -19,6 +19,9 @@ use Yii;
  */
 class PageCacheTest extends TestCase
 {
+    /**
+     * @return array<string, mixed>
+     */
     #[Override]
     public function fixtures(): array
     {
@@ -90,6 +93,9 @@ class PageCacheTest extends TestCase
         $manager->tenant = Tenant::findOne($id);
     }
 
+    /**
+     * @param array<string, mixed> $config
+     */
     private function createFilter(array $config = []): PageCache
     {
         return new PageCache($config);

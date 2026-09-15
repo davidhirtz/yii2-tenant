@@ -15,9 +15,12 @@ use Hirtz\Tenant\Models\Tenant;
  */
 trait TenantRelationTrait
 {
+    /**
+     * @return TenantQuery<Tenant>
+     */
     public function getTenant(): TenantQuery
     {
-        /** @var TenantQuery $relation */
+        /** @var TenantQuery<Tenant> $relation */
         $relation = $this->hasOne(Tenant::class, ['id' => 'tenant_id']);
         return $relation;
     }

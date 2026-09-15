@@ -9,6 +9,9 @@ use Hirtz\Tenant\Test\Fixtures\TenantFixture;
 
 trait TenantFixtureTrait
 {
+    /**
+     * @return array<string, mixed>
+     */
     public function fixtures(): array
     {
         return [

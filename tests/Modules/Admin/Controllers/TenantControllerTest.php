@@ -19,6 +19,9 @@ use yii\web\Response;
 
 class TenantControllerTest extends TestCase
 {
+    /**
+     * @return array<string, mixed>
+     */
     #[Override]
     public function fixtures(): array
     {
@@ -217,6 +220,10 @@ class TenantControllerTest extends TestCase
         self::assertNotEmpty(Yii::$app->getSession()->getFlash('success'));
     }
 
+    /**
+     * @param array<string, mixed> $params
+     * @param array<string, mixed> $bodyParams
+     */
     private function post(string $route, array $params = [], array $bodyParams = [], bool $reload = false): mixed
     {
         $_SERVER['REQUEST_METHOD'] = 'POST';

@@ -24,6 +24,9 @@ final class AdminLanguageTest extends TestCase
     use FunctionalTestTrait;
     use UserFixtureTrait;
 
+    /**
+     * @return array<string, mixed>
+     */
     #[Override]
     public function fixtures(): array
     {

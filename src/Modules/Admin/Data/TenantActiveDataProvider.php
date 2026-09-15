@@ -10,6 +10,9 @@ use Override;
 use yii\data\Pagination;
 use yii\data\Sort;
 
+/**
+ * @extends ActiveDataProvider<Tenant>
+ */
 class TenantActiveDataProvider extends ActiveDataProvider
 {
     public ?string $searchString = null;
@@ -54,6 +57,9 @@ class TenantActiveDataProvider extends ActiveDataProvider
         return !$this->isOrderedByPosition() ? parent::getSort() : false;
     }
 
+    /**
+     * @param array<string, mixed>|Sort|bool $value
+     */
     #[Override]
     public function setSort($value): void
     {

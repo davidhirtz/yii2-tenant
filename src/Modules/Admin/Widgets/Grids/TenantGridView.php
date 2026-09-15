@@ -28,6 +28,7 @@ use Yii;
 
 /**
  * @template T of TenantActiveDataProvider
+ * @extends GridView<Tenant>
  * @property T $provider
  */
 class TenantGridView extends GridView

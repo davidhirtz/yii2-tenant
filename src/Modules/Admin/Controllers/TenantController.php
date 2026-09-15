@@ -12,12 +12,16 @@ use Hirtz\Tenant\Models\Collections\TenantCollection;
 use Hirtz\Tenant\Models\Tenant;
 use Hirtz\Tenant\Modules\Admin\Controllers\Traits\TenantControllerTrait;
 use Hirtz\Tenant\Modules\Admin\Data\TenantActiveDataProvider;
+use Hirtz\Tenant\Modules\Admin\Module;
 use Override;
 use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\Response;
 
+/**
+ * @extends Controller<Module>
+ */
 class TenantController extends Controller
 {
     use TenantControllerTrait;

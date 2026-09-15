@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Hirtz\Tenant;
 
 use Hirtz\Skeleton\Filters\PageCache;
+use Hirtz\Skeleton\Models\User;
 use Hirtz\Skeleton\Modules\Admin\Controllers\DashboardController;
 use Hirtz\Skeleton\Web\Application;
 use Hirtz\Skeleton\Web\UrlManager;
@@ -17,7 +18,7 @@ use yii\i18n\PhpMessageSource;
 class Bootstrap implements BootstrapInterface
 {
     /**
-     * @param Application $app
+     * @param Application<User> $app
      */
     public function bootstrap($app): void
     {

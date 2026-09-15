@@ -186,6 +186,9 @@ class Tenant extends ActiveRecord implements
         return parent::beforeSave($insert);
     }
 
+    /**
+     * @param array<string, mixed> $changedAttributes
+     */
     #[Override]
     public function afterSave($insert, $changedAttributes): void
     {
@@ -224,6 +227,9 @@ class Tenant extends ActiveRecord implements
         return static::find()->count() > 1;
     }
 
+    /**
+     * @return TenantQuery<static>
+     */
     #[Override]
     public static function find(): TenantQuery
     {
@@ -270,6 +276,7 @@ class Tenant extends ActiveRecord implements
     }
 
     /**
+     * @return list<string>
      * @noinspection PhpUnused
      */
     public function getTrailAttributes(): array

@@ -13,6 +13,9 @@ class TenantCollection
 {
     public const string CACHE_KEY = 'tenant-collection';
 
+    /**
+     * @var array<int, Tenant>|null
+     */
     protected static ?array $tenants = null;
 
     /**

@@ -222,6 +222,9 @@ final class UrlManagerTest extends TestCase
         self::assertEquals(['new-posts', 'old_posts'], $manager->getImmutableRuleParams());
     }
 
+    /**
+     * @param array<string, mixed> $config
+     */
     protected function getRequest($config = []): Request
     {
         Yii::$app->set('request', [
@@ -234,6 +237,9 @@ final class UrlManagerTest extends TestCase
         return Yii::$app->getRequest();
     }
 
+    /**
+     * @param array<string, mixed> $config
+     */
     private function getUrlManager($config = []): UrlManager
     {
         Yii::$app->set('urlManager', [

@@ -15,6 +15,9 @@ use Hirtz\Tenant\Models\Tenant;
  */
 class ReorderTenants extends ReorderActiveRecords
 {
+    /**
+     * @param list<int> $tenantIds
+     */
     public function __construct(array $tenantIds)
     {
         $entries = Tenant::find()
