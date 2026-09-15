@@ -55,7 +55,9 @@ final class TenantModelTest extends TestCase
     public function testLanguageValidation(): void
     {
         Yii::$app->getI18n()->setLanguages(['en-US', 'de']);
-        self::assertCount(2, Tenant::getLanguages());
+
+        // the select renders the values as they come, so the labels have to be the values of the map
+        self::assertSame(['en-US' => 'English', 'de' => 'Deutsch'], Tenant::getLanguages());
 
         $tenant = $this->createTenant();
         $tenant->url = 'https://www.test.de';

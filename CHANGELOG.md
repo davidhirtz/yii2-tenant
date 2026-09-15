@@ -1,5 +1,8 @@
 ## 3.0.0 (in development)
 
+- **`Models\Tenant::getLanguages()` answers a plain `value => label` map.** The `['name' => …]` shape it had
+  left `Widgets\Forms\Fields\SelectField` without a label, so the form offered the language codes.
+
 - `Migrations\M260915170000CustomAttributesColumn` moves `tenant.custom_attributes` after `language` — cosmetic
   column order only.
 

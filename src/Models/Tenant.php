@@ -288,13 +288,17 @@ class Tenant extends ActiveRecord implements
         return Yii::t('tenant', 'TENANT_NAME');
     }
 
+    /**
+     * @see \Hirtz\Skeleton\Widgets\Forms\Fields\SelectField::getItemsFromModel()
+     * @return array<string, string>
+     */
     public static function getLanguages(): array
     {
         $i18n = Yii::$app->getI18n();
         $languages = [];
 
         foreach ($i18n->getLanguages() as $language) {
-            $languages[$language]['name'] = $i18n->getLabel($language);
+            $languages[$language] = $i18n->getLabel($language);
         }
 
         return $languages;
