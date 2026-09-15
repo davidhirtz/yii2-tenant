@@ -1,5 +1,9 @@
 ## 3.0.0 (in development)
 
+- **`Migrations\M260915190000ManagerTenantPermission` takes `tenant` out of the `manager` role.** A tenant cuts
+  the whole installation, so the permission is the administrator's alone, as `system` is;
+  `Skeleton\Migrations\M260914190000ManagerRole` had handed `manager` every permission that existed at the time.
+
 - **`Models\Tenant::getLanguages()` answers a plain `value => label` map.** The `['name' => …]` shape it had
   left `Widgets\Forms\Fields\SelectField` without a label, so the form offered the language codes.
 
