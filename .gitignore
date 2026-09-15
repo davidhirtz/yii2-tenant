@@ -12,3 +12,4 @@
 # OS cache files
 .DS_Store
 Thumbs.db
+/composer.lock
