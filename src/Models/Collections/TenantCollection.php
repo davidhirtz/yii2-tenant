@@ -27,6 +27,14 @@ class TenantCollection
         return static::$tenants ??= static::findAll();
     }
 
+    /**
+     * A new record carries no tenant id, and `null` is not a legal array offset.
+     */
+    public static function getById(?int $id): ?Tenant
+    {
+        return $id === null ? null : static::getAll()[$id] ?? null;
+    }
+
     public static function getDefault(): ?Tenant
     {
         $tenants = static::getAll();
@@ -67,8 +75,8 @@ class TenantCollection
 
     public static function getFromRequest(): ?Tenant
     {
-        $tenantId = Request::current()?->get('tenant', '') ?? '';
-        return static::getAll()[$tenantId] ?? null;
+        $tenantId = Request::current()?->get('tenant');
+        return static::getById(is_numeric($tenantId) ? (int)$tenantId : null);
     }
 
     /**

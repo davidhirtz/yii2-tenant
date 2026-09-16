@@ -1,5 +1,10 @@
 ## 3.0.0 (in development)
 
+- **Added `Models\Collections\TenantCollection::getById()`**, which answers `null` for a `null` id instead of
+  reading the array with it — PHP 8.5 deprecates that, and the web error handler turns the deprecation into an
+  exception, so the entry create form died on a record that has no tenant yet (monorepo issue #126). Every
+  `TenantCollection::getAll()[$id] ?? null` moves to it.
+
 - **`Modules\Admin\Controllers\TenantController` gained a POST-only `status` action** that cycles the tenant's
   status, which the grid's status icon posts to (monorepo issue #121). An installation where that is too risky
   turns it off with `[TenantGridView::class => ['enableStatusUpdate' => false]]` in the container.
