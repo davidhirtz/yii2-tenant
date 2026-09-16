@@ -9,7 +9,10 @@ use Hirtz\Tenant\Models\Queries\TenantQuery;
 use Hirtz\Tenant\Models\Tenant;
 
 /**
- * @property int|null $tenant_id
+ * The foreign key is deliberately not declared here: a trait `@property` is flattened into the using class, so a
+ * second declaration of the same name there silently drops that class's whole PHPDoc scope instead of being
+ * reported (monorepo issue #125). Each using model declares the column with its own nullability.
+ *
  * @property-read Tenant|null $tenant {@see static::getTenant()}
  * @mixin ActiveRecord
  */

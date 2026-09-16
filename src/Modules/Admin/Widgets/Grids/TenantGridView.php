@@ -36,6 +36,8 @@ class TenantGridView extends GridView
     #[Override]
     protected function configure(): void
     {
+        $this->attributes['id'] ??= 'tenant-grid-view';
+
         $this->header ??= [
             $this->getStatusDropdown(),
             $this->getSearchInput(),
@@ -59,7 +61,8 @@ class TenantGridView extends GridView
 
     protected function getStatusColumn(): ?Column
     {
-        return StatusIconColumn::make();
+        return StatusIconColumn::make()
+            ->enableUpdate($this->enableStatusUpdate && $this->webuser->can(Tenant::AUTH_TENANT));
     }
 
     protected function getNameColumn(): ?Column

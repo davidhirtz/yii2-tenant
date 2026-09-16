@@ -6,6 +6,7 @@ namespace Hirtz\Tenant\Modules\Admin\Controllers;
 
 use Hirtz\Skeleton\Models\Forms\DeleteForm;
 use Hirtz\Skeleton\Web\Controller;
+use Hirtz\Skeleton\Web\Traits\StatusControllerTrait;
 use Hirtz\Skeleton\Widgets\Flashes;
 use Hirtz\Tenant\Models\Actions\ReorderTenants;
 use Hirtz\Tenant\Models\Collections\TenantCollection;
@@ -24,6 +25,7 @@ use yii\web\Response;
  */
 class TenantController extends Controller
 {
+    use StatusControllerTrait;
     use TenantControllerTrait;
 
     #[Override]
@@ -36,7 +38,7 @@ class TenantController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['create', 'delete', 'index', 'order', 'update'],
+                        'actions' => ['create', 'delete', 'index', 'order', 'status', 'update'],
                         'roles' => [Tenant::AUTH_TENANT],
                     ],
                 ],
@@ -46,6 +48,7 @@ class TenantController extends Controller
                 'actions' => [
                     'delete' => ['post'],
                     'order' => ['post'],
+                    'status' => ['post'],
                 ],
             ],
         ];
@@ -92,6 +95,11 @@ class TenantController extends Controller
         return $this->render('update', [
             'tenant' => $tenant,
         ]);
+    }
+
+    public function actionStatus(int $id): Response
+    {
+        return $this->updateStatus($this->findTenant($id));
     }
 
     public function actionDelete(int $id): Response

@@ -33,7 +33,6 @@ use Yii;
  * @property string|null $cookie_domain
  * @property string|null $language
  * @property int|false $position
- * @property int $updated_by_user_id
  * @property DateTime $updated_at
  * @property DateTime $created_at
  */

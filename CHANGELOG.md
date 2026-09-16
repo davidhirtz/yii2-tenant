@@ -1,5 +1,9 @@
 ## 3.0.0 (in development)
 
+- **`Modules\Admin\Controllers\TenantController` gained a POST-only `status` action** that cycles the tenant's
+  status, which the grid's status icon posts to (monorepo issue #121). An installation where that is too risky
+  turns it off with `[TenantGridView::class => ['enableStatusUpdate' => false]]` in the container.
+
 - `Modules\Admin\Widgets\Forms\TenantActiveForm` declares its fields in `getDefaultRows()` instead of assigning
   `$this->rows ??=` in `configure()`, which the skeleton's `Widgets\Forms\ActiveForm` needs to normalize them
   before an `EVENT_CONFIGURE` listener sees them (monorepo issue #120). A subclass overriding `configure()` to
