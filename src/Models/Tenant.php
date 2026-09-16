@@ -27,7 +27,6 @@ use Yii;
 
 /**
  * @property int $id
- * @property int $status
  * @property string $name
  * @property string|null $url
  * @property string|null $cookie_domain
