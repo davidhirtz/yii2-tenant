@@ -10,6 +10,7 @@ use Hirtz\Skeleton\Widgets\Forms\Fields\InputField;
 use Hirtz\Skeleton\Widgets\Forms\Fields\SelectField;
 use Hirtz\Skeleton\Widgets\Forms\Traits\CustomAttributeFieldsTrait;
 use Hirtz\Tenant\Models\Tenant;
+use Override;
 use Yii;
 
 /**
@@ -19,7 +20,8 @@ use Yii;
 class TenantActiveForm extends ActiveForm
 {
     use CustomAttributeFieldsTrait;
-    #[\Override]
+
+    #[Override]
     protected function getDefaultRows(): array
     {
         return [
