@@ -20,9 +20,9 @@ class TenantActiveForm extends ActiveForm
 {
     use CustomAttributeFieldsTrait;
     #[\Override]
-    protected function configure(): void
+    protected function getDefaultRows(): array
     {
-        $this->rows ??= [
+        return [
             [
                 $this->getStatusField(),
                 $this->getNameField(),
@@ -34,8 +34,6 @@ class TenantActiveForm extends ActiveForm
                 $this->getCookieDomainField(),
             ]
         ];
-
-        parent::configure();
     }
 
     protected function getStatusField(): ?Field
