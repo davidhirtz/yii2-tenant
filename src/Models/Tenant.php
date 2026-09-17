@@ -255,6 +255,11 @@ class Tenant extends ActiveRecord implements
         return $this->id ? ['/admin/tenant/tenant/update', 'id' => $this->id] : ['/admin/tenant/tenant/index'];
     }
 
+    public function getPermissionName(): string
+    {
+        return self::AUTH_TENANT;
+    }
+
     public function getCookieDomain(): ?string
     {
         return $this->cookie_domain ?? (($this->url ? parse_url($this->url, PHP_URL_HOST) : null) ?: null);
