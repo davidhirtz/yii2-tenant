@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace Hirtz\Tenant\Modules\Admin\Widgets\Navs;
 
 use Hirtz\Skeleton\Widgets\Buttons\CreateButton;
-use Hirtz\Skeleton\Widgets\Navs\Header;
-use Hirtz\Skeleton\Widgets\Traits\ModelTrait;
+use Hirtz\Skeleton\Widgets\Navs\ModelHeader;
 use Hirtz\Skeleton\Widgets\Traits\ProviderTrait;
 use Hirtz\Tenant\Models\Tenant;
 use Hirtz\Tenant\Modules\Admin\Data\TenantActiveDataProvider;
@@ -14,13 +13,11 @@ use Override;
 use Stringable;
 use Yii;
 
-class TenantHeader extends Header
+/**
+ * @extends ModelHeader<Tenant|null>
+ */
+class TenantHeader extends ModelHeader
 {
-    /**
-     * @use ModelTrait<Tenant|null>
-     */
-    use ModelTrait;
-
     /**
      * @use ProviderTrait<TenantActiveDataProvider|null>
      */
@@ -29,9 +26,8 @@ class TenantHeader extends Header
     #[Override]
     protected function configure(): void
     {
-        $this->title ??= $this->model?->getOldAttribute('name') ?? Yii::t('tenant', 'TENANT_NAME_PLURAL');
-
         if ($this->model) {
+            $this->title ??= $this->model->getOldAttribute('name');
             $this->addContent($this->getTenantActionDropdown());
         }
 
@@ -39,9 +35,7 @@ class TenantHeader extends Header
             $this->addContent($this->getCreateTenantButton());
         }
 
-        if (!$this->provider) {
-            $this->view->addBreadcrumb(Yii::t('tenant', 'TENANT_NAME_PLURAL'), ['/admin/tenant/']);
-        }
+        $this->title ??= Yii::t('tenant', 'TENANT_NAME_PLURAL');
 
         parent::configure();
     }

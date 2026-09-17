@@ -1,5 +1,9 @@
 ## 3.0.0 (in development)
 
+- **`Models\Tenant::getAdminIndexBreadcrumb()` names the tenant index**, and
+  `Modules\Admin\Widgets\Navs\TenantHeader` extends the skeleton's `Widgets\Navs\ModelHeader` rather than
+  pushing that crumb onto the view itself. Nothing changes for a project that does not subclass the header.
+
 - **Added `Models\Collections\TenantCollection::getById()`**, which answers `null` for a `null` id instead of
   reading the array with it — PHP 8.5 deprecates that, and the web error handler turns the deprecation into an
   exception, so the entry create form died on a record that has no tenant yet (monorepo issue #126). Every

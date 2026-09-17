@@ -6,6 +6,7 @@ namespace Hirtz\Tenant\Models;
 
 use davidhirtz\yii2\datetime\DateTime;
 use davidhirtz\yii2\datetime\DateTimeBehavior;
+use Hirtz\Skeleton\Models\Breadcrumb;
 use Hirtz\Skeleton\Behaviors\BlameableBehavior;
 use Hirtz\Skeleton\Behaviors\TimestampBehavior;
 use Hirtz\Skeleton\Behaviors\TrailBehavior;
@@ -253,6 +254,11 @@ class Tenant extends ActiveRecord implements
     public function getAdminRoute(): array
     {
         return $this->id ? ['/admin/tenant/tenant/update', 'id' => $this->id] : ['/admin/tenant/tenant/index'];
+    }
+
+    public function getAdminIndexBreadcrumb(): Breadcrumb
+    {
+        return new Breadcrumb(Yii::t('tenant', 'TENANT_NAME_PLURAL'), ['/admin/tenant/']);
     }
 
     public function getPermissionName(): string
