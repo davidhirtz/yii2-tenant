@@ -7,6 +7,7 @@ namespace Hirtz\Tenant;
 use Hirtz\Skeleton\Filters\PageCache;
 use Hirtz\Skeleton\Models\User;
 use Hirtz\Skeleton\Modules\Admin\Controllers\DashboardController;
+use Hirtz\Skeleton\Registry\Report;
 use Hirtz\Skeleton\Web\Application;
 use Hirtz\Skeleton\Web\UrlManager;
 use Hirtz\Tenant\Models\Collections\TenantCollection;
@@ -37,6 +38,11 @@ class Bootstrap implements BootstrapInterface
 
         if (!Yii::$container->has(PageCache::class)) {
             Yii::$container->set(PageCache::class, Filters\PageCache::class);
+        }
+
+        // Only the slot: a project re-pointing the report in its own configuration keeps its class.
+        if (!Yii::$container->has(Report::class)) {
+            Yii::$container->set(Report::class, Registry\Report::class);
         }
 
         $app->extendModule('tenant', [

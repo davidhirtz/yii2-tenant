@@ -1,5 +1,11 @@
 ## 3.0.0 (in development)
 
+- **The registry report carries the tenants' URLs** (monorepo issue #176). `Bootstrap` re-points the skeleton's
+  `Registry\Report` to `Registry\Report` here unless a project already did: the first tenant with a URL, in
+  position order, gives the report its `url` — a console application has none of its own, so every push
+  classified as production before — and every tenant with a URL is listed under `extra.tenants` as
+  `{name, url, status}`. `--url` still wins, and tenants without a URL fall back to the skeleton's resolution.
+
 - **`Models\Tenant::getAdminIndexBreadcrumb()` names the tenant index**, and
   `Modules\Admin\Widgets\Navs\TenantHeader` extends the skeleton's `Widgets\Navs\ModelHeader` rather than
   pushing that crumb onto the view itself. Nothing changes for a project that does not subclass the header.
