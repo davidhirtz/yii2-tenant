@@ -99,15 +99,17 @@ class UrlManager extends \Hirtz\Skeleton\Web\UrlManager
 
     protected function setTenantFromRequest(Request $request): void
     {
+        $cookieDomain = TenantCollection::getCookieDomainByHostInfo((string)$request->getHostInfo());
+
+        if ($cookieDomain) {
+            $this->setCookieDomain($cookieDomain);
+        }
+
         $tenant = $this->getTenantFromUrl($request->getAbsoluteUrl());
 
         if ($tenant) {
             Yii::debug("Tenant found: $tenant->name", __METHOD__);
             $request->setPathInfo(substr($request->getPathInfo(), strlen($tenant->getPathInfo())));
-
-            if ($cookieDomain = $tenant->getCookieDomain()) {
-                $this->setCookieDomain($cookieDomain);
-            }
 
             $this->setTenant($tenant);
             return;

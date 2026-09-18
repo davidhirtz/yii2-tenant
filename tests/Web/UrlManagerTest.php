@@ -10,6 +10,7 @@ use Hirtz\Tenant\Test\TestCase;
 use Hirtz\Tenant\Test\Traits\TenantFixtureTrait;
 use Hirtz\Tenant\Web\UrlManager;
 use Yii;
+use yii\web\Cookie;
 use yii\web\UrlNormalizerRedirectException;
 
 final class UrlManagerTest extends TestCase
@@ -199,6 +200,66 @@ final class UrlManagerTest extends TestCase
 
         self::assertEquals('/post/view', $manager->createUrl(['post/view', 'language' => 'de']));
         self::assertEquals('/en/post/view', $manager->createUrl(['post/view', 'language' => 'en-US']));
+    }
+
+    /**
+     * Every URL of a host has to write its cookies under one scope, or the same name exists twice in the browser
+     * and a logout — which can only remove the scope of the URL it was called on — leaves the other one live.
+     */
+    public function testTheCookieDomainBelongsToTheHostRatherThanToTheMatchedTenant(): void
+    {
+        $tenant = $this->getTenantFromFixture();
+        $tenant->url = null;
+
+        self::assertNotFalse($tenant->update());
+        TenantCollection::invalidateCache();
+
+        $manager = $this->getUrlManager();
+
+        // A URL only the default tenant answers for, on the host a path tenant carries a cookie domain for.
+        $manager->parseRequest($this->getRequest([
+            'hostInfo' => 'https://www.domain.localhost',
+            'url' => '/admin',
+        ]));
+
+        self::assertSame($tenant->id, $manager->tenant?->id);
+        self::assertSame('.domain.localhost', Yii::createObject(Cookie::class)->domain);
+    }
+
+    public function testAnExplicitCookieDomainWinsOverTheHostAnotherTenantDerives(): void
+    {
+        $manager = $this->getUrlManager();
+
+        $manager->parseRequest($this->getRequest([
+            'hostInfo' => 'https://www.domain.localhost',
+            'url' => '/',
+        ]));
+
+        self::assertSame('.domain.localhost', Yii::createObject(Cookie::class)->domain);
+    }
+
+    public function testTheDraftHostSharesTheCookieDomainOfTheTenantItStandsIn(): void
+    {
+        $manager = $this->getUrlManager();
+
+        $manager->parseRequest($this->getRequest([
+            'hostInfo' => 'https://draft.domain.localhost',
+            'url' => '/admin',
+        ]));
+
+        self::assertSame('.domain.localhost', Yii::createObject(Cookie::class)->domain);
+    }
+
+    public function testAHostNoTenantNamesGetsNoCookieDomain(): void
+    {
+        $manager = $this->getUrlManager();
+
+        $manager->parseRequest($this->getRequest([
+            'hostInfo' => 'https://www.anything.localhost',
+            'url' => '/',
+        ]));
+
+        self::assertSame('', Yii::createObject(Cookie::class)->domain);
     }
 
     public function testRedirectMap(): void

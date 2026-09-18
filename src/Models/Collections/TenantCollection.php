@@ -55,14 +55,7 @@ class TenantCollection
 
     public static function getByUrl(string $url): ?Tenant
     {
-        $matches = [$url];
-
-        $draftDomain = Yii::$app->getUrlManager()->draftSubdomain;
-
-        if ($draftDomain && str_contains($url, "//$draftDomain")) {
-            $matches[] = str_replace("//$draftDomain", '//www', $url);
-            $matches[] = str_replace("//$draftDomain.", '//', $url);
-        }
+        $matches = static::getCanonicalUrls($url);
 
         foreach (static::getAll() as $tenant) {
             if (in_array($tenant->url, $matches, true)) {
@@ -71,6 +64,49 @@ class TenantCollection
         }
 
         return null;
+    }
+
+    /**
+     * The cookie scope belongs to the host, never to the tenant that happened to match the URL: a path tenant
+     * shares its host with every other URL of the installation, so a `Domain` only its own URLs carry writes a
+     * second cookie of the same name — and the logout, which can only remove the scope of the URL it was called
+     * on, leaves the other one live and the next request logs the account straight back in.
+     */
+    public static function getCookieDomainByHostInfo(string $hostInfo): ?string
+    {
+        $matches = static::getCanonicalUrls($hostInfo);
+        $domain = null;
+
+        foreach (static::getAll() as $tenant) {
+            if (!in_array($tenant->getHostInfo(), $matches, true)) {
+                continue;
+            }
+
+            // A tenant naming one widens the scope deliberately, so it wins over the host another derives.
+            if ($tenant->cookie_domain) {
+                return $tenant->cookie_domain;
+            }
+
+            $domain ??= $tenant->getCookieDomain();
+        }
+
+        return $domain;
+    }
+
+    /**
+     * @return list<string> the URL itself, plus what the draft subdomain stands in for
+     */
+    protected static function getCanonicalUrls(string $url): array
+    {
+        $matches = [$url];
+        $draftSubdomain = Yii::$app->getUrlManager()->draftSubdomain;
+
+        if ($draftSubdomain && str_contains($url, "//$draftSubdomain")) {
+            $matches[] = str_replace("//$draftSubdomain", '//www', $url);
+            $matches[] = str_replace("//$draftSubdomain.", '//', $url);
+        }
+
+        return $matches;
     }
 
     public static function getFromRequest(): ?Tenant

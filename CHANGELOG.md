@@ -1,5 +1,14 @@
 ## 3.0.0 (in development)
 
+- **The cookie domain belongs to the host, not to the tenant that matched the URL** (monorepo issue #178).
+  A path tenant shares its host with every other URL of the installation, so scoping the cookies to the matched
+  tenant wrote `_auth`, `_session` and `_csrf` under a `Domain` only its own URLs carried — two cookies of each
+  name in the browser, and a logout on any other URL could only remove one of them.
+  `Web\UrlManager::setTenantFromRequest()` now resolves the scope once for the request's host through the new
+  `Models\Collections\TenantCollection::getCookieDomainByHostInfo()`, which prefers a tenant's explicit
+  `cookie_domain` over the host another derives from its URL. A browser that already holds the stranded cookie
+  is cleared by the skeleton's matching fix.
+
 - **The registry report carries the tenants' URLs** (monorepo issue #176). `Bootstrap` re-points the skeleton's
   `Registry\Report` to `Registry\Report` here unless a project already did: the first tenant with a URL, in
   position order, gives the report its `url` — a console application has none of its own, so every push
