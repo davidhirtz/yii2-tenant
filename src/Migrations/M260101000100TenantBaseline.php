@@ -48,6 +48,16 @@ class M260101000100TenantBaseline extends Migration
         $this->execute(<<<'SQL'
             ALTER TABLE `tenant` ADD CONSTRAINT `tenant_updated_by_user_id` FOREIGN KEY (`updated_by_user_id`) REFERENCES `user` (`id`) ON DELETE SET NULL
             SQL);
+
+        $this->execute(<<<'SQL'
+            INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `updated_at`, `created_at`) VALUES
+              ('tenant', '2', '{\"category\":\"tenant\",\"key\":\"AUTH_TENANT_DESCRIPTION\"}', NULL, NULL, '1789985581', '1789985581')
+            SQL);
+
+        $this->execute(<<<'SQL'
+            INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
+              ('admin', 'tenant')
+            SQL);
     }
 
     public function safeDown(): bool
