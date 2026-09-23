@@ -1,102 +1,21 @@
 ## 3.0.0 (in development)
 
-- **The cookie domain belongs to the host, not to the tenant that matched the URL** (monorepo issue #178).
-  A path tenant shares its host with every other URL of the installation, so scoping the cookies to the matched
-  tenant wrote `_auth`, `_session` and `_csrf` under a `Domain` only its own URLs carried — two cookies of each
-  name in the browser, and a logout on any other URL could only remove one of them.
-  `Web\UrlManager::setTenantFromRequest()` now resolves the scope once for the request's host through the new
-  `Models\Collections\TenantCollection::getCookieDomainByHostInfo()`, which prefers a tenant's explicit
-  `cookie_domain` over the host another derives from its URL. A browser that already holds the stranded cookie
-  is cleared by the skeleton's matching fix.
-
-- **The registry report carries the tenants' URLs** (monorepo issue #176). `Bootstrap` re-points the skeleton's
-  `Registry\Report` to `Registry\Report` here unless a project already did: the first tenant with a URL, in
-  position order, gives the report its `url` — a console application has none of its own, so every push
-  classified as production before — and every tenant with a URL is listed under `extra.tenants` as
-  `{name, url, status}`. `--url` still wins, and tenants without a URL fall back to the skeleton's resolution.
-
-- **`Models\Tenant::getAdminIndexBreadcrumb()` names the tenant index**, and
-  `Modules\Admin\Widgets\Navs\TenantHeader` extends the skeleton's `Widgets\Navs\ModelHeader` rather than
-  pushing that crumb onto the view itself. Nothing changes for a project that does not subclass the header.
-
-- **Added `Models\Collections\TenantCollection::getById()`**, which answers `null` for a `null` id instead of
-  reading the array with it — PHP 8.5 deprecates that, and the web error handler turns the deprecation into an
-  exception, so the entry create form died on a record that has no tenant yet (monorepo issue #126). Every
-  `TenantCollection::getAll()[$id] ?? null` moves to it.
-
-- **`Modules\Admin\Controllers\TenantController` gained a POST-only `status` action** that cycles the tenant's
-  status, which the grid's status icon posts to (monorepo issue #121). An installation where that is too risky
-  turns it off with `[TenantGridView::class => ['enableStatusUpdate' => false]]` in the container.
-
-- `Modules\Admin\Widgets\Forms\TenantActiveForm` declares its fields in `getDefaultRows()` instead of assigning
-  `$this->rows ??=` in `configure()`, which the skeleton's `Widgets\Forms\ActiveForm` needs to normalize them
-  before an `EVENT_CONFIGURE` listener sees them (monorepo issue #120). A subclass overriding `configure()` to
-  change the fields has to move to the hook.
-
-- **`tenant.language` is optional too, and an empty one pins no language.** `Web\UrlManager::setLanguage()`
-  assigned it to `defaultLanguage` unconditionally, so a tenant with no language wiped the one the application
-  configured and every language — the configured default included — was served under a path prefix.
-
-- **`tenant.url` is optional.** A tenant without one pins no host: `Models\Tenant::getHostInfo()` and
-  `getCookieDomain()` answer `null`, `getPathInfo()` an empty string, and `Web\UrlManager` leaves the URL
-  manager on whichever host the request came in on — so an installation that never wanted tenants runs on
-  localhost, staging and production without a bogus canonical URL in its one row, and without
-  `params['tenantUrl']`. `Migrations\M260907110000NullableUrl` alters the column; its name orders it before the
-  cms tenant seed, which is what inserts such a row. Reverting it numbers the URL-less rows
-  `https://tenant-<id>.invalid`, since the unique index takes any number of NULLs but no second empty string
-
-- **`Web\UrlManager::getTenantFromUrl()` fatalled for a tenant URL carrying no path**: `strrpos()` answers
-  `false`, which `substr()` rejects under `strict_types`. Found by PHPStan level 7
-
-- **`Migrations\M260915190000ManagerTenantPermission` takes `tenant` out of the `manager` role.** A tenant cuts
-  the whole installation, so the permission is the administrator's alone, as `system` is;
-  `Skeleton\Migrations\M260914190000ManagerRole` had handed `manager` every permission that existed at the time.
-
-- **`Models\Tenant::getLanguages()` answers a plain `value => label` map.** The `['name' => …]` shape it had
-  left `Widgets\Forms\Fields\SelectField` without a label, so the form offered the language codes.
-
-- `Migrations\M260915170000CustomAttributesColumn` moves `tenant.custom_attributes` after `language` — cosmetic
-  column order only.
-
-- **One permission per admin-managed model.** `Models\Tenant::AUTH_TENANT` (`tenant`) replaces
-  `AUTH_TENANT_CREATE`, `AUTH_TENANT_UPDATE` and `AUTH_TENANT_DELETE`, and its description key is
-  `AUTH_TENANT_DESCRIPTION` rather than the off-convention `TENANT_AUTH_*`.
-  `Migrations\M260914140000AuthItems` grants the new item to every parent and assignee of any old one.
-  `findTenant()` lost its permission argument, and `Models\Actions\ReorderTenants` passes a skeleton
-  `I18n\Message` to `Trail::createOrderTrail()`
-- `Web\UrlManager::createUrl()` no longer assumes a web request. It read the current tenant off
-  `Request::get('tenant')`, so any URL built from a console command — the reset link
-  `skeleton/upgrade/passwords` mails, for one — died on `Calling unknown method: yii\console\Request::get()`
-- `Models\Tenant` implements the skeleton's `Models\Interfaces\AdminModelInterface` in place of
-  `AdminRouteInterface`: `getTrailModelType()` is `getAdminType()` and `getTrailModelName()` is
-  `Models\Traits\AdminModelTrait`'s `getAdminName()`
-- `Web\UrlManager::parseRequest()` sets `hostInfo` to the tenant's canonical host *after* the skeleton's parse, which
-  used to overwrite it with the request host. So a draft request or a request on a host that only fell back to the
-  default tenant now generates absolute URLs on the tenant's host, and the 404 handler matches host-qualified
-  redirects on it
-- Added `Module`, registered as the application module `tenant`, with `$enableAdminModule`. Set it to `false`
-  and the admin module and its dashboard roles are not registered at all, so the routes 404 instead of a hidden
-  nav item covering a live controller. Added `Modules\ModuleTrait` with the static `getModule()`
-- `Filters\PageCache` moved here from `yii2-cms-tenant` and `Bootstrap` maps the skeleton `Filters\PageCache`
-  to it, the way it maps the URL manager. The sitemap `variations` callback is registered here too
-- `Models\Queries\Traits\TenantQueryTrait::andWhereTenant()` prefixes `tenant_id` with the query's table alias,
-  so it survives a join against another table that has the column
-- `Test\Fixtures\TenantFixture` clears the table before it loads: every migrated database now carries a seeded
-  tenant row, and it invalidates the collection cache, which is static and outlives a test's application
-
-- `Models\Tenant` implements the skeleton `Models\Interfaces\AdminRouteInterface` and dropped its
-  `getTrailModelAdminRoute()`
-- `Models\Tenant` implements `CustomAttributeInterface`. Added the `custom_attributes` column to `tenant`, excluded
-  from the trail. `Tenant` has no `type`, so a project declares its definitions by overriding `getCustomAttributes()`
-- `TenantActiveForm` renders the custom attribute fields and `TenantController` guards its save with
-  `Request::isFormReload()`
-
-- `TenantController::actionOrder()` now returns a flash fragment (was `void`) and emits a success flash
-  after a reorder; added the `TENANT_SUCCESS_ORDERED` message
-- Changed `Tenant::$language` to be nullable; leave it empty to detect the language from the browser via
-  `Request::getPreferredLanguage()` instead of forcing a fixed tenant language (migration `NullableLanguage`)
-- Renamed `UrlManager::setApplicationLanguage()` override to `UrlManager::setLanguage()`
-- Removed default tenant
+- Renamed the namespace `davidhirtz\yii2\tenant` to `Hirtz\Tenant` and the directories to StudlyCase (`Models\Tenant`, `Web\UrlManager`, `Modules\Admin\Controllers\TenantController`); the messages moved to `messages/`, the views to `resources/views/admin/tenant/`
+- Merged `davidhirtz/yii2-cms-tenant` into `yii2-cms` and this bundle: `Filters\PageCache` and the sitemap `variations` callback live here, everything entry-related in the cms, which now requires this bundle
+- Removed the `tenant` application component; the current tenant is `Web\UrlManager::$tenant`, `null` under a console application
+- Replaced `Tenant::AUTH_TENANT_CREATE`, `AUTH_TENANT_UPDATE` and `AUTH_TENANT_DELETE` with the single permission `Tenant::AUTH_TENANT` (`tenant`), described by `AUTH_TENANT_DESCRIPTION` and held by `admin` alone; `findTenant()` lost its permission argument
+- Removed `Modules\Admin\Widgets\Navs\TenantSubmenu`; added `TenantHeader`, `TenantActionDropdown`, `TenantNavItem` and `Buttons\TenantDeleteButton`, and moved the admin routes from `admin/tenant/<action>` to `admin/tenant/tenant/<action>`
+- Renamed the message keys `TENANT_FLASH_*` to `TENANT_SUCCESS_*` and `TENANT_TITLE_CREATE` to `TENANT_CREATE_TITLE`; removed `TENANT_AUTH_*`, `TENANT_TITLE_UPDATE`, `TENANT_TITLE_DELETE` and the `ru`, `zh-CN` and `zh-TW` message files
+- Renamed `Web\UrlManager::setApplicationLanguage()` to `setLanguage()`; `TenantCollection::getDefault()` answers `null` instead of throwing, `Tenant::getLanguages()` a plain `code => label` map
+- Changed `tenant.url` and `tenant.language` to nullable: a tenant without a URL pins no host and no cookie domain (`getHostInfo()` and `getCookieDomain()` answer `null`), one without a language keeps the configured `defaultLanguage`; the seeded tenant (`Migrations\M260101000110TenantSeed`) has neither
+- Changed the cookie domain to be resolved per request host through `TenantCollection::getCookieDomainByHostInfo()` rather than from the matched tenant
+- Changed `Web\UrlManager::parseRequest()` to keep the tenant's canonical host as `hostInfo` after the parse, and `createUrl()` to work without a web request
+- Changed `Tenant` to implement the skeleton's `AdminModelInterface`, `TrailModelInterface` and `CustomAttributeInterface`: `getTrailModelType()`, `getTrailModelName()` and `getTrailModelAdminRoute()` are `getAdminType()`, `getAdminName()` and `getAdminRoute()`; added the `custom_attributes` column
+- Changed `TenantRelationTrait` to declare no `tenant_id`; the using model declares the column. `TenantQueryTrait::andWhereTenant()` prefixes the column with the table alias
+- Changed `TenantActiveForm` to declare its fields in `getDefaultRows()`, and `TenantController::actionOrder()` to answer a flash fragment (`TENANT_SUCCESS_ORDERED`)
+- Added `Module` (`modules.tenant`) with `$enableAdminModule`, and `Modules\ModuleTrait::getModule()`
+- Added `TenantCollection::getById()`, `TenantController::actionStatus()` behind the grid's `enableStatusUpdate`, and `Registry\Report`, which gives the registry report the tenants' URLs
+- Added `Test\TestCase`, `Test\Fixtures\TenantFixture` and `Test\Traits\TenantFixtureTrait`
 
 ## 1.4.0 (Jan 27, 2026)
 
