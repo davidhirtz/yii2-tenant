@@ -1,4 +1,4 @@
-## 3.0.0 (in development)
+## 3.0.0 (September 23, 2026)
 
 - Renamed the namespace `davidhirtz\yii2\tenant` to `Hirtz\Tenant` and the directories to StudlyCase (`Models\Tenant`, `Web\UrlManager`, `Modules\Admin\Controllers\TenantController`); the messages moved to `messages/`, the views to `resources/views/admin/tenant/`
 - Merged `davidhirtz/yii2-cms-tenant` into `yii2-cms` and this bundle: `Filters\PageCache` and the sitemap `variations` callback live here, everything entry-related in the cms, which now requires this bundle
