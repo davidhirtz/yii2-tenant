@@ -29,7 +29,8 @@ class TenantDeleteButton extends DeleteButton
     protected function configure(): void
     {
         $this->property ??= 'name';
-        $this->title ??= Yii::t('tenant', 'TENANT_TITLE_DELETE');
+        $this->label ??= Yii::t('tenant', 'TENANT_BUTTON_DELETE');
+        $this->title ??= Yii::t('tenant', 'TENANT_CONFIRM_DELETE');
 
         parent::configure();
     }

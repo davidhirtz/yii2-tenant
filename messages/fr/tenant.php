@@ -6,6 +6,8 @@
  */
 return [
     'AUTH_TENANT_DESCRIPTION' => 'Gérer les locataires',
+    'TENANT_BUTTON_DELETE' => 'Supprimer le locataire',
+    'TENANT_CONFIRM_DELETE' => 'Voulez-vous vraiment supprimer ce locataire ?',
     'TENANT_CREATE_BUTTON' => 'Nouveau locataire',
     'TENANT_CREATE_TITLE' => 'Créer un nouveau locataire',
     'TENANT_ERROR_DELETE_LAST' => 'Ceci est le seul locataire et ne peut donc pas être supprimé.',
@@ -25,6 +27,5 @@ return [
     'TENANT_SUCCESS_ORDERED' => 'L’ordre des locataires a été modifié.',
     'TENANT_SUCCESS_UPDATED' => 'Le locataire a été mis à jour.',
     'TENANT_SWITCH_ADMIN_BUTTON' => 'Basculer vers le locataire',
-    'TENANT_TITLE_DELETE' => 'Supprimer le locataire',
     'TENANT_TRAIL_REORDERED' => 'L’ordre des locataires a été modifié.',
 ];

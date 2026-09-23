@@ -6,6 +6,8 @@
  */
 return [
     'AUTH_TENANT_DESCRIPTION' => 'Mandanten verwalten',
+    'TENANT_BUTTON_DELETE' => 'Mandant löschen',
+    'TENANT_CONFIRM_DELETE' => 'Sind Sie sich sicher, dass Sie diesen Mandanten löschen wollen?',
     'TENANT_CREATE_BUTTON' => 'Neuer Mandant',
     'TENANT_CREATE_TITLE' => 'Neuen Mandant erstellen',
     'TENANT_ERROR_DELETE_LAST' => 'Dies ist der letzte Mandant und kann deshalb nicht gelöscht werden.',
@@ -25,6 +27,5 @@ return [
     'TENANT_SUCCESS_ORDERED' => 'Die Reihenfolge der Mandanten wurde erfolgreich geändert.',
     'TENANT_SUCCESS_UPDATED' => 'Der Mandant wurde erfolgreich aktualisiert.',
     'TENANT_SWITCH_ADMIN_BUTTON' => 'Zu Mandant wechseln',
-    'TENANT_TITLE_DELETE' => 'Mandant löschen',
     'TENANT_TRAIL_REORDERED' => 'Mandanten-Reihenfolge wurde geändert.',
 ];

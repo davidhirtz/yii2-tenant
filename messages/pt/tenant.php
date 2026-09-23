@@ -6,6 +6,8 @@
  */
 return [
     'AUTH_TENANT_DESCRIPTION' => 'Gerir inquilinos',
+    'TENANT_BUTTON_DELETE' => 'Eliminar inquilino',
+    'TENANT_CONFIRM_DELETE' => 'Tem a certeza de que pretende eliminar este inquilino?',
     'TENANT_CREATE_BUTTON' => 'Novo inquilino',
     'TENANT_CREATE_TITLE' => 'Criar novo inquilino',
     'TENANT_ERROR_DELETE_LAST' => 'Este é o único inquilino e, por isso, não pode ser eliminado.',
@@ -25,6 +27,5 @@ return [
     'TENANT_SUCCESS_ORDERED' => 'A ordem dos inquilinos foi alterada.',
     'TENANT_SUCCESS_UPDATED' => 'O inquilino foi atualizado.',
     'TENANT_SWITCH_ADMIN_BUTTON' => 'Mudar para o inquilino',
-    'TENANT_TITLE_DELETE' => 'Eliminar inquilino',
     'TENANT_TRAIL_REORDERED' => 'A ordem dos inquilinos foi alterada.',
 ];
