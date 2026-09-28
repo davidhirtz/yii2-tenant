@@ -71,6 +71,47 @@ final class TenantCollectionTest extends TestCase
         self::assertSame([], $deprecations);
     }
 
+    public function testEveryTenantsHostAndDraftSubdomainIsAllowed(): void
+    {
+        $request = new Request();
+        TenantCollection::addAllowedHosts($request);
+
+        $expected = [];
+
+        foreach (TenantCollection::getAll() as $tenant) {
+            $host = (string)parse_url((string)$tenant->getHostInfo(), PHP_URL_HOST);
+            $expected[] = $host;
+            $expected[] = 'draft.' . preg_replace('/^www\./', '', $host);
+        }
+
+        self::assertContains('www.domain.localhost', $request->allowedHosts);
+        self::assertContains('draft.domain.localhost', $request->allowedHosts);
+        self::assertSame(array_values(array_unique($expected)), $request->allowedHosts);
+    }
+
+    public function testATenantWithoutAUrlLeavesTheListEmpty(): void
+    {
+        $tenant = TenantCollection::getById(3) ?? self::fail('The draft tenant is missing.');
+        $tenant->url = null;
+
+        $request = new Request();
+        TenantCollection::addAllowedHosts($request);
+
+        self::assertSame([], $request->allowedHosts);
+    }
+
+    public function testAConfiguredListGainsTheTenantsThatHaveAUrl(): void
+    {
+        $tenant = TenantCollection::getById(3) ?? self::fail('The draft tenant is missing.');
+        $tenant->url = null;
+
+        $request = new Request(['allowedHosts' => ['www.example.com']]);
+        TenantCollection::addAllowedHosts($request);
+
+        self::assertSame('www.example.com', $request->allowedHosts[0]);
+        self::assertContains('www.domain.localhost', $request->allowedHosts);
+    }
+
     public function testFromRequest(): void
     {
         Yii::$app->set('request', [

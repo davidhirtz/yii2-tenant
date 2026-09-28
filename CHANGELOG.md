@@ -1,3 +1,7 @@
+## Unreleased
+
+- Added every tenant's host and draft subdomain to `Request::$allowedHosts`
+
 ## 3.0.0 (September 23, 2026)
 
 - Renamed the namespace `davidhirtz\yii2\tenant` to `Hirtz\Tenant` and the directories to StudlyCase (`Models\Tenant`, `Web\UrlManager`, `Modules\Admin\Controllers\TenantController`); the messages moved to `messages/`, the views to `resources/views/admin/tenant/`

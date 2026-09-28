@@ -9,6 +9,7 @@ use Hirtz\Skeleton\Models\User;
 use Hirtz\Skeleton\Modules\Admin\Controllers\DashboardController;
 use Hirtz\Skeleton\Registry\Report;
 use Hirtz\Skeleton\Web\Application;
+use Hirtz\Skeleton\Web\Request;
 use Hirtz\Skeleton\Web\UrlManager;
 use Hirtz\Tenant\Models\Collections\TenantCollection;
 use Hirtz\Tenant\Models\Tenant;
@@ -48,6 +49,12 @@ class Bootstrap implements BootstrapInterface
         $app->extendModule('tenant', [
             'class' => Module::class,
         ]);
+
+        $app->on(Application::EVENT_BEFORE_REQUEST, static function (): void {
+            if ($request = Request::current()) {
+                TenantCollection::addAllowedHosts($request);
+            }
+        });
 
         $app->extendComponent('sitemap', [
             'variations' => function () {

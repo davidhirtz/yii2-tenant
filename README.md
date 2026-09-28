@@ -111,6 +111,10 @@ A `tenant` query parameter holding an id is carried into every generated URL of 
 admin switches between tenants (`TenantCollection::getFromRequest()`, the grid's *Switch to tenant* button), and
 `Web\UrlManager::createUrl()` works without a web request, so a console command can build tenant URLs.
 
+Every tenant's host and its draft subdomain are added to `Request::$allowedHosts` before each request, so a project
+whose tenants all have a URL refuses any other host without configuring one. A tenant without a URL answers on any
+host, so it leaves an empty list empty; a configured `params.allowedHosts` gains the hosts of the tenants that have one.
+
 A tenant's `url` is validated against the other tenants and against the web root: a path segment that names an
 immutable URL rule, a file or a directory under `@webroot` is refused (`TENANT_ERROR_PATH_PROTECTED`).
 

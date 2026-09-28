@@ -109,6 +109,36 @@ class TenantCollection
         return $matches;
     }
 
+    /**
+     * Every tenant's host and its draft subdomain. A tenant without a URL answers on any host, so it leaves the list
+     * empty — no check — unless the project configured one.
+     */
+    public static function addAllowedHosts(Request $request): void
+    {
+        $draftSubdomain = Yii::$app->getUrlManager()->draftSubdomain;
+        $hosts = [];
+
+        foreach (static::getAll() as $tenant) {
+            $host = parse_url((string)$tenant->getHostInfo(), PHP_URL_HOST);
+
+            if (!$host) {
+                if (!$request->allowedHosts) {
+                    return;
+                }
+
+                continue;
+            }
+
+            $hosts[] = $host;
+
+            if ($draftSubdomain) {
+                $hosts[] = "$draftSubdomain." . preg_replace('/^www\./', '', $host);
+            }
+        }
+
+        $request->addAllowedHosts(...$hosts);
+    }
+
     public static function getFromRequest(): ?Tenant
     {
         $tenantId = Request::current()?->get('tenant');
