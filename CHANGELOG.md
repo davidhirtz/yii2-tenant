@@ -1,4 +1,4 @@
-## Unreleased
+## 3.1.0 (September 28, 2026)
 
 - Added every tenant's host and draft subdomain to `Request::$allowedHosts`
 
