@@ -85,11 +85,11 @@ class ReportTest extends TestCase
     }
 
     /**
-     * The bootstrap only fills an empty slot, so a project's own report class is left alone.
+     * The bundle's definition is a default of the configuration, so a project's own report class wins.
      */
     public function testAProjectDefinitionWins(): void
     {
-        Yii::$container->set(SkeletonReport::class, ProjectReport::class);
+        $this->config['container']['definitions'][SkeletonReport::class] = ProjectReport::class;
         $this->reloadApplication();
 
         self::assertInstanceOf(ProjectReport::class, SkeletonReport::create());
