@@ -1,3 +1,7 @@
+## Unreleased
+
+- Requires `davidhirtz/yii2-skeleton` `^3.7`, whose `AttributeTypecastBehavior` makes date columns dates: the models no longer attach `DateTimeBehavior`
+
 ## 3.1.0 (September 28, 2026)
 
 - Added every tenant's host and draft subdomain to `Request::$allowedHosts`

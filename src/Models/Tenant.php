@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace Hirtz\Tenant\Models;
 
-use davidhirtz\yii2\datetime\DateTime;
-use davidhirtz\yii2\datetime\DateTimeBehavior;
+use Hirtz\Skeleton\Db\DateTime;
 use Hirtz\Skeleton\Models\Breadcrumb;
 use Hirtz\Skeleton\Behaviors\BlameableBehavior;
 use Hirtz\Skeleton\Behaviors\TimestampBehavior;
@@ -59,7 +58,6 @@ class Tenant extends ActiveRecord implements
         return [
             ...parent::behaviors(),
             'BlameableBehavior' => BlameableBehavior::class,
-            'DateTimeBehavior' => DateTimeBehavior::class,
             'TimestampBehavior' => TimestampBehavior::class,
             'TrailBehavior' => TrailBehavior::class,
         ];
