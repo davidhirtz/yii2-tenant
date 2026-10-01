@@ -33,7 +33,7 @@ class M260101000100TenantBaseline extends Migration
               PRIMARY KEY (`id`),
               UNIQUE KEY `url` (`url`),
               KEY `tenant_updated_by_user_id` (`updated_by_user_id`)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
             SQL
         );
 
