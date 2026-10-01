@@ -9,6 +9,7 @@ use Hirtz\Skeleton\I18n\Message;
 use Hirtz\Skeleton\Models\Trail;
 use Hirtz\Tenant\Models\Collections\TenantCollection;
 use Hirtz\Tenant\Models\Tenant;
+use Override;
 
 /**
  * @extends ReorderActiveRecords<Tenant>
@@ -34,8 +35,14 @@ class ReorderTenants extends ReorderActiveRecords
     protected function afterReorder(): void
     {
         Trail::createOrderTrail(null, Message::make('tenant', 'TENANT_TRAIL_REORDERED'));
-        TenantCollection::invalidateCache();
 
         parent::afterReorder();
+    }
+
+    #[Override]
+    protected function afterCommit(): void
+    {
+        TenantCollection::invalidateCache();
+        parent::afterCommit();
     }
 }
