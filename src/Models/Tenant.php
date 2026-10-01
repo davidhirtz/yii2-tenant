@@ -32,7 +32,7 @@ use Yii;
  * @property string|null $cookie_domain
  * @property string|null $language
  * @property int|false $position
- * @property DateTime $updated_at
+ * @property DateTime|null $updated_at
  * @property DateTime $created_at
  */
 class Tenant extends ActiveRecord implements
