@@ -136,7 +136,8 @@ Admin routes:
 Drop `davidhirtz/yii2-cms-tenant` from `composer.json` and any container definition or `bootstrap` entry naming
 a `davidhirtz\yii2\cms\tenant\` class; `Hirtz\Cms\Bootstrap` and `Hirtz\Tenant\Bootstrap` register what that
 package's bootstrap used to. A project that bound `davidhirtz\yii2\tenant\web\UrlManager` (or a subclass) in the
-container renames the class; the bootstrap only sets the definition when none exists, as before.
+container renames the class; the bundle's definition is a default merged under the application's configuration,
+so the project's own still wins.
 
 An installation that has one tenant and wants no tenant admin turns the admin submodule off; the tenant row stays
 and is editable through the console or SQL only:

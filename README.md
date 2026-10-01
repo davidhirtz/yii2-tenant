@@ -15,8 +15,8 @@ composer require davidhirtz/yii2-tenant
 ```
 
 The bundle bootstraps itself through `extra.bootstrap` (`Bootstrap`): it registers the `@tenant` alias, the
-`tenant` message category, the application module `tenant`, its migration namespace and, unless the project has
-bound them itself, three container definitions (see below). `./yii migrate` creates the `tenant` table and the
+`tenant` message category, the application module `tenant`, its migration namespace and three container
+definitions (see below). `./yii migrate` creates the `tenant` table and the
 `tenant` permission, and seeds one enabled tenant named after the application with neither URL nor language
 (`Migrations\M260101000110TenantSeed`). Such a tenant pins nothing: the site keeps answering on whatever host it
 is served on, which is what a single-site installation wants.
@@ -37,7 +37,8 @@ is served on, which is what a single-site installation wants.
 ],
 ```
 
-Container definitions `Bootstrap` sets when the project has not bound the class itself:
+Container definitions from `Bootstrap::getDefaultConfig()`, merged under the application's configuration, so a
+definition the project declares for the same class wins:
 
 | Skeleton class                     | Bound to            |
 |------------------------------------|---------------------|
