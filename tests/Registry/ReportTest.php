@@ -11,7 +11,6 @@ use Hirtz\Tenant\Models\Tenant;
 use Hirtz\Tenant\Registry\Report;
 use Hirtz\Tenant\Test\TestCase;
 use Hirtz\Tenant\Test\Traits\TenantFixtureTrait;
-use Yii;
 
 /**
  * Under the console application, which is what a deploy pushes from and where the skeleton's own report has no
