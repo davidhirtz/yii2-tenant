@@ -1,5 +1,6 @@
 ## Unreleased
 
+- Changed the `davidhirtz/yii2-skeleton` requirement to `^3.11` (`ReorderActiveRecords::afterCommit()`)
 - Fixed the baseline migration collation to `utf8mb4`
 - Fixed the seeded tenant being a draft, whose pages answer `X-Robots-Tag: none`: it is enabled
 
