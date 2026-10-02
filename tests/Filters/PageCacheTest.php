@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Hirtz\Tenant\Tests\Filters;
 
+use Hirtz\Skeleton\Sitemap\Sitemap as BaseSitemap;
 use Hirtz\Tenant\Filters\PageCache;
 use Hirtz\Tenant\Models\Collections\TenantCollection;
 use Hirtz\Tenant\Models\Tenant;
@@ -39,38 +40,44 @@ class PageCacheTest extends TestCase
 
     public function testTheCacheVariesByTenant(): void
     {
-        $first = $this->createFilterForTenant(1);
-        $second = $this->createFilterForTenant(2);
+        $first = $this->createFilterForTenant(1)->getCacheKey();
+        $second = $this->createFilterForTenant(2)->getCacheKey();
 
-        self::assertIsArray($first->variations);
-        self::assertIsArray($second->variations);
-
-        self::assertContains('1', $first->variations);
-        self::assertContains('2', $second->variations);
-
-        self::assertNotSame($first->variations, $second->variations);
+        self::assertContains('tenant-1', $first);
+        self::assertContains('tenant-2', $second);
     }
 
-    public function testWithoutATenantTheVariationsAreTheSkeletonsOwn(): void
+    public function testWithoutATenantTheKeyIsTheSkeletonsOwn(): void
     {
-        $filter = $this->createFilter();
+        $key = $this->createFilter()->getCacheKey();
 
-        self::assertIsArray($filter->variations);
-        self::assertNotEmpty($filter->variations);
-        self::assertSame(Yii::$app->language, end($filter->variations));
+        self::assertSame(Yii::$app->language, end($key));
     }
 
     /**
-     * A callable decides for itself, so nothing is appended to it.
+     * A project's callable replaces the variations, never the tenant.
      */
-    public function testACallableVariationIsLeftAlone(): void
+    public function testACallableVariationStillVariesByTenant(): void
     {
-        $this->setUpTenant(1);
+        $this->setUpTenant(2);
 
-        $callback = fn (): array => ['own'];
-        $filter = $this->createFilter(['variations' => $callback]);
+        $key = $this->createFilter(['variations' => fn (): array => ['own']])->getCacheKey();
 
-        self::assertSame($callback, $filter->variations);
+        self::assertContains('own', $key);
+        self::assertContains('tenant-2', $key);
+    }
+
+    public function testTheSitemapVariesByTenantWhateverTheProjectConfigures(): void
+    {
+        $this->setUpTenant(2);
+
+        $sitemap = Yii::createObject([
+            'class' => BaseSitemap::class,
+            'variations' => fn (): array => [Yii::$app->language],
+        ]);
+
+        self::assertInstanceOf(BaseSitemap::class, $sitemap);
+        self::assertSame([Yii::$app->language, 'tenant-2'], $sitemap->getVariations());
     }
 
     public function testTheSkeletonRulesStillApply(): void
@@ -83,7 +90,7 @@ class PageCacheTest extends TestCase
         self::assertFalse($this->createFilter()->enabled);
     }
 
-    private function createFilterForTenant(int $id): PageCache
+    private function createFilterForTenant(int $id): TestPageCache
     {
         $this->setUpTenant($id);
         return $this->createFilter();
@@ -100,8 +107,19 @@ class PageCacheTest extends TestCase
     /**
      * @param array<string, mixed> $config
      */
-    private function createFilter(array $config = []): PageCache
+    private function createFilter(array $config = []): TestPageCache
     {
-        return new PageCache($config);
+        return new TestPageCache($config);
+    }
+}
+
+class TestPageCache extends PageCache
+{
+    /**
+     * @return array<array-key, mixed>
+     */
+    public function getCacheKey(): array
+    {
+        return $this->calculateCacheKey();
     }
 }

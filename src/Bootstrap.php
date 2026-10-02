@@ -9,6 +9,7 @@ use Hirtz\Skeleton\Filters\PageCache;
 use Hirtz\Skeleton\Models\User;
 use Hirtz\Skeleton\Modules\Admin\Controllers\DashboardController;
 use Hirtz\Skeleton\Registry\Report;
+use Hirtz\Skeleton\Sitemap\Sitemap as BaseSitemap;
 use Hirtz\Skeleton\Web\Application;
 use Hirtz\Skeleton\Web\Request;
 use Hirtz\Skeleton\Web\UrlManager;
@@ -34,17 +35,12 @@ class Bootstrap implements ConfigBootstrapInterface
                         ],
                     ],
                 ],
-                'sitemap' => [
-                    'variations' => static function () {
-                        $manager = Yii::$app->getUrlManager();
-                        return $manager instanceof Web\UrlManager ? $manager->tenant?->id : null;
-                    },
-                ],
             ],
             'container' => [
                 'definitions' => [
                     PageCache::class => Filters\PageCache::class,
                     Report::class => Registry\Report::class,
+                    BaseSitemap::class => Sitemap\Sitemap::class,
                     UrlManager::class => Web\UrlManager::class,
                 ],
             ],

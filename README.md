@@ -45,9 +45,10 @@ definition the project declares for the same class wins:
 | `Hirtz\Skeleton\Web\UrlManager`    | `Web\UrlManager`    |
 | `Hirtz\Skeleton\Filters\PageCache` | `Filters\PageCache` |
 | `Hirtz\Skeleton\Registry\Report`   | `Registry\Report`   |
+| `Hirtz\Skeleton\Sitemap\Sitemap`   | `Sitemap\Sitemap`   |
 
-Components the bundle touches: `urlManager` (through the container definition), `sitemap` (its `variations` is
-set to a callback answering the current tenant's id), `i18n` (the `tenant` translation) and `cache`
+Components the bundle touches: `urlManager` and `sitemap` (through the container definitions), `i18n` (the
+`tenant` translation) and `cache`
 (`Models\Collections\TenantCollection` caches the tenants under the tag `TenantCollection::CACHE_KEY`).
 The bundle reads no `params` and registers no console command.
 
@@ -127,8 +128,8 @@ model declares the `tenant_id` column itself. `Models\Queries\Traits\TenantQuery
 
 ### Page cache, sitemap and registry
 
-`Filters\PageCache` appends the current tenant's id to the filter's `variations`, so the same route is cached
-per tenant, and the `sitemap` component's `variations` callback does the same for the sitemap. `Registry\Report`
+`Filters\PageCache` appends the current tenant's id to the cache key, so the same route is cached per tenant
+whatever `variations` a project configures, callable or not, and `Sitemap\Sitemap` adds it to the sitemap's. `Registry\Report`
 gives `./yii registry/push` the first tenant with a URL as the installation's `url` and lists every one under
 `extra.tenants` as `{name, url, status}`; `--url` still wins.
 
