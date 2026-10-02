@@ -50,7 +50,7 @@ final class TenantRelationTest extends TestCase
         $model = TestModel::create();
         $model->populateTenantRelation($tenant);
 
-        self::assertTrue($model->save());
+        self::assertTrue($model->save(), print_r($model->getErrors(), true));
 
         self::assertEquals($tenant->id, $model->getTenant()->one()->getPrimaryKey());
         return $model;
@@ -63,7 +63,7 @@ final class TenantRelationTest extends TestCase
         $model = TestModel::create();
         $model->tenant_id = $tenant->id;
 
-        self::assertTrue($model->save());
+        self::assertTrue($model->save(), print_r($model->getErrors(), true));
 
         $actual = TestModel::find()->andWhereTenant($tenant)->one();
 

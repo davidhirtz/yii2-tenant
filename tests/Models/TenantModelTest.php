@@ -47,7 +47,7 @@ final class TenantModelTest extends TestCase
 
         $tenant->url = 'https://www.new-domain.localhost/';
 
-        self::assertTrue($tenant->save());
+        self::assertTrue($tenant->save(), print_r($tenant->getErrors(), true));
         self::assertEquals('https://www.new-domain.localhost', $tenant->url);
         self::assertEquals(4, $tenant->position);
     }
@@ -76,7 +76,7 @@ final class TenantModelTest extends TestCase
         $tenant->url = 'https://www.test.de';
         $tenant->language = 'de';
 
-        self::assertTrue($tenant->save());
+        self::assertTrue($tenant->save(), print_r($tenant->getErrors(), true));
         self::assertEquals('de', $tenant->language);
 
         $tenant->language = 'invalid-language';
@@ -93,7 +93,7 @@ final class TenantModelTest extends TestCase
         $tenant->url = 'https://www.no-language.localhost';
         $tenant->language = '';
 
-        self::assertTrue($tenant->validate());
+        self::assertTrue($tenant->validate(), print_r($tenant->getErrors(), true));
         self::assertNull($tenant->language);
     }
 
@@ -102,7 +102,7 @@ final class TenantModelTest extends TestCase
         $tenant = $this->createTenant();
         $tenant->url = '';
 
-        self::assertTrue($tenant->save());
+        self::assertTrue($tenant->save(), print_r($tenant->getErrors(), true));
         self::assertNull($tenant->url);
         self::assertNull($tenant->getHostInfo());
         self::assertNull($tenant->getCookieDomain());
@@ -117,8 +117,8 @@ final class TenantModelTest extends TestCase
         $second = $this->createTenant();
         $second->url = null;
 
-        self::assertTrue($first->save());
-        self::assertTrue($second->save());
+        self::assertTrue($first->save(), print_r($first->getErrors(), true));
+        self::assertTrue($second->save(), print_r($second->getErrors(), true));
     }
 
     public function testCookieDomainValidation(): void
@@ -129,7 +129,7 @@ final class TenantModelTest extends TestCase
         $tenant->language = 'en-US';
         $tenant->cookie_domain = 'test.com';
 
-        self::assertTrue($tenant->save());
+        self::assertTrue($tenant->save(), print_r($tenant->getErrors(), true));
         self::assertEquals('test.com', $tenant->cookie_domain);
 
         $tenant->cookie_domain = 'invalid-domain';
