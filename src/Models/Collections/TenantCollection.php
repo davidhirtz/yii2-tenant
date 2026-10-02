@@ -55,10 +55,11 @@ class TenantCollection
 
     public static function getByUrl(string $url): ?Tenant
     {
-        $matches = static::getCanonicalUrls($url);
+        // As the column's collation does: two URLs apart only in letter case are one to the unique key
+        $matches = array_map(mb_strtolower(...), static::getCanonicalUrls($url));
 
         foreach (static::getAll() as $tenant) {
-            if (in_array($tenant->url, $matches, true)) {
+            if (in_array(mb_strtolower((string)$tenant->url), $matches, true)) {
                 return $tenant;
             }
         }

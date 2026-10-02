@@ -52,6 +52,19 @@ final class TenantModelTest extends TestCase
         self::assertEquals(4, $tenant->position);
     }
 
+    /**
+     * The column's collation treats them as one, so validation must too, or the insert fails on the unique key.
+     */
+    public function testAUrlApartOnlyInLetterCaseIsTaken(): void
+    {
+        $tenant = $this->createTenant();
+        $tenant->url = 'https://WWW.Domain.localhost';
+        $tenant->language = 'en-US';
+
+        self::assertFalse($tenant->validate());
+        self::assertArrayHasKey('url', $tenant->getErrors());
+    }
+
     public function testLanguageValidation(): void
     {
         Yii::$app->getI18n()->setLanguages(['en-US', 'de']);
