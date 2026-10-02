@@ -1,4 +1,4 @@
-## Unreleased
+## 3.4.0 (October 2, 2026)
 
 - Added `Sitemap\Sitemap`, through which the tenant varies the sitemap cache; the page cache adds the tenant to its key, so a project's own `variations` no longer drop it
 - Changed the `davidhirtz/yii2-skeleton` requirement to `^3.11` (`ReorderActiveRecords::afterCommit()`)
