@@ -63,6 +63,18 @@ final class UrlManagerTest extends TestCase
         self::assertEquals('https://www.draft.localhost/post/view?id=1&title=sample+post', $url);
     }
 
+    public function testTheTenantQueryParamIsKeptOnlyForAKnownTenant(): void
+    {
+        $this->getRequest(['queryParams' => ['tenant' => '2']]);
+        self::assertSame('/post/view?tenant=2', $this->getUrlManager()->createUrl('post/view'));
+
+        $this->getRequest(['queryParams' => ['tenant' => 'junk']]);
+        self::assertSame('/post/view', $this->getUrlManager()->createUrl('post/view'));
+
+        $this->getRequest(['queryParams' => ['tenant' => ['1']]]);
+        self::assertSame('/post/view', $this->getUrlManager()->createUrl('post/view'));
+    }
+
     public function testCreateAbsoluteUrl(): void
     {
         $manager = $this->getUrlManager();

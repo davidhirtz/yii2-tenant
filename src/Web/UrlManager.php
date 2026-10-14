@@ -48,9 +48,8 @@ class UrlManager extends \Hirtz\Skeleton\Web\UrlManager
         $params = (array)$params;
 
         if (!array_key_exists('tenant', $params)) {
-            // A console command builds URLs too — a mailed reset link, a sitemap — and there is no request to
-            // read the current tenant from there.
-            $params['tenant'] = Request::current()?->get('tenant');
+            // Only a tenant the query names, never the raw value a cached page would carry into every link (#496).
+            $params['tenant'] = TenantCollection::getFromRequest()?->id;
         }
 
         $tenant = $this->getTenantFromParams($params, true);
