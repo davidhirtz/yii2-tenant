@@ -8,6 +8,7 @@ use Hirtz\Skeleton\Base\ConfigBootstrapInterface;
 use Hirtz\Skeleton\Filters\PageCache;
 use Hirtz\Skeleton\Models\User;
 use Hirtz\Skeleton\Modules\Admin\Controllers\DashboardController;
+use Hirtz\Skeleton\Modules\Admin\Widgets\HostAlert as BaseHostAlert;
 use Hirtz\Skeleton\Registry\Report;
 use Hirtz\Skeleton\Sitemap\Sitemap as BaseSitemap;
 use Hirtz\Skeleton\Web\Application;
@@ -38,6 +39,7 @@ class Bootstrap implements ConfigBootstrapInterface
             ],
             'container' => [
                 'definitions' => [
+                    BaseHostAlert::class => Modules\Admin\Widgets\HostAlert::class,
                     PageCache::class => Filters\PageCache::class,
                     Report::class => Registry\Report::class,
                     BaseSitemap::class => Sitemap\Sitemap::class,
