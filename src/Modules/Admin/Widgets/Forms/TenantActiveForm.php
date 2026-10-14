@@ -52,6 +52,15 @@ class TenantActiveForm extends ActiveForm
 
     protected function getLanguageField(): ?Field
     {
+        $languages = array_keys(Tenant::getLanguages());
+
+        if (count($languages) === 1) {
+            return InputField::make()
+                ->property('language')
+                ->type('hidden')
+                ->value($languages[0]);
+        }
+
         return SelectField::make()
             ->property('language')
             ->prompt(Yii::t('tenant', 'TENANT_PROMPT_LANGUAGE'));

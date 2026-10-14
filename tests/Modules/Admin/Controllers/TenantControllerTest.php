@@ -147,6 +147,18 @@ class TenantControllerTest extends TestCase
         self::assertNull(Tenant::findOne(['name' => 'No language'])?->language);
     }
 
+    public function testASingleLanguageIsAHiddenInput(): void
+    {
+        $this->login();
+        Yii::$app->getI18n()->setLanguages(['de']);
+
+        $html = Yii::$app->runAction('admin/tenant/tenant/update', ['id' => 1]);
+
+        self::assertIsString($html);
+        self::assertStringContainsString('<input type="hidden" id="tenant-language" class="input" name="Tenant[language]" value="de">', $html);
+        self::assertStringNotContainsString('<option value="">Detect from browser</option>', $html);
+    }
+
     public function testAFormReloadDoesNotSave(): void
     {
         $this->login();
