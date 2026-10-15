@@ -1,4 +1,4 @@
-## Unreleased
+## 3.5.0 (October 15, 2026)
 
 - Added `Modules\Admin\Widgets\HostAlert`: it warns while the default tenant, which answers unknown hosts, has no URL
 - Changed the `davidhirtz/yii2-skeleton` requirement to `^3.18` (`UrlManager::isHostInfoConfigured()`)
