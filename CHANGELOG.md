@@ -1,5 +1,6 @@
 ## Unreleased
 
+- Changed `Tenant::getAdminRoute()` to answer `false` while `enableAdminModule` is off
 - Added `Tenant::$languages`, the languages a tenant offers besides its default `language`, which narrow `Web\UrlManager::$languages`
 - Changed a tenant without `i18nUrl` to pick the browser's language among its languages, falling back to `language`; the migration keeps a tenant with a fixed `language` on such an installation to that language alone
 - Changed the empty `language` option to name the application's default language

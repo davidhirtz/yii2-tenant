@@ -73,7 +73,7 @@ class TenantController extends Controller
 
         if ($tenant->load($this->request->post()) && !$this->request->isFormReload() && $tenant->insert()) {
             $this->success(Yii::t('tenant', 'TENANT_SUCCESS_CREATED'));
-            return $this->redirect($tenant->getAdminRoute());
+            return $this->redirect(['update', 'id' => $tenant->id]);
         }
 
         $tenant->url ??= $this->request->getHostInfo();
@@ -89,7 +89,7 @@ class TenantController extends Controller
 
         if ($tenant->load($this->request->post()) && !$this->request->isFormReload() && $tenant->update()) {
             $this->success(Yii::t('tenant', 'TENANT_SUCCESS_UPDATED'));
-            return $this->redirect($tenant->getAdminRoute());
+            return $this->redirect(['update', 'id' => $tenant->id]);
         }
 
         return $this->render('update', [

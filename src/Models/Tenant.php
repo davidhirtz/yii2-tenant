@@ -284,8 +284,12 @@ class Tenant extends ActiveRecord implements
     /**
      * @see TenantController::actionUpdate()
      */
-    public function getAdminRoute(): array
+    public function getAdminRoute(): array|false
     {
+        if (!static::getModule()->enableAdminModule) {
+            return false;
+        }
+
         return $this->id ? ['/admin/tenant/tenant/update', 'id' => $this->id] : ['/admin/tenant/tenant/index'];
     }
 

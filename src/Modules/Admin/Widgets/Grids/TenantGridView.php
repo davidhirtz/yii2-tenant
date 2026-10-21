@@ -78,7 +78,7 @@ class TenantGridView extends GridView
 
         return A::make()
                 ->content($name)
-                ->href($tenant->getAdminRoute())
+                ->href($tenant->getAdminRoute() ?: null)
                 ->class('strong')
             . Div::make()
                 ->class('small')
