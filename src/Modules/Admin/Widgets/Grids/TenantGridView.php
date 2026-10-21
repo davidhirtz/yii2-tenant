@@ -108,7 +108,8 @@ class TenantGridView extends GridView
         $manager = Yii::$app->getUrlManager();
         $tenantId = $manager instanceof UrlManager ? $manager->tenant?->id : null;
 
-        if ($tenantId !== $tenant->id) {
+        // `TenantCollection` never loads a disabled tenant, so no request can switch to it.
+        if ($tenantId !== $tenant->id && !$tenant->isDisabled()) {
             yield Button::make()
                 ->secondary()
                 ->icon('toggle-on')

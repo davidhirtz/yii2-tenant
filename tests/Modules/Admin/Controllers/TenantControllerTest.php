@@ -61,6 +61,18 @@ class TenantControllerTest extends TestCase
         self::assertStringContainsString('Draft Tenant', $html);
     }
 
+    public function testIndexOffersNoSwitchToADisabledTenant(): void
+    {
+        Tenant::findOne(2)?->updateAttributes(['status' => Tenant::STATUS_DISABLED]);
+        $this->login();
+
+        $html = Yii::$app->runAction('admin/tenant/tenant/index');
+
+        self::assertIsString($html);
+        self::assertStringContainsString('href="https://www.draft.localhost/admin/tenant/tenant/index"', $html);
+        self::assertStringNotContainsString('href="https://www.domain.localhost/de/admin/tenant/tenant/index"', $html);
+    }
+
     public function testIndexFiltersByStatus(): void
     {
         $this->login();
