@@ -1,4 +1,4 @@
-## Unreleased
+## 3.6.0 (October 21, 2026)
 
 - Changed the `davidhirtz/yii2-skeleton` requirement to `^3.21` (multi-select)
 - Changed `Tenant::getAdminRoute()` to answer `false` while `enableAdminModule` is off
