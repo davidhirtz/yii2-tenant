@@ -8,6 +8,7 @@ use Hirtz\Tenant\Models\Collections\TenantCollection;
 use Hirtz\Tenant\Models\Tenant;
 use Hirtz\Tenant\Test\TestCase;
 use Hirtz\Tenant\Test\Traits\TenantFixtureTrait;
+use Hirtz\Tenant\Web\UrlManager;
 use Yii;
 
 final class TenantModelTest extends TestCase
@@ -97,6 +98,88 @@ final class TenantModelTest extends TestCase
         self::assertNull($tenant->language);
     }
 
+    public function testLanguagesKeepTheOthersBesideTheDefault(): void
+    {
+        $this->setLanguages('en-US');
+
+        $tenant = $this->createTenant();
+        $tenant->url = 'https://www.languages.localhost';
+        $tenant->language = 'de';
+        $tenant->load(['languages' => ['fr', 'invalid', 'de', ['de'], 'fr']], '');
+
+        self::assertTrue($tenant->save(), print_r($tenant->getErrors(), true));
+        self::assertSame(['fr'], $tenant->languages);
+        self::assertSame(['de', 'fr'], $tenant->getAvailableLanguages());
+
+        $tenant->refresh();
+        self::assertSame(['fr'], $tenant->languages);
+    }
+
+    /**
+     * Stored as `null`, a language the application adds later is offered too.
+     */
+    public function testEveryLanguageIsStoredAsNull(): void
+    {
+        $this->setLanguages('en-US');
+
+        $tenant = $this->createTenant();
+        $tenant->load(['languages' => ['de', 'fr', 'it']], '');
+
+        self::assertTrue($tenant->validate(), print_r($tenant->getErrors(), true));
+        self::assertNull($tenant->languages);
+        self::assertSame(['en-US', 'de', 'fr', 'it'], $tenant->getAvailableLanguages());
+    }
+
+    public function testNoOtherLanguageIsASingleLanguageTenant(): void
+    {
+        $this->setLanguages('en-US');
+
+        $tenant = $this->createTenant();
+        $tenant->load(['languages' => ''], '');
+
+        self::assertTrue($tenant->validate(), print_r($tenant->getErrors(), true));
+        self::assertSame([], $tenant->languages);
+        self::assertSame(['en-US'], $tenant->getAvailableLanguages());
+    }
+
+    public function testTheDefaultFollowsTheApplication(): void
+    {
+        $this->setLanguages('en-US');
+
+        $tenant = $this->createTenant();
+        $tenant->languages = ['fr'];
+
+        self::assertSame('en-US', $tenant->getDefaultLanguage());
+        self::assertSame(['en-US', 'fr'], $tenant->getAvailableLanguages());
+
+        $this->setLanguages('de');
+
+        self::assertSame('de', $tenant->getDefaultLanguage());
+        self::assertSame(['de', 'fr'], $tenant->getAvailableLanguages());
+    }
+
+    public function testASingleLanguageTenantNeedsADefault(): void
+    {
+        $this->setLanguages(null);
+
+        $tenant = $this->createTenant();
+        $tenant->load(['languages' => ''], '');
+
+        self::assertFalse($tenant->validate());
+        self::assertSame([Yii::t('tenant', 'TENANT_ERROR_LANGUAGES_DEFAULT')], $tenant->getErrors('languages'));
+    }
+
+    public function testLanguagesNotPostedStayEveryLanguage(): void
+    {
+        $this->setLanguages('en-US');
+
+        $tenant = $this->createTenant();
+        $tenant->language = 'de';
+
+        self::assertTrue($tenant->validate(), print_r($tenant->getErrors(), true));
+        self::assertNull($tenant->languages);
+    }
+
     public function testUrlIsOptional(): void
     {
         $tenant = $this->createTenant();
@@ -161,6 +244,16 @@ final class TenantModelTest extends TestCase
 
         self::assertFalse($default->delete());
         self::assertContains(Yii::t('tenant', 'TENANT_ERROR_DELETE_LAST'), $default->getErrors('id'));
+    }
+
+    private function setLanguages(?string $defaultLanguage): void
+    {
+        Yii::$app->getI18n()->setLanguages(['en-US', 'de', 'fr', 'it']);
+
+        Yii::$app->set('urlManager', [
+            'class' => UrlManager::class,
+            'defaultLanguage' => $defaultLanguage,
+        ]);
     }
 
     private function createTenant(): Tenant

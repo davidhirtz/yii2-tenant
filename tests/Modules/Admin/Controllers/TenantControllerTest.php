@@ -8,6 +8,7 @@ use Hirtz\Skeleton\Models\User;
 use Hirtz\Skeleton\Test\Fixtures\UserFixture;
 use Hirtz\Tenant\Models\Collections\TenantCollection;
 use Hirtz\Tenant\Models\Tenant;
+use Hirtz\Tenant\Web\UrlManager;
 use Hirtz\Tenant\Test\Fixtures\TenantFixture;
 use Hirtz\Tenant\Test\TestCase;
 use Override;
@@ -157,6 +158,68 @@ class TenantControllerTest extends TestCase
         self::assertIsString($html);
         self::assertStringContainsString('<input type="hidden" id="tenant-language" class="input" name="Tenant[language]" value="de">', $html);
         self::assertStringNotContainsString('<option value="">Detect from browser</option>', $html);
+    }
+
+    public function testCreateSavesTheLanguages(): void
+    {
+        $this->login();
+        Yii::$app->getI18n()->setLanguages(['en-US', 'de', 'fr']);
+
+        $response = $this->post('admin/tenant/tenant/create', [], [
+            'Tenant' => [
+                'status' => Tenant::STATUS_ENABLED,
+                'name' => 'Some languages',
+                'url' => 'https://www.languages.localhost',
+                'language' => 'de',
+                'languages' => ['de', 'fr'],
+            ],
+        ]);
+
+        self::assertInstanceOf(Response::class, $response);
+        self::assertSame(['fr'], Tenant::findOne(['name' => 'Some languages'])?->languages);
+    }
+
+    /**
+     * The default stays posted, so a reload after picking another default keeps the old one available.
+     */
+    public function testTheDefaultLanguageIsLockedInTheLanguages(): void
+    {
+        $this->login();
+        Yii::$app->getI18n()->setLanguages(['en-US', 'de', 'fr']);
+
+        $html = Yii::$app->runAction('admin/tenant/tenant/update', ['id' => 2]);
+
+        self::assertIsString($html);
+        self::assertStringContainsString('<input type="hidden" name="Tenant[languages]" value="">', $html);
+        self::assertStringContainsString('name="Tenant[languages][]" multiple', $html);
+        self::assertStringContainsString('<option value="de" selected data-locked>Deutsch</option>', $html);
+        self::assertStringContainsString('<option value="fr" selected>', $html);
+    }
+
+    public function testTheLanguagePromptNamesTheApplicationDefault(): void
+    {
+        $this->login();
+
+        Yii::$app->set('urlManager', [
+            'class' => UrlManager::class,
+            'defaultLanguage' => 'de',
+        ]);
+
+        $html = Yii::$app->runAction('admin/tenant/tenant/create');
+
+        self::assertIsString($html);
+        self::assertStringContainsString('<option value="">Deutsch (application default)</option>', $html);
+    }
+
+    public function testTheLanguagesAreHiddenWithASingleApplicationLanguage(): void
+    {
+        $this->login();
+        Yii::$app->getI18n()->setLanguages(['de']);
+
+        $html = Yii::$app->runAction('admin/tenant/tenant/create');
+
+        self::assertIsString($html);
+        self::assertStringNotContainsString('name="Tenant[languages][]"', $html);
     }
 
     public function testAFormReloadDoesNotSave(): void

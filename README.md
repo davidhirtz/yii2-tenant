@@ -76,7 +76,8 @@ They render in the admin form (`Modules\Admin\Widgets\Forms\TenantActiveForm`) a
 | `name`              | Required; the admin label and the name the registry report lists.                                                                                                          |
 | `status`            | Enabled, draft or disabled (`DraftStatusAttributeInterface`). A disabled tenant is never loaded; a draft tenant serves with `X-Robots-Tag: none`.                          |
 | `url`               | Optional canonical URL, a host (`https://www.example.com`) or a host plus one path segment (`https://www.example.com/de`). Empty means "pin no host".                       |
-| `language`          | Optional; becomes the URL manager's `defaultLanguage`. Empty keeps the configured one, which falls back to the browser's preferred language.                               |
+| `language`          | The default language, always available. Empty follows the URL manager's configured `defaultLanguage`; without one, the browser's.                                          |
+| `languages`         | JSON list of the languages offered besides the default; `null` is every application language, `[]` the default alone.                                                      |
 | `cookie_domain`     | Optional; must lie within the URL's host. Empty derives the host of `url`.                                                                                                 |
 | `custom_attributes` | The JSON column behind the custom attributes above.                                                                                                                        |
 | `position`          | The order of the admin grid; `TenantCollection::getDefault()` is the first enabled tenant.                                                                                 |
@@ -90,9 +91,14 @@ They render in the admin form (`Modules\Admin\Widgets\Forms\TenantActiveForm`) a
 shortens it segment by segment so a path tenant matches, and falls back to `TenantCollection::getDefault()`.
 It then strips the tenant's path from the request's `pathInfo`, keeps the tenant's host as the URL manager's
 `hostInfo` for the whole request (also on a host that only fell back to the default tenant), takes the tenant's
-language as `defaultLanguage`, and sets the cookie domain the request's host resolves to. The cookie scope is
+language as `defaultLanguage`, narrows the URL manager's `languages` to the tenant's available ones (the map URL
+prefixes, browser detection, hreflang tags and sitemaps read), and sets the cookie domain the request's host resolves to. The cookie scope is
 per host, not per matched tenant (`TenantCollection::getCookieDomainByHostInfo()`): a path tenant shares its
 host with every other URL of the installation, and a tenant naming an explicit `cookie_domain` wins.
+
+A tenant with one language serves it whatever `i18nUrl` says. With several, `i18nUrl` prefixes every language but
+the default; without it, the browser's preferred language is picked among the tenant's, falling back to the
+default, and the application may switch it afterwards (a user's saved language).
 
 The skeleton's `draftSubdomain` (`draft` by default) is honoured: a request on `draft.example.com` matches the
 tenant at `www.example.com` or `example.com`, and `Web\UrlManager::getDraftHostInfo()` answers the tenant's host

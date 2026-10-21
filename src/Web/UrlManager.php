@@ -18,6 +18,20 @@ class UrlManager extends \Hirtz\Skeleton\Web\UrlManager
     public ?Tenant $tenant = null;
 
     /**
+     * @var array<string, string>|null
+     */
+    private ?array $applicationLanguages = null;
+
+    private ?string $applicationDefaultLanguage = null;
+
+    #[Override]
+    public function init(): void
+    {
+        $this->applicationDefaultLanguage = $this->defaultLanguage;
+        parent::init();
+    }
+
+    /**
      * @param array<int|string, mixed>|string $params
      */
     #[Override]
@@ -75,6 +89,11 @@ class UrlManager extends \Hirtz\Skeleton\Web\UrlManager
     {
         $this->setTenantFromRequest($request);
 
+        // The parent reads a language only from two on, and a single-language tenant has one
+        if (count($this->getLanguages()) === 1) {
+            Yii::$app->language = (string)array_key_first($this->getLanguages());
+        }
+
         if ($this->tenant?->isDraft()) {
             Application::current()->getResponse()->getHeaders()->set('X-Robots-Tag', 'none');
         }
@@ -130,20 +149,46 @@ class UrlManager extends \Hirtz\Skeleton\Web\UrlManager
         if ($hostInfo) {
             $this->setHostInfo($hostInfo);
         }
+
+        $this->setTenantLanguages($tenant);
     }
 
     /**
-     * A tenant without a language pins none, as one without a URL pins no host — the configured `defaultLanguage`
-     * stands, rather than being wiped by the empty column.
+     * Narrows the map that routing, browser detection, hreflang tags and sitemaps read, the property included.
+     */
+    protected function setTenantLanguages(Tenant $tenant): void
+    {
+        $this->applicationLanguages ??= $this->getLanguages();
+        $this->defaultLanguage = $tenant->language ?? $this->applicationDefaultLanguage;
+        $this->languages = array_intersect_key($this->applicationLanguages, array_flip($tenant->getAvailableLanguages()));
+    }
+
+    /**
+     * The configured `defaultLanguage`, which a tenant's own replaces for the request.
+     */
+    public function getApplicationDefaultLanguage(): ?string
+    {
+        return $this->applicationDefaultLanguage;
+    }
+
+    /**
+     * Without a prefix to read, the browser picks among the tenant's languages, falling back to the default.
      */
     #[Override]
     protected function setLanguage(Request $request): void
     {
-        if ($this->tenant?->language) {
-            $this->defaultLanguage = $this->tenant->language;
+        if ($this->i18nUrl) {
+            parent::setLanguage($request);
+            return;
         }
 
-        parent::setLanguage($request);
+        $languages = array_keys($this->getLanguages());
+
+        if ($this->defaultLanguage !== null) {
+            $languages = array_values(array_unique([$this->defaultLanguage, ...$languages]));
+        }
+
+        Yii::$app->language = $request->getPreferredLanguage($languages);
     }
 
     protected function setCookieDomain(string $domain): void

@@ -214,6 +214,101 @@ final class UrlManagerTest extends TestCase
         self::assertEquals('/en/post/view', $manager->createUrl(['post/view', 'language' => 'en-US']));
     }
 
+    public function testATenantWithLanguagesNarrowsTheLanguages(): void
+    {
+        $manager = $this->getUrlManagerWithTenantLanguages(['de', 'fr']);
+
+        $manager->parseRequest($this->getRequest([
+            'hostInfo' => 'https://www.domain.localhost',
+            'url' => '/fr/',
+        ]));
+
+        self::assertSame(['de' => 'de', 'fr' => 'fr'], $manager->languages);
+        self::assertSame('fr', Yii::$app->language);
+
+        self::assertSame('/fr/post/view', $manager->createUrl(['post/view', 'language' => 'fr']));
+        self::assertSame('/post/view', $manager->createUrl(['post/view', 'language' => 'it']));
+    }
+
+    public function testATenantWithLanguagesDetectsOnlyThoseFromTheBrowser(): void
+    {
+        $manager = $this->getUrlManagerWithTenantLanguages(['de', 'fr']);
+
+        $manager->parseRequest($this->getRequest([
+            'hostInfo' => 'https://www.domain.localhost',
+            'url' => '/',
+            'acceptableLanguages' => ['it', 'fr', 'de'],
+        ]));
+
+        self::assertSame('fr', Yii::$app->language);
+    }
+
+    public function testATenantWithoutLanguagesRestoresEveryLanguage(): void
+    {
+        $manager = $this->getUrlManagerWithTenantLanguages(['de', 'fr']);
+        $manager->setTenant($this->getTenantFromFixture('enabled'));
+
+        self::assertSame(['en-US' => 'en', 'de' => 'de', 'fr' => 'fr', 'it' => 'it'], $manager->languages);
+    }
+
+    public function testASingleLanguageTenantSetsItsLanguageWithoutAPrefix(): void
+    {
+        $manager = $this->getUrlManagerWithTenantLanguages([], 'fr');
+
+        $manager->parseRequest($this->getRequest([
+            'hostInfo' => 'https://www.domain.localhost',
+            'url' => '/',
+        ]));
+
+        self::assertSame(['fr' => 'fr'], $manager->languages);
+        self::assertSame('fr', Yii::$app->language);
+        self::assertSame('/post/view', $manager->createUrl(['post/view', 'language' => 'fr']));
+    }
+
+    public function testWithoutI18nUrlTheBrowserPicksAmongTheTenantsLanguages(): void
+    {
+        $manager = $this->getUrlManagerWithTenantLanguages(['fr'], 'de', false);
+
+        $manager->parseRequest($this->getRequest([
+            'hostInfo' => 'https://www.domain.localhost',
+            'url' => '/',
+            'acceptableLanguages' => ['it', 'fr'],
+        ]));
+
+        self::assertSame('fr', Yii::$app->language);
+    }
+
+    public function testWithoutI18nUrlTheDefaultIsTheFallback(): void
+    {
+        $manager = $this->getUrlManagerWithTenantLanguages(['fr'], 'de', false);
+
+        $manager->parseRequest($this->getRequest([
+            'hostInfo' => 'https://www.domain.localhost',
+            'url' => '/',
+            'acceptableLanguages' => ['it'],
+        ]));
+
+        self::assertSame('de', Yii::$app->language);
+    }
+
+    public function testATenantWithoutALanguageKeepsTheConfiguredDefaultAcrossTenants(): void
+    {
+        Yii::$app->getI18n()->languages = ['de', 'en-US'];
+
+        $manager = $this->getUrlManager(['i18nUrl' => true, 'defaultLanguage' => 'en-US']);
+        self::assertSame('en-US', $manager->defaultLanguage);
+
+        $manager->setTenant($this->getTenantFromFixture('enabled'));
+        self::assertSame('de', $manager->defaultLanguage);
+
+        $tenant = $this->getTenantFromFixture('draft');
+        $tenant->language = null;
+        $manager->setTenant($tenant);
+
+        self::assertSame('en-US', $manager->defaultLanguage);
+        self::assertSame('en-US', $manager->getApplicationDefaultLanguage());
+    }
+
     /**
      * Every URL of a host has to write its cookies under one scope, or the same name exists twice in the browser
      * and a logout — which can only remove the scope of the URL it was called on — leaves the other one live.
@@ -361,6 +456,22 @@ final class UrlManagerTest extends TestCase
         ]);
 
         return $this->getWebRequest();
+    }
+
+    /**
+     * @param list<string> $languages
+     */
+    private function getUrlManagerWithTenantLanguages(array $languages, ?string $language = null, bool $i18nUrl = true): UrlManager
+    {
+        Yii::$app->getI18n()->languages = ['en-US', 'de', 'fr', 'it'];
+
+        $tenant = $this->getTenantFromFixture();
+        $tenant->language = $language;
+        $tenant->languages = $languages;
+
+        self::assertNotFalse($tenant->update());
+
+        return $this->getUrlManager(['i18nUrl' => $i18nUrl]);
     }
 
     /**

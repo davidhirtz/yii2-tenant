@@ -22,6 +22,7 @@ use Hirtz\Skeleton\Validators\DynamicRangeValidator;
 use Hirtz\Tenant\Models\Collections\TenantCollection;
 use Hirtz\Tenant\Models\Queries\TenantQuery;
 use Hirtz\Tenant\Modules\ModuleTrait;
+use Hirtz\Tenant\Web\UrlManager;
 use Override;
 use Yii;
 
@@ -31,6 +32,7 @@ use Yii;
  * @property string|null $url
  * @property string|null $cookie_domain
  * @property string|null $language
+ * @property list<string>|null $languages
  * @property int|false $position
  * @property DateTime|null $updated_at
  * @property DateTime $created_at
@@ -115,6 +117,11 @@ class Tenant extends ActiveRecord implements
                 DynamicRangeValidator::class,
                 'integerOnly' => false,
             ],
+            [
+                ['languages'],
+                $this->validateLanguages(...),
+                'skipOnEmpty' => false,
+            ],
         ];
     }
 
@@ -170,6 +177,34 @@ class Tenant extends ActiveRecord implements
                     'path' => $param,
                 ]));
             }
+        }
+    }
+
+    /**
+     * Keeps the languages besides the default, which is always available; every language is stored as `null`, so
+     * a language the application adds later is offered too.
+     */
+    public function validateLanguages(): void
+    {
+        if ($this->languages === null) {
+            return;
+        }
+
+        $all = array_keys(static::getLanguages());
+        $default = $this->getDefaultLanguage();
+
+        $checked = array_filter((array)$this->languages, is_string(...));
+        $languages = array_values(array_diff(array_intersect($all, $checked), [$default]));
+
+        if (!array_diff($all, [$default, ...$languages])) {
+            $this->languages = null;
+            return;
+        }
+
+        $this->languages = $languages;
+
+        if (!$languages && $default === null) {
+            $this->addError('languages', Yii::t('tenant', 'TENANT_ERROR_LANGUAGES_DEFAULT'));
         }
     }
 
@@ -319,6 +354,39 @@ class Tenant extends ActiveRecord implements
     }
 
     /**
+     * @return list<string>
+     */
+    public function getAvailableLanguages(): array
+    {
+        $all = array_keys(static::getLanguages());
+
+        if ($this->languages === null) {
+            return $all;
+        }
+
+        // A reloaded form holds what was posted, a string included
+        $languages = [$this->getDefaultLanguage(), ...array_filter((array)$this->languages, is_string(...))];
+        return array_values(array_filter($all, fn (string $language): bool => in_array($language, $languages, true)));
+    }
+
+    /**
+     * The tenant's own or the application's, `null` when neither names one and the browser decides.
+     */
+    public function getDefaultLanguage(): ?string
+    {
+        return $this->language ?? static::getApplicationDefaultLanguage();
+    }
+
+    public static function getApplicationDefaultLanguage(): ?string
+    {
+        $manager = Yii::$app->getUrlManager();
+
+        return $manager instanceof UrlManager
+            ? $manager->getApplicationDefaultLanguage()
+            : $manager->defaultLanguage;
+    }
+
+    /**
      * @see \Hirtz\Skeleton\Widgets\Forms\Fields\SelectField::getItemsFromModel()
      * @return array<string, string>
      */
@@ -361,6 +429,7 @@ class Tenant extends ActiveRecord implements
             'name' => Yii::t('tenant', 'TENANT_LABEL_NAME'),
             'url' => Yii::t('tenant', 'TENANT_LABEL_URL'),
             'language' => Yii::t('tenant', 'TENANT_LABEL_LANGUAGE'),
+            'languages' => Yii::t('tenant', 'TENANT_LABEL_LANGUAGES'),
             'cookie_domain' => Yii::t('tenant', 'TENANT_LABEL_COOKIE_DOMAIN'),
             'position' => Yii::t('tenant', 'TENANT_LABEL_POSITION'),
         ];

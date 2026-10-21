@@ -1,3 +1,9 @@
+## Unreleased
+
+- Added `Tenant::$languages`, the languages a tenant offers besides its default `language`, which narrow `Web\UrlManager::$languages`
+- Changed a tenant without `i18nUrl` to pick the browser's language among its languages, falling back to `language`; the migration keeps a tenant with a fixed `language` on such an installation to that language alone
+- Changed the empty `language` option to name the application's default language
+
 ## 3.5.0 (October 15, 2026)
 
 - Added `Modules\Admin\Widgets\HostAlert`: it warns while the default tenant, which answers unknown hosts, has no URL

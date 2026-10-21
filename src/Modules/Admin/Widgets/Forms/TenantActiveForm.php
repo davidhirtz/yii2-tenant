@@ -29,6 +29,7 @@ class TenantActiveForm extends ActiveForm
                 $this->getStatusField(),
                 $this->getNameField(),
                 $this->getLanguageField(),
+                $this->getLanguagesField(),
                 ...$this->getCustomAttributeFields(),
             ],
             [
@@ -61,9 +62,38 @@ class TenantActiveForm extends ActiveForm
                 ->value($languages[0]);
         }
 
+        // The default is always available, so the languages field has to lock the new one
         return SelectField::make()
             ->property('language')
-            ->prompt(Yii::t('tenant', 'TENANT_PROMPT_LANGUAGE'));
+            ->prompt($this->getLanguagePrompt())
+            ->reloadsForm();
+    }
+
+    protected function getLanguagePrompt(): string
+    {
+        $language = Tenant::getApplicationDefaultLanguage();
+
+        return $language !== null
+            ? Yii::t('tenant', 'TENANT_PROMPT_LANGUAGE_DEFAULT', ['language' => Yii::$app->getI18n()->getLabel($language)])
+            : Yii::t('tenant', 'TENANT_PROMPT_LANGUAGE');
+    }
+
+    protected function getLanguagesField(): ?Field
+    {
+        $languages = Tenant::getLanguages();
+
+        if (count($languages) < 2) {
+            return null;
+        }
+
+        $default = $this->model->getDefaultLanguage();
+
+        return SelectField::make()
+            ->property('languages')
+            ->items($languages)
+            ->value($this->model->getAvailableLanguages())
+            ->itemAttributes($default !== null ? [$default => ['data-locked' => true]] : [])
+            ->multiple();
     }
 
     protected function getCookieDomainField(): ?Field
