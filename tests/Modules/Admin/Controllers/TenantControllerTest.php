@@ -117,6 +117,18 @@ class TenantControllerTest extends TestCase
         self::assertStringContainsString($this->getWebRequest()->getHostInfo(), $html);
     }
 
+    public function testAClearedUrlIsNotRefilledAfterAFailedCreate(): void
+    {
+        $this->login();
+
+        $html = $this->post('admin/tenant/tenant/create', [], [
+            'Tenant' => ['status' => Tenant::STATUS_ENABLED, 'name' => '', 'url' => '', 'language' => 'en-US'],
+        ]);
+
+        self::assertIsString($html);
+        self::assertStringNotContainsString('value="' . $this->getWebRequest()->getHostInfo(), $html);
+    }
+
     public function testCreateInsertsTheTenant(): void
     {
         $this->login();

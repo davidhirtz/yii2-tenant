@@ -76,7 +76,10 @@ class TenantController extends Controller
             return $this->redirect(['update', 'id' => $tenant->id]);
         }
 
-        $tenant->url ??= $this->request->getHostInfo();
+        // A suggestion for the empty form only: a URL cleared on purpose stays cleared after a failed save.
+        if (!$this->request->getIsPost()) {
+            $tenant->url ??= $this->request->getHostInfo();
+        }
 
         return $this->render('create', [
             'tenant' => $tenant,
