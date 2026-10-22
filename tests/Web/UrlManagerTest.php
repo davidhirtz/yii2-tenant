@@ -265,6 +265,19 @@ final class UrlManagerTest extends TestCase
         self::assertSame('/post/view', $manager->createUrl(['post/view', 'language' => 'fr']));
     }
 
+    public function testAOneLanguageTenantWithoutADefaultLinksWithoutAPrefix(): void
+    {
+        $manager = $this->getUrlManagerWithTenantLanguages(['fr']);
+
+        $manager->parseRequest($this->getRequest([
+            'hostInfo' => 'https://www.domain.localhost',
+            'url' => '/',
+        ]));
+
+        self::assertSame('fr', Yii::$app->language);
+        self::assertSame('/post/view', $manager->createUrl(['post/view']));
+    }
+
     public function testWithoutI18nUrlTheBrowserPicksAmongTheTenantsLanguages(): void
     {
         $manager = $this->getUrlManagerWithTenantLanguages(['fr'], 'de', false);

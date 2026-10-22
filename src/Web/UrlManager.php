@@ -161,6 +161,11 @@ class UrlManager extends \Hirtz\Skeleton\Web\UrlManager
         $this->applicationLanguages ??= $this->getLanguages();
         $this->defaultLanguage = $tenant->language ?? $this->applicationDefaultLanguage;
         $this->languages = array_intersect_key($this->applicationLanguages, array_flip($tenant->getAvailableLanguages()));
+
+        // A single language is the default: nothing parses its prefix.
+        if (count($this->languages) === 1) {
+            $this->defaultLanguage = (string)array_key_first($this->languages);
+        }
     }
 
     /**
