@@ -1,4 +1,4 @@
-## Unreleased
+## 3.7.0 (October 22, 2026)
 
 - Added `UrlManager::createCanonicalUrl()` on the default tenant
 - Changed the `davidhirtz/yii2-skeleton` requirement to `^3.22` (reorder)
