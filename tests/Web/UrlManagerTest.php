@@ -194,6 +194,7 @@ final class UrlManagerTest extends TestCase
         $redirects = [
             '/shop/de/page?a=1' => 'https://www.domain.localhost/shop/page?a=1',
             '/shop/de/m%C3%BCller/' => 'https://www.domain.localhost/shop/m%C3%BCller/',
+            '/shop/de/m%E4rz' => 'https://www.domain.localhost/shop/m%E4rz',
             '/shop/de' => 'https://www.domain.localhost/shop',
             '/shop/de?a=1' => 'https://www.domain.localhost/shop?a=1',
         ];
