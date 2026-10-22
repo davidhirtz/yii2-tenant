@@ -292,6 +292,15 @@ class Tenant extends ActiveRecord implements
         }
     }
 
+    /**
+     * The status icon leads to the next status, which the last enabled tenant cannot take when it is disabled.
+     */
+    public function isStatusUpdatable(): bool
+    {
+        $next = $this->getNextStatus();
+        return $next === null || $next->value > static::STATUS_DISABLED || $this->hasOtherEnabledTenant();
+    }
+
     protected function hasOtherEnabledTenant(): bool
     {
         return static::find()

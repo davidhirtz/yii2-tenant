@@ -291,5 +291,13 @@ final class TenantModelTest extends TestCase
 
         TenantCollection::invalidateCache();
         self::assertSame($last->id, TenantCollection::getDefault()?->id);
+
+        // The status icon offers only a status the tenant can take.
+        self::assertTrue($last->isStatusUpdatable());
+
+        $last->status = Tenant::STATUS_DRAFT;
+        self::assertNotFalse($last->update(), print_r($last->getErrors(), true));
+        self::assertSame(Tenant::STATUS_DISABLED, $last->getNextStatus()?->value);
+        self::assertFalse($last->isStatusUpdatable());
     }
 }
