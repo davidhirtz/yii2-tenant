@@ -91,9 +91,15 @@ class TenantController extends Controller
     {
         $tenant = $this->findTenant($id);
 
-        if ($tenant->load($this->request->post()) && !$this->request->isFormReload() && $tenant->update()) {
-            $this->success(Yii::t('tenant', 'TENANT_SUCCESS_UPDATED'));
-            return $this->redirect(['update', 'id' => $tenant->id]);
+        if ($tenant->load($this->request->post()) && !$this->request->isFormReload()) {
+            if ($tenant->update()) {
+                $this->success(Yii::t('tenant', 'TENANT_SUCCESS_UPDATED'));
+            }
+
+            // An unchanged save ends like a changed one rather than redrawing the posted form
+            if (!$tenant->hasErrors()) {
+                return $this->redirect(['update', 'id' => $tenant->id]);
+            }
         }
 
         return $this->render('update', [

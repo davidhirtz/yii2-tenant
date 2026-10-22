@@ -374,6 +374,16 @@ class TenantControllerTest extends TestCase
         self::assertNotEmpty($this->getWebSession()->getFlash('success'));
     }
 
+    public function testAnUnchangedSaveRedirectsLikeAChangedOne(): void
+    {
+        $this->login();
+
+        $response = $this->post('admin/tenant/tenant/update', ['id' => 1], ['Tenant' => []]);
+
+        self::assertInstanceOf(Response::class, $response);
+        self::assertStringEndsWith('/admin/tenant/tenant/update?id=1', (string)$response->getHeaders()->get('location'));
+    }
+
     /**
      * @param array<string, mixed> $params
      * @param array<string, mixed> $bodyParams
