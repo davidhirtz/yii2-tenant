@@ -8,7 +8,7 @@ use Hirtz\Skeleton\Web\Request;
 use Hirtz\Tenant\Models\Tenant;
 use Hirtz\Tenant\Web\UrlManager;
 use Yii;
-use yii\caching\TagDependency;
+use Hirtz\Skeleton\Caching\TagDependency;
 
 class TenantCollection
 {
