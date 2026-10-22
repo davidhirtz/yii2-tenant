@@ -9,7 +9,7 @@ use Hirtz\Skeleton\Html\A;
 use Hirtz\Skeleton\Html\Div;
 use Hirtz\Skeleton\Widgets\Buttons\Button;
 use Hirtz\Skeleton\Widgets\Grids\Columns\ButtonColumn;
-use Hirtz\Skeleton\Widgets\Buttons\DraggableSortButton;
+use Hirtz\Skeleton\Widgets\Buttons\ReorderButton;
 use Hirtz\Skeleton\Widgets\Grids\Columns\Buttons\ViewGridButton;
 use Hirtz\Skeleton\Widgets\Grids\Columns\Column;
 use Hirtz\Skeleton\Widgets\Grids\Columns\DataColumn;
@@ -117,8 +117,8 @@ class TenantGridView extends GridView
                 ->url(Url::current(['tenant' => $tenant]));
         }
 
-        if ($this->isSortable()) {
-            yield DraggableSortButton::make();
+        if ($this->isReorderable()) {
+            yield ReorderButton::make();
         }
 
         if ($this->webuser->can(Tenant::AUTH_TENANT)) {
@@ -128,8 +128,8 @@ class TenantGridView extends GridView
     }
 
     #[Override]
-    protected function isSortable(): bool
+    protected function isReorderable(): bool
     {
-        return parent::isSortable() && null === $this->provider->status;
+        return parent::isReorderable() && null === $this->provider->status;
     }
 }

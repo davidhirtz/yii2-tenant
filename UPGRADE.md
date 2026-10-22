@@ -3,6 +3,11 @@
 The previous major of this bundle is 1.x (branch `v1`). Every 1.x installation also ran the glue package
 `davidhirtz/yii2-cms-tenant`, which 3.0 folds into `yii2-cms` and this bundle.
 
+## 3.7
+
+`TenantController::actionOrder()` is `actionReorder()`, its route `tenant/reorder`. The grid's own renames are in the
+skeleton's guide (3.22).
+
 ## Requirements
 
 - PHP `^8.3`
@@ -78,7 +83,7 @@ Methods and properties:
 | `TenantCollection::getDefault(): Tenant` (throws)           | `?Tenant`                                                                    |
 | `TenantCollection::getAll()[$id] ?? null`                   | `TenantCollection::getById(?int $id)`                                        |
 | `TenantControllerTrait::findTenant(int $id, ?string $permission)` | `findTenant(int $id)`                                                  |
-| `TenantController::actionOrder(): void`                     | `: string`, a flash fragment                                                 |
+| `TenantController::actionOrder(): void`                     | `actionReorder(): string`, a flash fragment                                  |
 | `TenantActiveForm::init()` assigning `$this->rows`          | `TenantActiveForm::getDefaultRows()`                                         |
 | `TenantRelationTrait` declaring `@property int|null $tenant_id` | the using model declares the column                                      |
 | —                                                           | `TenantCollection::getCookieDomainByHostInfo()`, `reset()`, `TenantController::actionStatus()` |
@@ -128,7 +133,7 @@ Admin routes:
 | `admin/tenant/create`   | `admin/tenant/tenant/create`                              |
 | `admin/tenant/update`   | `admin/tenant/tenant/update`                              |
 | `admin/tenant/delete`   | `admin/tenant/tenant/delete`                              |
-| `admin/tenant/order`    | `admin/tenant/tenant/order`                               |
+| `admin/tenant/order`    | `admin/tenant/tenant/reorder`                             |
 | —                       | `admin/tenant/tenant/status` (POST)                       |
 
 ## Configuration

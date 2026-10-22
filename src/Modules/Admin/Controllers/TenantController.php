@@ -39,7 +39,7 @@ class TenantController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['create', 'delete', 'index', 'order', 'status', 'update'],
+                        'actions' => ['create', 'delete', 'index', 'reorder', 'status', 'update'],
                         'roles' => [Tenant::AUTH_TENANT],
                     ],
                 ],
@@ -48,7 +48,7 @@ class TenantController extends Controller
                 'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['post'],
-                    'order' => ['post'],
+                    'reorder' => ['post'],
                     'status' => ['post'],
                 ],
             ],
@@ -139,7 +139,7 @@ class TenantController extends Controller
     /**
      * @noinspection PhpUnused
      */
-    public function actionOrder(): string
+    public function actionReorder(): string
     {
         $success = ReorderTenants::runWithBodyParam('tenant');
 

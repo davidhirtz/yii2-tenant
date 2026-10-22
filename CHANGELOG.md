@@ -1,3 +1,8 @@
+## Unreleased
+
+- Changed the `davidhirtz/yii2-skeleton` requirement to `^3.22` (reorder)
+- Renamed `TenantController::actionOrder()` to `actionReorder()` (route `reorder`)
+
 ## 3.6.0 (October 21, 2026)
 
 - Changed the `davidhirtz/yii2-skeleton` requirement to `^3.21` (multi-select)

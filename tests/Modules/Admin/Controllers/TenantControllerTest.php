@@ -361,11 +361,11 @@ class TenantControllerTest extends TestCase
         Yii::$app->runAction('admin/tenant/tenant/delete', ['id' => 3]);
     }
 
-    public function testOrderRewritesThePositions(): void
+    public function testReorderRewritesThePositions(): void
     {
         $this->login();
 
-        $html = $this->post('admin/tenant/tenant/order', [], [
+        $html = $this->post('admin/tenant/tenant/reorder', [], [
             'tenant' => [3, 2, 1],
         ]);
 
