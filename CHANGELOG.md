@@ -1,5 +1,6 @@
 ## Unreleased
 
+- Added `UrlManager::createCanonicalUrl()` on the default tenant
 - Changed the `davidhirtz/yii2-skeleton` requirement to `^3.22` (reorder)
 - Renamed `TenantController::actionOrder()` to `actionReorder()` (route `reorder`)
 

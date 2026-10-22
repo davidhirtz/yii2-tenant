@@ -294,6 +294,15 @@ final class UrlManagerTest extends TestCase
         self::assertSame('/de/post/view', $manager->createUrl(['post/view', 'language' => 'de']));
     }
 
+    public function testTheCanonicalUrlIsTheDefaultTenantsWithoutAPrefix(): void
+    {
+        $manager = $this->getUrlManagerWithTenantLanguages(['de'], 'en-US');
+        $manager->setTenant($this->getTenantFromFixture('draft'));
+        Yii::$app->language = 'de';
+
+        self::assertSame('https://www.domain.localhost/post/view', $manager->createCanonicalUrl(['post/view']));
+    }
+
     public function testWithoutI18nUrlTheBrowserPicksAmongTheTenantsLanguages(): void
     {
         $manager = $this->getUrlManagerWithTenantLanguages(['fr'], 'de', false);

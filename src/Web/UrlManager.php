@@ -54,6 +54,18 @@ class UrlManager extends \Hirtz\Skeleton\Web\UrlManager
     }
 
     /**
+     * On the default tenant, whichever one the request is on.
+     *
+     * @param array<int|string, mixed>|string $params
+     */
+    #[Override]
+    public function createCanonicalUrl(array|string $params): string
+    {
+        $tenant = TenantCollection::getDefault();
+        return parent::createCanonicalUrl($tenant ? [...(array)$params, 'tenant' => $tenant] : $params);
+    }
+
+    /**
      * @param array<int|string, mixed>|string $params
      */
     #[Override]
