@@ -246,6 +246,7 @@ class UrlManager extends \Hirtz\Skeleton\Web\UrlManager
 
     protected function getTenantFromUrl(string $url): ?Tenant
     {
+        $url = explode('?', $url, 2)[0];
         $tenant = TenantCollection::getByUrl($url);
 
         if ($tenant || strlen($url) <= 6) {

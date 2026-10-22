@@ -161,6 +161,25 @@ final class UrlManagerTest extends TestCase
         self::assertArrayHasKey('x-robots-tag', $this->getWebResponse()->getHeaders()->toArray());
     }
 
+    public function testAPathTenantIsFoundDespiteAQueryString(): void
+    {
+        Yii::$app->getI18n()->languages = ['de', 'en-US'];
+        $tenant = $this->getTenantFromFixture('enabled');
+
+        foreach (['/de?utm_source=x', '/de?next=/a/b', '/de/page?a=1'] as $url) {
+            $manager = $this->getUrlManager();
+            $request = $this->getRequest([
+                'hostInfo' => 'https://www.domain.localhost',
+                'url' => $url,
+            ]);
+
+            $manager->parseRequest($request);
+
+            self::assertSame($tenant->id, $manager->tenant?->id, $url);
+            self::assertSame('de', Yii::$app->language, $url);
+        }
+    }
+
     public function testATenantWithoutAUrlKeepsTheRequestHost(): void
     {
         $tenant = $this->getTenantFromFixture();
