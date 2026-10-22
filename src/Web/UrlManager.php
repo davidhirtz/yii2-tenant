@@ -67,7 +67,11 @@ class UrlManager extends \Hirtz\Skeleton\Web\UrlManager
         }
 
         $tenant = $this->getTenantFromParams($params, true);
-        $url = parent::createUrl($params);
+
+        // Another tenant's URL carries that tenant's language prefixes, not the request's.
+        $url = $tenant && $tenant->id !== $this->tenant?->id
+            ? $this->callbackWithTenantLanguages($tenant, fn (): string => parent::createUrl($params))
+            : parent::createUrl($params);
 
         if ($tenant) {
             $url = $tenant->getPathInfo() . $url;
@@ -165,6 +169,26 @@ class UrlManager extends \Hirtz\Skeleton\Web\UrlManager
         // A single language is the default: nothing parses its prefix.
         if (count($this->languages) === 1) {
             $this->defaultLanguage = (string)array_key_first($this->languages);
+        }
+    }
+
+    /**
+     * @template T
+     * @param callable(): T $callback
+     * @return T
+     */
+    protected function callbackWithTenantLanguages(Tenant $tenant, callable $callback): mixed
+    {
+        $languages = $this->languages;
+        $defaultLanguage = $this->defaultLanguage;
+
+        $this->setTenantLanguages($tenant);
+
+        try {
+            return $callback();
+        } finally {
+            $this->languages = $languages;
+            $this->defaultLanguage = $defaultLanguage;
         }
     }
 

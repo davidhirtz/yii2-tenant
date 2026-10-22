@@ -278,6 +278,22 @@ final class UrlManagerTest extends TestCase
         self::assertSame('/post/view', $manager->createUrl(['post/view']));
     }
 
+    public function testAnotherTenantsUrlTakesThatTenantsLanguagePrefixes(): void
+    {
+        $manager = $this->getUrlManagerWithTenantLanguages(['de'], 'en-US');
+
+        $other = $this->getTenantFromFixture('draft');
+        $other->language = 'de';
+        $other->languages = null;
+        self::assertNotFalse($other->update());
+
+        self::assertSame('https://www.draft.localhost/post/view', $manager->createUrl(['post/view', 'tenant' => $other, 'language' => 'de']));
+        self::assertSame('https://www.draft.localhost/en/post/view', $manager->createUrl(['post/view', 'tenant' => $other, 'language' => 'en-US']));
+
+        // the request's own tenant is left as it was
+        self::assertSame('/de/post/view', $manager->createUrl(['post/view', 'language' => 'de']));
+    }
+
     public function testWithoutI18nUrlTheBrowserPicksAmongTheTenantsLanguages(): void
     {
         $manager = $this->getUrlManagerWithTenantLanguages(['fr'], 'de', false);
