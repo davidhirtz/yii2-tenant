@@ -11,6 +11,7 @@ use Hirtz\Skeleton\Widgets\Flashes;
 use Hirtz\Tenant\Models\Actions\ReorderTenants;
 use Hirtz\Tenant\Models\Collections\TenantCollection;
 use Hirtz\Tenant\Models\Tenant;
+use Hirtz\Tenant\Web\UrlManager;
 use Hirtz\Tenant\Modules\Admin\Controllers\Traits\TenantControllerTrait;
 use Hirtz\Tenant\Modules\Admin\Data\TenantActiveDataProvider;
 use Hirtz\Tenant\Modules\Admin\Module;
@@ -115,7 +116,14 @@ class TenantController extends Controller
 
         if ($form->load($this->request->post()) && $form->delete()) {
             $this->success(Yii::t('tenant', 'TENANT_SUCCESS_DELETED'));
-            return $this->redirect(['index', 'tenant' => TenantCollection::getDefault()]);
+
+            // Another host may hold another session, which loses the flash: only a deleted host needs leaving.
+            $manager = Yii::$app->getUrlManager();
+            $current = $manager instanceof UrlManager ? $manager->tenant : null;
+
+            return $this->redirect($current?->id === $tenant->id
+                ? ['index', 'tenant' => TenantCollection::getDefault()]
+                : ['index']);
         }
 
         $this->error($form);

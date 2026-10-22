@@ -129,6 +129,18 @@ class TenantControllerTest extends TestCase
         self::assertStringNotContainsString('value="' . $this->getWebRequest()->getHostInfo(), $html);
     }
 
+    public function testDeleteStaysOnTheCurrentHost(): void
+    {
+        $this->login();
+
+        $response = $this->post('admin/tenant/tenant/delete', ['id' => 3], ['value' => 'Draft Tenant']);
+
+        self::assertInstanceOf(Response::class, $response);
+        self::assertNull(Tenant::findOne(3));
+        // the default tenant's host, which the request is not on
+        self::assertStringNotContainsString('www.domain.localhost', (string)$response->getHeaders()->get('location'));
+    }
+
     public function testCreateInsertsTheTenant(): void
     {
         $this->login();
