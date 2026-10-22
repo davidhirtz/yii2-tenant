@@ -153,7 +153,13 @@ class Tenant extends ActiveRecord implements
 
         $tenant = TenantCollection::getByUrl($this->url);
 
-        if ($tenant && $tenant->id !== $this->id) {
+        // The collection holds no disabled tenant, whose URL the unique key still refuses.
+        $isTaken = ($tenant && $tenant->id !== $this->id) || static::find()
+            ->where(['url' => $this->url])
+            ->andFilterWhere(['!=', 'id', $this->id])
+            ->exists();
+
+        if ($isTaken) {
             $this->addError('url', Yii::t('yii', '{attribute} "{value}" has already been taken.', [
                 'attribute' => $this->getAttributeLabel('url'),
                 'value' => $this->url,

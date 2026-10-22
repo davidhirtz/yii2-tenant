@@ -135,6 +135,24 @@ class TenantControllerTest extends TestCase
         self::assertNotEmpty($this->getWebSession()->getFlash('success'));
     }
 
+    public function testTheUrlOfADisabledTenantIsTaken(): void
+    {
+        $draft = Tenant::findOne(3);
+        self::assertNotNull($draft);
+        $draft->status = Tenant::STATUS_DISABLED;
+        self::assertSame(1, $draft->update());
+        TenantCollection::invalidateCache();
+
+        $tenant = Tenant::create();
+        $tenant->status = Tenant::STATUS_ENABLED;
+        $tenant->name = 'Neuer Mandant';
+        $tenant->url = 'https://www.draft.localhost';
+        $tenant->language = 'en-US';
+
+        self::assertFalse($tenant->validate());
+        self::assertArrayHasKey('url', $tenant->getErrors());
+    }
+
     /**
      * An option without a `value` posts its label, which the language is validated against.
      */
