@@ -13,6 +13,7 @@ return [
     'TENANT_ERROR_DELETE_LAST' => 'Ceci est le seul locataire et ne peut donc pas être supprimé.',
     'TENANT_ERROR_DELETE_RELATION' => 'Ce locataire ne peut pas être supprimé car il est lié à d’autres enregistrements.',
     'TENANT_ERROR_LANGUAGES_DEFAULT' => 'Un locataire ne proposant qu’une langue a besoin d’une langue par défaut.',
+    'TENANT_ERROR_LAST_ENABLED' => 'Ceci est le seul locataire actif et ne peut donc être ni désactivé ni supprimé.',
     'TENANT_ERROR_PATH_PROTECTED' => 'L’URL « {path} » est protégée.',
     'TENANT_HINT_URL' => 'L’adresse canonique de ce locataire. Laissez vide pour suivre l’hôte de la requête.',
     'TENANT_LABEL_COOKIE_DOMAIN' => 'Domaine du cookie',

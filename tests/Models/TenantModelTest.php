@@ -264,4 +264,32 @@ final class TenantModelTest extends TestCase
 
         return $tenant;
     }
+
+    public function testTheLastEnabledTenantCanBeNeitherDisabledNorDeleted(): void
+    {
+        Yii::$app->getI18n()->setLanguages(['en-US', 'de']);
+
+        $tenants = Tenant::find()->orderBy(['id' => SORT_ASC])->all();
+        $last = array_pop($tenants);
+        self::assertNotNull($last);
+
+        foreach ($tenants as $tenant) {
+            $tenant->status = Tenant::STATUS_DISABLED;
+            self::assertNotFalse($tenant->update(), print_r($tenant->getErrors(), true));
+        }
+
+        $last->status = Tenant::STATUS_ENABLED;
+        self::assertNotFalse($last->update());
+
+        $last->status = Tenant::STATUS_DISABLED;
+        self::assertFalse($last->validate());
+        self::assertArrayHasKey('status', $last->getErrors());
+
+        $last->refresh();
+        self::assertFalse($last->isDeletable());
+        self::assertFalse($last->delete());
+
+        TenantCollection::invalidateCache();
+        self::assertSame($last->id, TenantCollection::getDefault()?->id);
+    }
 }

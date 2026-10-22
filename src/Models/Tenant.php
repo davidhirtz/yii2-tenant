@@ -79,6 +79,10 @@ class Tenant extends ActiveRecord implements
                 DynamicRangeValidator::class,
             ],
             [
+                ['status'],
+                $this->validateStatus(...),
+            ],
+            [
                 ['name', 'cookie_domain'],
                 'string',
                 'max' => 255,
@@ -258,6 +262,11 @@ class Tenant extends ActiveRecord implements
             return false;
         }
 
+        if (!$this->hasOtherEnabledTenant()) {
+            $this->addError('id', Yii::t('tenant', 'TENANT_ERROR_LAST_ENABLED'));
+            return false;
+        }
+
         return true;
     }
 
@@ -270,7 +279,25 @@ class Tenant extends ActiveRecord implements
 
     public function isDeletable(): bool
     {
-        return static::find()->count() > 1;
+        return $this->hasOtherEnabledTenant();
+    }
+
+    /**
+     * The default tenant is the first enabled one, and nothing works without it.
+     */
+    public function validateStatus(): void
+    {
+        if ($this->status <= static::STATUS_DISABLED && !$this->hasOtherEnabledTenant()) {
+            $this->addError('status', Yii::t('tenant', 'TENANT_ERROR_LAST_ENABLED'));
+        }
+    }
+
+    protected function hasOtherEnabledTenant(): bool
+    {
+        return static::find()
+            ->where(['>', 'status', static::STATUS_DISABLED])
+            ->andFilterWhere(['!=', 'id', $this->id])
+            ->exists();
     }
 
     /**

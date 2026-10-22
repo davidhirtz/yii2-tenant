@@ -13,6 +13,7 @@ return [
     'TENANT_ERROR_DELETE_LAST' => 'Este é o único inquilino e, por isso, não pode ser eliminado.',
     'TENANT_ERROR_DELETE_RELATION' => 'Este inquilino não pode ser eliminado porque está associado a outros registos.',
     'TENANT_ERROR_LANGUAGES_DEFAULT' => 'Um inquilino com um único idioma precisa de um idioma predefinido.',
+    'TENANT_ERROR_LAST_ENABLED' => 'Este é o único inquilino ativo e, por isso, não pode ser desativado nem eliminado.',
     'TENANT_ERROR_PATH_PROTECTED' => 'O URL "{path}" está protegido.',
     'TENANT_HINT_URL' => 'O endereço canónico deste inquilino. Deixe vazio para seguir o anfitrião do pedido.',
     'TENANT_LABEL_COOKIE_DOMAIN' => 'Domínio do cookie',
