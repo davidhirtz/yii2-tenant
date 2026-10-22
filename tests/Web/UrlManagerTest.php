@@ -180,6 +180,40 @@ final class UrlManagerTest extends TestCase
         }
     }
 
+    public function testThePathTenantsDefaultLanguagePrefixRedirectsToTheTenantPath(): void
+    {
+        Yii::$app->getI18n()->languages = ['en-US', 'de', 'fr'];
+
+        $tenant = $this->getTenantFromFixture('enabled');
+        $tenant->url = 'https://www.domain.localhost/shop';
+        $tenant->languages = null;
+
+        self::assertNotFalse($tenant->update());
+        TenantCollection::invalidateCache();
+
+        $redirects = [
+            '/shop/de/page?a=1' => 'https://www.domain.localhost/shop/page?a=1',
+            '/shop/de/m%C3%BCller/' => 'https://www.domain.localhost/shop/m%C3%BCller/',
+            '/shop/de' => 'https://www.domain.localhost/shop',
+            '/shop/de?a=1' => 'https://www.domain.localhost/shop?a=1',
+        ];
+
+        foreach ($redirects as $url => $location) {
+            $manager = $this->getUrlManager(['i18nUrl' => true]);
+
+            try {
+                $manager->parseRequest($this->getRequest([
+                    'hostInfo' => 'https://www.domain.localhost',
+                    'url' => $url,
+                ]));
+
+                self::fail("$url was not redirected");
+            } catch (UrlNormalizerRedirectException $e) {
+                self::assertSame($location, $e->url, $url);
+            }
+        }
+    }
+
     public function testATenantWithoutAUrlKeepsTheRequestHost(): void
     {
         $tenant = $this->getTenantFromFixture();
