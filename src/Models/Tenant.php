@@ -183,7 +183,7 @@ class Tenant extends ActiveRecord implements
                 || is_dir($path)
                 || is_file($path)
             ) {
-                $this->addError('url', Yii::t('tenant', 'TENANT_ERROR_PATH_PROTECTED', [
+                $this->addError('url', Yii::t('tenant', 'TENANT_URL_PROTECTED_ERROR', [
                     'path' => $param,
                 ]));
             }
@@ -214,7 +214,7 @@ class Tenant extends ActiveRecord implements
         $this->languages = $languages;
 
         if (!$languages && $default === null) {
-            $this->addError('languages', Yii::t('tenant', 'TENANT_ERROR_LANGUAGES_DEFAULT'));
+            $this->addError('languages', Yii::t('tenant', 'TENANT_LANGUAGES_DEFAULT_ERROR'));
         }
     }
 
@@ -251,19 +251,19 @@ class Tenant extends ActiveRecord implements
     {
         if (!parent::beforeDelete()) {
             if (!$this->hasErrors()) {
-                $this->addError('id', Yii::t('tenant', 'TENANT_ERROR_DELETE_RELATION'));
+                $this->addError('id', Yii::t('tenant', 'TENANT_DELETE_RELATION_ERROR'));
             }
 
             return false;
         }
 
         if (self::find()->count() === 1) {
-            $this->addError('id', Yii::t('tenant', 'TENANT_ERROR_DELETE_LAST'));
+            $this->addError('id', Yii::t('tenant', 'TENANT_DELETE_LAST_ERROR'));
             return false;
         }
 
         if (!$this->hasOtherEnabledTenant()) {
-            $this->addError('id', Yii::t('tenant', 'TENANT_ERROR_LAST_ENABLED'));
+            $this->addError('id', Yii::t('tenant', 'TENANT_STATUS_LAST_ENABLED_ERROR'));
             return false;
         }
 
@@ -288,7 +288,7 @@ class Tenant extends ActiveRecord implements
     public function validateStatus(): void
     {
         if ($this->status <= static::STATUS_DISABLED && !$this->hasOtherEnabledTenant()) {
-            $this->addError('status', Yii::t('tenant', 'TENANT_ERROR_LAST_ENABLED'));
+            $this->addError('status', Yii::t('tenant', 'TENANT_STATUS_LAST_ENABLED_ERROR'));
         }
     }
 
@@ -337,7 +337,7 @@ class Tenant extends ActiveRecord implements
 
     public function getAdminIndexBreadcrumb(): Breadcrumb
     {
-        return new Breadcrumb(Yii::t('tenant', 'TENANT_NAME_PLURAL'), ['/admin/tenant/']);
+        return new Breadcrumb(Yii::t('tenant', 'TENANT_PLURAL'), ['/admin/tenant/']);
     }
 
     public function getPermissionName(): string
@@ -396,7 +396,7 @@ class Tenant extends ActiveRecord implements
 
     public function getAdminType(): string
     {
-        return Yii::t('tenant', 'TENANT_NAME');
+        return Yii::t('tenant', 'TENANT_SINGULAR');
     }
 
     /**
@@ -463,7 +463,7 @@ class Tenant extends ActiveRecord implements
     {
         return [
             ...parent::attributeHints(),
-            'url' => Yii::t('tenant', 'TENANT_HINT_URL'),
+            'url' => Yii::t('tenant', 'TENANT_URL_HINT'),
         ];
     }
 
@@ -472,12 +472,12 @@ class Tenant extends ActiveRecord implements
     {
         return [
             ...parent::attributeLabels(),
-            'name' => Yii::t('tenant', 'TENANT_LABEL_NAME'),
-            'url' => Yii::t('tenant', 'TENANT_LABEL_URL'),
-            'language' => Yii::t('tenant', 'TENANT_LABEL_LANGUAGE'),
-            'languages' => Yii::t('tenant', 'TENANT_LABEL_LANGUAGES'),
-            'cookie_domain' => Yii::t('tenant', 'TENANT_LABEL_COOKIE_DOMAIN'),
-            'position' => Yii::t('tenant', 'TENANT_LABEL_POSITION'),
+            'name' => Yii::t('tenant', 'TENANT_NAME_LABEL'),
+            'url' => Yii::t('tenant', 'TENANT_URL_LABEL'),
+            'language' => Yii::t('tenant', 'TENANT_LANGUAGE_LABEL'),
+            'languages' => Yii::t('tenant', 'TENANT_LANGUAGES_LABEL'),
+            'cookie_domain' => Yii::t('tenant', 'TENANT_COOKIE_DOMAIN_LABEL'),
+            'position' => Yii::t('tenant', 'TENANT_POSITION_LABEL'),
         ];
     }
 

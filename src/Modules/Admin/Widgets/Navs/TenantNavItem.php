@@ -16,7 +16,7 @@ class TenantNavItem extends NavItem
     public function __construct(array $config = [])
     {
         $this->icon ??= 'window-restore';
-        $this->label ??= Yii::t('tenant', 'TENANT_NAME_PLURAL');
+        $this->label ??= Yii::t('tenant', 'TENANT_PLURAL');
         $this->order ??= 80;
         $this->roles ??= [Tenant::AUTH_TENANT];
         $this->routes =  ['admin/tenant'];

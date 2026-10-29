@@ -16,7 +16,7 @@ use Hirtz\Tenant\Modules\Admin\Data\TenantActiveDataProvider;
 use Hirtz\Tenant\Modules\Admin\Widgets\Grids\TenantGridView;
 use Hirtz\Tenant\Modules\Admin\Widgets\Navs\TenantHeader;
 
-$this->title(Yii::t('tenant', 'TENANT_NAME_PLURAL'));
+$this->title(Yii::t('tenant', 'TENANT_PLURAL'));
 
 echo TenantHeader::make()
     ->provider($provider);

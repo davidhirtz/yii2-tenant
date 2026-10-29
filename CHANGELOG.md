@@ -1,3 +1,7 @@
+## Unreleased
+
+- Changed every message key to the `{DOMAIN}_{SUBJECT}_{KIND}` scheme; a migration renames the key stored in `trail`
+
 ## 3.7.0 (October 22, 2026)
 
 - Added `UrlManager::createCanonicalUrl()` on the default tenant

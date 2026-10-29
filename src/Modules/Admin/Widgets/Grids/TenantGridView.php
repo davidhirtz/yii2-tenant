@@ -113,7 +113,7 @@ class TenantGridView extends GridView
             yield Button::make()
                 ->secondary()
                 ->icon('toggle-on')
-                ->tooltip(Yii::t('tenant', 'TENANT_SWITCH_ADMIN_BUTTON'))
+                ->tooltip(Yii::t('tenant', 'TENANT_SWITCH_TOOLTIP'))
                 ->url(Url::current(['tenant' => $tenant]));
         }
 

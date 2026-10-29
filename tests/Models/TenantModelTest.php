@@ -166,7 +166,7 @@ final class TenantModelTest extends TestCase
         $tenant->load(['languages' => ''], '');
 
         self::assertFalse($tenant->validate());
-        self::assertSame([Yii::t('tenant', 'TENANT_ERROR_LANGUAGES_DEFAULT')], $tenant->getErrors('languages'));
+        self::assertSame([Yii::t('tenant', 'TENANT_LANGUAGES_DEFAULT_ERROR')], $tenant->getErrors('languages'));
     }
 
     public function testLanguagesNotPostedStayEveryLanguage(): void
@@ -243,7 +243,7 @@ final class TenantModelTest extends TestCase
         self::assertEquals($expected->id, $default->id);
 
         self::assertFalse($default->delete());
-        self::assertContains(Yii::t('tenant', 'TENANT_ERROR_DELETE_LAST'), $default->getErrors('id'));
+        self::assertContains(Yii::t('tenant', 'TENANT_DELETE_LAST_ERROR'), $default->getErrors('id'));
     }
 
     private function setLanguages(?string $defaultLanguage): void

@@ -35,7 +35,7 @@ class TenantHeader extends ModelHeader
             $this->addContent($this->getCreateTenantButton());
         }
 
-        $this->title ??= Yii::t('tenant', 'TENANT_NAME_PLURAL');
+        $this->title ??= Yii::t('tenant', 'TENANT_PLURAL');
 
         parent::configure();
     }

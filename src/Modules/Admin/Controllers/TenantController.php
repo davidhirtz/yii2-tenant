@@ -73,7 +73,7 @@ class TenantController extends Controller
         $tenant->loadDefaultValues();
 
         if ($tenant->load($this->request->post()) && !$this->request->isFormReload() && $tenant->insert()) {
-            $this->success(Yii::t('tenant', 'TENANT_SUCCESS_CREATED'));
+            $this->success(Yii::t('tenant', 'TENANT_CREATE_SUCCESS'));
             return $this->redirect(['update', 'id' => $tenant->id]);
         }
 
@@ -93,7 +93,7 @@ class TenantController extends Controller
 
         if ($tenant->load($this->request->post()) && !$this->request->isFormReload()) {
             if ($tenant->update()) {
-                $this->success(Yii::t('tenant', 'TENANT_SUCCESS_UPDATED'));
+                $this->success(Yii::t('tenant', 'TENANT_UPDATE_SUCCESS'));
             }
 
             // An unchanged save ends like a changed one rather than redrawing the posted form
@@ -121,7 +121,7 @@ class TenantController extends Controller
         ]);
 
         if ($form->load($this->request->post()) && $form->delete()) {
-            $this->success(Yii::t('tenant', 'TENANT_SUCCESS_DELETED'));
+            $this->success(Yii::t('tenant', 'TENANT_DELETE_SUCCESS'));
 
             // Another host may hold another session, which loses the flash: only a deleted host needs leaving.
             $manager = Yii::$app->getUrlManager();
@@ -144,7 +144,7 @@ class TenantController extends Controller
         $success = ReorderTenants::runWithBodyParam('tenant');
 
         if ($success) {
-            $this->success(Yii::t('tenant', 'TENANT_SUCCESS_ORDERED'));
+            $this->success(Yii::t('tenant', 'TENANT_ORDER_SUCCESS'));
         }
 
         return (string) Flashes::make();

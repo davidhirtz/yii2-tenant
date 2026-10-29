@@ -74,8 +74,8 @@ class TenantActiveForm extends ActiveForm
         $language = Tenant::getApplicationDefaultLanguage();
 
         return $language !== null
-            ? Yii::t('tenant', 'TENANT_PROMPT_LANGUAGE_DEFAULT', ['language' => Yii::$app->getI18n()->getLabel($language)])
-            : Yii::t('tenant', 'TENANT_PROMPT_LANGUAGE');
+            ? Yii::t('tenant', 'TENANT_LANGUAGE_DEFAULT_PROMPT', ['language' => Yii::$app->getI18n()->getLabel($language)])
+            : Yii::t('tenant', 'TENANT_LANGUAGE_PROMPT');
     }
 
     protected function getLanguagesField(): ?Field

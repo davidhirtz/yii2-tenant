@@ -34,7 +34,7 @@ class ReorderTenants extends ReorderActiveRecords
 
     protected function afterReorder(): void
     {
-        Trail::createOrderTrail(null, Message::make('tenant', 'TENANT_TRAIL_REORDERED'));
+        Trail::createOrderTrail(null, Message::make('tenant', 'TENANT_ORDER_TRAIL'));
 
         parent::afterReorder();
     }

@@ -26,7 +26,7 @@ class Module extends \Hirtz\Skeleton\Base\Module implements ModuleInterface
 
     public function getName(): string
     {
-        return Yii::t('tenant', 'TENANT_NAME_PLURAL');
+        return Yii::t('tenant', 'TENANT_PLURAL');
     }
 
     #[Override]
