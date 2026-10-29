@@ -103,9 +103,6 @@ class TenantControllerTest extends TestCase
         Yii::$app->runAction('admin/tenant/tenant/index');
     }
 
-    /**
-     * The form opens on the host the administrator is already on, which is the usual answer.
-     */
     public function testCreateSuggestsTheCurrentHost(): void
     {
         $this->login();

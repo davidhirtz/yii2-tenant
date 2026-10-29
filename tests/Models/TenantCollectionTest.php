@@ -29,8 +29,7 @@ final class TenantCollectionTest extends TestCase
     }
 
     /**
-     * The records a request loaded must never reach the next one, so `Bootstrap` drops them — a reset that only
-     * ran in the tests would leave a resident application serving them forever.
+     * `Bootstrap` drops the records, since a reset only the tests ran would leave a resident application serving them.
      */
     public function testTheTenantsDoNotOutliveTheApplication(): void
     {
@@ -49,9 +48,7 @@ final class TenantCollectionTest extends TestCase
     }
 
     /**
-     * A new record carries no tenant id, and PHP 8.5 deprecates `null` as an array offset, which the web error
-     * handler turns into an exception. The suite never sees one — the application's error handler replaces
-     * PHPUnit's and answers `false` for whatever PHPUnit masked out of `error_reporting` — hence the handler here.
+     * The application's error handler hides PHP 8.5's `null` offset deprecation from PHPUnit, hence the handler here.
      */
     public function testGetByIdWithoutIdTriggersNoDeprecation(): void
     {

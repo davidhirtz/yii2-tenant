@@ -16,8 +16,7 @@ use Override;
 use Yii;
 
 /**
- * An administrator does not have to speak the language of the tenant they are editing, so the tenant's language
- * stays on the frontend — `Web\UrlManager::setLanguage()` sets it as the default language of the request.
+ * The tenant's language stays on the frontend, since an administrator need not speak the tenant's language.
  */
 final class AdminLanguageTest extends TestCase
 {

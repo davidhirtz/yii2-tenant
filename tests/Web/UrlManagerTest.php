@@ -239,8 +239,7 @@ final class UrlManagerTest extends TestCase
     }
 
     /**
-     * A tenant without a language pins none, the way one without a URL leaves the request host alone — so the
-     * configured default is what decides which language goes without a path prefix.
+     * A tenant without a language pins none, so the configured default goes without a path prefix.
      */
     public function testATenantWithoutALanguageKeepsTheConfiguredDefaultLanguage(): void
     {
@@ -402,8 +401,7 @@ final class UrlManagerTest extends TestCase
     }
 
     /**
-     * Every URL of a host has to write its cookies under one scope, or the same name exists twice in the browser
-     * and a logout — which can only remove the scope of the URL it was called on — leaves the other one live.
+     * A second scope on one host would leave a cookie a logout on another URL cannot remove.
      */
     public function testTheCookieDomainBelongsToTheHostRatherThanToTheMatchedTenant(): void
     {

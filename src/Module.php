@@ -7,8 +7,7 @@ namespace Hirtz\Tenant;
 class Module extends \Hirtz\Skeleton\Base\Module
 {
     /**
-     * @var bool whether the tenant admin module should be registered. With it off the routes 404 rather than a
-     * hidden nav item covering a live controller, and the tenant can only be changed via console or SQL.
+     * Off, the admin routes 404 rather than a hidden nav item covering a live controller.
      */
     public bool $enableAdminModule = true;
 }

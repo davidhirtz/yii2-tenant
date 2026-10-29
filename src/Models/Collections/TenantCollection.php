@@ -68,10 +68,8 @@ class TenantCollection
     }
 
     /**
-     * The cookie scope belongs to the host, never to the tenant that happened to match the URL: a path tenant
-     * shares its host with every other URL of the installation, so a `Domain` only its own URLs carry writes a
-     * second cookie of the same name — and the logout, which can only remove the scope of the URL it was called
-     * on, leaves the other one live and the next request logs the account straight back in.
+     * The cookie scope belongs to the host, not the matched tenant, since a path tenant's own `Domain` writes a
+     * second cookie of the same name that a logout on another URL leaves live.
      */
     public static function getCookieDomainByHostInfo(string $hostInfo): ?string
     {
@@ -95,7 +93,7 @@ class TenantCollection
     }
 
     /**
-     * @return list<string> the URL itself, plus what the draft subdomain stands in for
+     * @return list<string>
      */
     protected static function getCanonicalUrls(string $url): array
     {
@@ -111,8 +109,7 @@ class TenantCollection
     }
 
     /**
-     * Every tenant's host and its draft subdomain. A tenant without a URL answers on any host, so it leaves the list
-     * empty — no check — unless the project configured one.
+     * A tenant without a URL answers on any host, so it leaves the list empty unless the project configured one.
      */
     public static function addAllowedHosts(Request $request): void
     {
@@ -168,8 +165,7 @@ class TenantCollection
     }
 
     /**
-     * The static outlives the application; `Bootstrap` resets it, so a test's application does not start with the
-     * tenants of the one before.
+     * The static outlives the application, so `Bootstrap` resets it.
      */
     public static function reset(): void
     {

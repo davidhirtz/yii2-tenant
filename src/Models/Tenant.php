@@ -191,8 +191,7 @@ class Tenant extends ActiveRecord implements
     }
 
     /**
-     * Keeps the languages besides the default, which is always available; every language is stored as `null`, so
-     * a language the application adds later is offered too.
+     * Every language is stored as `null`, so a language the application adds later is offered too.
      */
     public function validateLanguages(): void
     {
@@ -351,8 +350,7 @@ class Tenant extends ActiveRecord implements
     }
 
     /**
-     * A tenant without a URL pins no host: the URL manager keeps the one the request came in on, which is what an
-     * installation that never wanted tenants runs on.
+     * A tenant without a URL pins no host, so the URL manager keeps the one the request came in on.
      */
     public function getHostInfo(): ?string
     {

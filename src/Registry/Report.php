@@ -8,10 +8,7 @@ use Hirtz\Tenant\Models\Collections\TenantCollection;
 use Override;
 
 /**
- * The tenants' URLs are the better answer to "where does this installation run" than a console URL manager
- * nobody configures: the first tenant with a URL — the default one, where it has one — gives the report its
- * `url`, and every tenant with one is listed under `extra.tenants`. `--url` still wins, and an installation
- * whose tenants carry no URL falls back to the skeleton's own resolution.
+ * The tenants' URLs answer where the installation runs, since nobody configures a console URL manager.
  */
 class Report extends \Hirtz\Skeleton\Registry\Report
 {

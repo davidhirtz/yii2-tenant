@@ -14,8 +14,7 @@ class TenantFixture extends ActiveFixture
     public $modelClass = Tenant::class;
 
     /**
-     * Every migrated database carries a seeded tenant, so its row has to go before the fixture writes its own ids.
-     * The collection caches in a static, which outlives the application a test case builds.
+     * The seeded tenant goes before the fixture writes its ids, and the collection's static outlives the application.
      */
     #[Override]
     public function load(): void

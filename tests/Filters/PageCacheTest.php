@@ -14,10 +14,6 @@ use Hirtz\Tenant\Web\UrlManager;
 use Override;
 use Yii;
 
-/**
- * Every tenant answers on its own host, so a cached page that did not vary by tenant would be served to the wrong
- * one.
- */
 class PageCacheTest extends TestCase
 {
     /**

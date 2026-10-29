@@ -9,8 +9,7 @@ use Override;
 use Yii;
 
 /**
- * The tenant is added to the key itself rather than to the variations, which a project may replace or configure as
- * a callable: a page cached for one tenant must never be served on another tenant's host.
+ * The tenant is added to the key rather than to the variations, since a project may replace those.
  */
 class PageCache extends \Hirtz\Skeleton\Filters\PageCache
 {

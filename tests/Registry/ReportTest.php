@@ -13,8 +13,7 @@ use Hirtz\Tenant\Test\TestCase;
 use Hirtz\Tenant\Test\Traits\TenantFixtureTrait;
 
 /**
- * Under the console application, which is what a deploy pushes from and where the skeleton's own report has no
- * URL to answer with.
+ * Under the console, which a deploy pushes from and where the skeleton's own report has no URL.
  */
 class ReportTest extends TestCase
 {
