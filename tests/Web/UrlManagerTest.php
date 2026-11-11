@@ -6,6 +6,7 @@ namespace Hirtz\Tenant\Tests\Web;
 
 use Hirtz\Skeleton\Web\Request;
 use Hirtz\Tenant\Models\Collections\TenantCollection;
+use Hirtz\Tenant\Models\Tenant;
 use Hirtz\Tenant\Test\TestCase;
 use Hirtz\Tenant\Test\Traits\TenantFixtureTrait;
 use Hirtz\Tenant\Web\UrlManager;
@@ -213,6 +214,42 @@ final class UrlManagerTest extends TestCase
                 self::assertSame($location, $e->url, $url);
             }
         }
+    }
+
+    public function testAPrefixOfALanguageTheTenantDoesNotHaveRedirectsWithoutIt(): void
+    {
+        $tenant = $this->getTenantFromFixture('enabled');
+        $tenant->url = 'https://www.domain.localhost/shop';
+
+        $redirects = [
+            [[], 'de', '/shop/en/admin/tenant/update?id=3', 'https://www.domain.localhost/shop/admin/tenant/update?id=3'],
+            [[], 'de', '/shop/en', 'https://www.domain.localhost/shop'],
+            [['de', 'fr'], null, '/shop/it/page', 'https://www.domain.localhost/shop/page'],
+        ];
+
+        foreach ($redirects as [$languages, $language, $url, $location]) {
+            $manager = $this->getUrlManagerWithTenantLanguages($languages, $language, tenant: $tenant);
+
+            try {
+                $manager->parseRequest($this->getRequest([
+                    'hostInfo' => 'https://www.domain.localhost',
+                    'url' => $url,
+                ]));
+
+                self::fail("$url was not redirected");
+            } catch (UrlNormalizerRedirectException $e) {
+                self::assertSame($location, $e->url, $url);
+                self::assertSame(302, $e->statusCode, $url);
+            }
+        }
+
+        $manager = $this->getUrlManagerWithTenantLanguages(['de', 'fr'], tenant: $tenant);
+        $manager->parseRequest($this->getRequest([
+            'hostInfo' => 'https://www.domain.localhost',
+            'url' => '/shop/fr/page',
+        ]));
+
+        self::assertSame('fr', Yii::$app->language);
     }
 
     public function testATenantWithoutAUrlKeepsTheRequestHost(): void
@@ -551,15 +588,20 @@ final class UrlManagerTest extends TestCase
     /**
      * @param list<string> $languages
      */
-    private function getUrlManagerWithTenantLanguages(array $languages, ?string $language = null, bool $i18nUrl = true): UrlManager
-    {
+    private function getUrlManagerWithTenantLanguages(
+        array $languages,
+        ?string $language = null,
+        bool $i18nUrl = true,
+        ?Tenant $tenant = null,
+    ): UrlManager {
         Yii::$app->getI18n()->languages = ['en-US', 'de', 'fr', 'it'];
 
-        $tenant = $this->getTenantFromFixture();
+        $tenant ??= $this->getTenantFromFixture();
         $tenant->language = $language;
         $tenant->languages = $languages;
 
         self::assertNotFalse($tenant->update());
+        TenantCollection::invalidateCache();
 
         return $this->getUrlManager(['i18nUrl' => $i18nUrl]);
     }

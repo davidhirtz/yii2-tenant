@@ -12,6 +12,7 @@ use Hirtz\Tenant\Models\Tenant;
 use Override;
 use Yii;
 use yii\web\Cookie;
+use yii\web\UrlNormalizerRedirectException;
 
 class UrlManager extends \Hirtz\Skeleton\Web\UrlManager
 {
@@ -105,6 +106,10 @@ class UrlManager extends \Hirtz\Skeleton\Web\UrlManager
     {
         $this->setTenantFromRequest($request);
 
+        if ($this->i18nUrl) {
+            $this->redirectUnavailableLanguage($request);
+        }
+
         // The parent reads a language only from two on, and a single-language tenant has one
         if (count($this->getLanguages()) === 1) {
             Yii::$app->language = (string)array_key_first($this->getLanguages());
@@ -123,6 +128,22 @@ class UrlManager extends \Hirtz\Skeleton\Web\UrlManager
         }
 
         return $result;
+    }
+
+    /**
+     * Temporary: the tenant may offer the language again.
+     */
+    protected function redirectUnavailableLanguage(Request $request): void
+    {
+        $pathInfo = ltrim($request->getPathInfo(), '/');
+        $code = explode('/', rtrim($pathInfo, '/'), 2)[0];
+
+        if (
+            in_array($code, $this->applicationLanguages ?? [], true)
+            && !in_array($code, $this->getLanguages(), true)
+        ) {
+            throw new UrlNormalizerRedirectException($this->getUrlWithoutLanguage($request, $pathInfo, $code), 302);
+        }
     }
 
     public function getTenantFromRequest(Request $request): ?Tenant
