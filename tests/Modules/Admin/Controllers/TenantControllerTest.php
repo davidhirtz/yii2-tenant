@@ -324,6 +324,16 @@ class TenantControllerTest extends TestCase
         self::assertSame('Renamed', Tenant::findOne(2)->name);
     }
 
+    public function testTheUpdatePageOffersANewTenant(): void
+    {
+        $this->login();
+
+        $html = Yii::$app->runAction('admin/tenant/tenant/update', ['id' => 2]);
+
+        self::assertIsString($html);
+        self::assertStringContainsString('class="btn btn-primary" href="/admin/tenant/tenant/create"', $html);
+    }
+
     public function testUpdateOfAnUnknownTenantIsNotFound(): void
     {
         $this->login();
