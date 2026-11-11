@@ -6,6 +6,7 @@ namespace Hirtz\Tenant;
 
 use Hirtz\Skeleton\Base\ConfigBootstrapInterface;
 use Hirtz\Skeleton\Filters\PageCache;
+use Hirtz\Skeleton\Helpers\EventHelper;
 use Hirtz\Skeleton\Models\User;
 use Hirtz\Skeleton\Modules\Admin\Controllers\DashboardController;
 use Hirtz\Skeleton\Modules\Admin\Widgets\HostAlert as BaseHostAlert;
@@ -14,6 +15,8 @@ use Hirtz\Skeleton\Sitemap\Sitemap as BaseSitemap;
 use Hirtz\Skeleton\Web\Application;
 use Hirtz\Skeleton\Web\Request;
 use Hirtz\Skeleton\Web\UrlManager;
+use Hirtz\Skeleton\Widgets\Navs\Breadcrumbs;
+use Hirtz\Skeleton\Widgets\Widget;
 use Hirtz\Tenant\Models\Collections\TenantCollection;
 use Hirtz\Tenant\Models\Tenant;
 use Override;
@@ -80,6 +83,8 @@ class Bootstrap implements ConfigBootstrapInterface
             DashboardController::addRoles(static fn (): array => [
                 Tenant::AUTH_TENANT,
             ]);
+
+            EventHelper::on(Breadcrumbs::class, Widget::EVENT_CONFIGURE, Modules\Admin\Module::addTenantBreadcrumb(...));
         }
 
         $app->setMigrationNamespace('Hirtz\Tenant\Migrations');
