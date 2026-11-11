@@ -1,4 +1,4 @@
-## Unreleased
+## 3.9.0 (November 11, 2026)
 
 - Added the admin's active tenant as a breadcrumb and as the dashboard's homepage shortcut (`Modules\Admin\Module::getCurrentTenant()`)
 
