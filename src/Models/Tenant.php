@@ -294,6 +294,7 @@ class Tenant extends ActiveRecord implements
     /**
      * The status icon leads to the next status, which the last enabled tenant cannot take when it is disabled.
      */
+    #[Override]
     public function isStatusUpdatable(): bool
     {
         $next = $this->getNextStatus();
@@ -325,6 +326,7 @@ class Tenant extends ActiveRecord implements
     /**
      * @see TenantController::actionUpdate()
      */
+    #[Override]
     public function getAdminRoute(): array|false
     {
         if (!static::getModule()->enableAdminModule) {
@@ -334,11 +336,13 @@ class Tenant extends ActiveRecord implements
         return $this->id ? ['/admin/tenant/tenant/update', 'id' => $this->id] : ['/admin/tenant/tenant/index'];
     }
 
+    #[Override]
     public function getAdminIndexBreadcrumb(): Breadcrumb
     {
         return new Breadcrumb(Yii::t('tenant', 'TENANT_PLURAL'), ['/admin/tenant/']);
     }
 
+    #[Override]
     public function getPermissionName(): string
     {
         return self::AUTH_TENANT;
@@ -381,6 +385,7 @@ class Tenant extends ActiveRecord implements
      * @return list<string>
      * @noinspection PhpUnused
      */
+    #[Override]
     public function getTrailAttributes(): array
     {
         return array_values(array_diff($this->attributes(), [
@@ -392,6 +397,7 @@ class Tenant extends ActiveRecord implements
         ]));
     }
 
+    #[Override]
     public function getAdminType(): string
     {
         return Yii::t('tenant', 'TENANT_SINGULAR');

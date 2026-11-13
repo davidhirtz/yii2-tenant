@@ -60,6 +60,7 @@ class Bootstrap implements ConfigBootstrapInterface
     /**
      * @param Application<User> $app
      */
+    #[Override]
     public function bootstrap($app): void
     {
         Yii::setAlias('@tenant', __DIR__);
