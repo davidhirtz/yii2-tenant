@@ -3,6 +3,13 @@
 The previous major of this bundle is 1.x (branch `v1`). Every 1.x installation also ran the glue package
 `davidhirtz/yii2-cms-tenant`, which 3.0 folds into `yii2-cms` and this bundle.
 
+## 3.10
+
+The admin's content language (see the skeleton's guide, 3.29) is kept per tenant and checked against
+`Tenant::getAvailableLanguages()`: switching to a tenant without the picked language falls back to the editor's language,
+the tenant's `language` or its first. A tenant's languages are the admin's content languages, independent of
+`modules.admin.languages`, the admin's interface.
+
 ## 3.7
 
 `TenantController::actionOrder()` is `actionReorder()`, its route `tenant/reorder`. The grid's own renames are in the

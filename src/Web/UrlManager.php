@@ -225,6 +225,12 @@ class UrlManager extends \Hirtz\Skeleton\Web\UrlManager
         }
     }
 
+    #[Override]
+    public function getContentLanguageScope(): string
+    {
+        return (string)$this->tenant?->id;
+    }
+
     /**
      * The configured `defaultLanguage`, which a tenant's own replaces for the request.
      */

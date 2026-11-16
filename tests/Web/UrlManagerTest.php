@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Hirtz\Tenant\Tests\Web;
 
+use Hirtz\Skeleton\Modules\Admin\Module as AdminModule;
 use Hirtz\Skeleton\Web\Request;
 use Hirtz\Tenant\Models\Collections\TenantCollection;
 use Hirtz\Tenant\Models\Tenant;
@@ -382,6 +383,58 @@ final class UrlManagerTest extends TestCase
 
         // the request's own tenant is left as it was
         self::assertSame('/de/post/view', $manager->createUrl(['post/view', 'language' => 'de']));
+    }
+
+    public function testAnAdminUrlHasNoLanguagePrefix(): void
+    {
+        $manager = $this->getUrlManagerWithTenantLanguages(['de', 'fr'], 'de');
+        Yii::$app->language = 'fr';
+        $alias = Yii::$app->getAdminAlias();
+
+        self::assertSame("/$alias/user/index", $manager->createUrl(['/admin/user/index']));
+        self::assertSame("/$alias/user/index?language=fr", $manager->createUrl(['/admin/user/index', 'language' => 'fr']));
+
+        try {
+            $manager->parseRequest($this->getRequest([
+                'hostInfo' => 'https://www.domain.localhost',
+                'url' => "/fr/$alias/user/index",
+            ]));
+
+            self::fail('A prefixed admin path was not redirected');
+        } catch (UrlNormalizerRedirectException $e) {
+            self::assertSame("https://www.domain.localhost/$alias/user/index", $e->url);
+            self::assertSame(301, $e->statusCode);
+        }
+    }
+
+    public function testTheAdminContentLanguageIsKeptPerTenant(): void
+    {
+        $manager = $this->getUrlManagerWithTenantLanguages(['de', 'fr'], 'de');
+        $default = $manager->tenant;
+        self::assertNotNull($default);
+
+        $other = $this->getTenantFromFixture('draft');
+        $other->language = 'en-US';
+        $other->languages = [];
+        self::assertNotFalse($other->update());
+        TenantCollection::invalidateCache();
+
+        $module = AdminModule::current();
+        Yii::$app->language = 'en-US';
+
+        self::assertSame('de', $module->getContentLanguage());
+
+        $module->setSessionContentLanguage('fr');
+        self::assertSame('fr', $module->getContentLanguage());
+
+        // Switching to a tenant without the picked language never keeps it
+        $manager->setTenant($other);
+
+        self::assertNull($module->getSessionContentLanguage());
+        self::assertSame('en-US', $module->getContentLanguage());
+
+        $manager->setTenant($default);
+        self::assertSame('fr', $module->getContentLanguage());
     }
 
     public function testTheCanonicalUrlIsTheDefaultTenantsWithoutAPrefix(): void
