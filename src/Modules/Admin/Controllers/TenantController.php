@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Hirtz\Tenant\Modules\Admin\Controllers;
 
 use Hirtz\Skeleton\Models\Forms\DeleteForm;
+use Hirtz\Skeleton\Web\Application;
 use Hirtz\Skeleton\Web\Controller;
 use Hirtz\Skeleton\Web\Traits\StatusControllerTrait;
 use Hirtz\Skeleton\Widgets\Flashes;
@@ -92,12 +93,19 @@ class TenantController extends Controller
         $tenant = $this->findTenant($id);
 
         if ($tenant->load($this->request->post()) && !$this->request->isFormReload()) {
-            if ($tenant->update()) {
+            $isUpdated = (bool)$tenant->update();
+
+            if ($isUpdated) {
                 $this->success(Yii::t('tenant', 'TENANT_UPDATE_SUCCESS'));
             }
 
             // An unchanged save ends like a changed one rather than redrawing the posted form
             if (!$tenant->hasErrors()) {
+                // The navbar outside `#wrap` shows the current tenant's name and languages.
+                if ($isUpdated && Module::getCurrentTenant()?->id === $tenant->id) {
+                    Application::current()->getResponse()->setHtmxReload();
+                }
+
                 return $this->redirect(['update', 'id' => $tenant->id]);
             }
         }

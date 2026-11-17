@@ -335,6 +335,33 @@ class TenantControllerTest extends TestCase
         self::assertSame('Renamed', Tenant::findOne(2)->name);
     }
 
+    public function testSavingTheCurrentTenantReloadsThePage(): void
+    {
+        $this->login();
+        $this->getWebRequest()->getHeaders()->set('HX-Request', 'true');
+
+        $manager = Yii::$app->getUrlManager();
+        self::assertInstanceOf(UrlManager::class, $manager);
+        $manager->tenant = Tenant::findOne(2);
+
+        $response = $this->post('admin/tenant/tenant/update', ['id' => 2], ['Tenant' => ['name' => 'Ågot 東京']]);
+
+        self::assertInstanceOf(Response::class, $response);
+        self::assertNotNull($response->getHeaders()->get('HX-Redirect'));
+    }
+
+    public function testSavingAnotherTenantSwapsAsUsual(): void
+    {
+        $this->login();
+        $this->getWebRequest()->getHeaders()->set('HX-Request', 'true');
+
+        $response = $this->post('admin/tenant/tenant/update', ['id' => 2], ['Tenant' => ['name' => 'Ågot 東京']]);
+
+        self::assertInstanceOf(Response::class, $response);
+        self::assertNull($response->getHeaders()->get('HX-Redirect'));
+        self::assertSame('Ågot 東京', Tenant::findOne(2)?->name);
+    }
+
     public function testTheUpdatePageOffersANewTenant(): void
     {
         $this->login();
