@@ -114,7 +114,9 @@ class TenantGridView extends GridView
                 ->secondary()
                 ->icon('toggle-on')
                 ->tooltip(Yii::t('tenant', 'TENANT_SWITCH_TOOLTIP'))
-                ->url(Url::current(['tenant' => $tenant]));
+                ->url(Url::current(['tenant' => $tenant]))
+                // The navbar outside `#wrap` shows the tenant's languages.
+                ->attribute('hx-boost', 'false');
         }
 
         if ($this->isReorderable()) {

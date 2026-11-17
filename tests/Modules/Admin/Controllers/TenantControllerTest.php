@@ -73,6 +73,17 @@ class TenantControllerTest extends TestCase
         self::assertStringNotContainsString('href="https://www.domain.localhost/de/admin/tenant/tenant/index"', $html);
     }
 
+    public function testTheSwitchLoadsThePageInFull(): void
+    {
+        $this->login();
+
+        $html = Yii::$app->runAction('admin/tenant/tenant/index');
+        self::assertIsString($html);
+
+        preg_match('#<a\b[^>]*href="https://www\.draft\.localhost/admin/tenant/tenant/index"[^>]*>#', $html, $matches);
+        self::assertStringContainsString('hx-boost="false"', $matches[0] ?? self::fail('No switch to the draft tenant.'));
+    }
+
     public function testIndexFiltersByStatus(): void
     {
         $this->login();
