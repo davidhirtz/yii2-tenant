@@ -1,4 +1,4 @@
-## Unreleased
+## 3.10.0 (November 17, 2026)
 
 - Added `UrlManager::getContentLanguageScope()`: the admin's content language is kept per tenant
 - Changed the `davidhirtz/yii2-skeleton` requirement to `^3.29`
