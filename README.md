@@ -149,7 +149,8 @@ action: create, update, delete, reorder and the grid's status toggle. The migrat
 with `[TenantGridView::class => ['enableStatusUpdate' => false]]` in the container.
 
 The navbar switches tenants (`TenantDropdownButton`) for `Tenant::AUTH_TENANT` and whatever a bundle adds through
-`TenantDropdownButton::addRoles()` (the cms adds `entry`). A switch keeps the page and its query (`Modules\Admin\Module::getSwitchUrl()`);
+`TenantDropdownButton::addRoles()` (the cms adds `entry`); a subclass overriding `getButtonText()` shortens a long
+name on the button, the dropdown lists the full ones. A switch keeps the page and its query (`Modules\Admin\Module::getSwitchUrl()`);
 a controller whose records belong to one tenant names another route through `TenantSwitchInterface` (the cms's entry
 pages lead to the entry list). A tenant on another domain keeps the login: the default tenant's
 host is the skeleton's auth host (`params.authHostInfo` wins) and every tenant host is handed its session, except one

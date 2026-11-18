@@ -34,6 +34,14 @@ class TenantDropdownButton extends Widget
         });
     }
 
+    /**
+     * A project overrides it to shorten a long name; the dropdown lists the full ones.
+     */
+    public function getButtonText(Tenant $tenant): string
+    {
+        return $tenant->name;
+    }
+
     #[Override]
     protected function configure(): void
     {
@@ -57,8 +65,8 @@ class TenantDropdownButton extends Widget
             ->content(Div::make()
                 ->class('icon-text')
                 ->content(
-                    Icon::make()->name('window-restore'),
-                    Span::make()->class('hidden md:block')->text($current->name),
+                    Icon::make()->name('window-restore')->addClass('md:hidden'),
+                    Span::make()->class('hidden md:block')->text($this->getButtonText($current)),
                 ))
             ->attribute('aria-label', Yii::t('tenant', 'TENANT_SWITCH_TOOLTIP'));
 

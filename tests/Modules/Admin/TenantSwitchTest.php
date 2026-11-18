@@ -46,10 +46,25 @@ final class TenantSwitchTest extends TestCase
 
         $html = $this->getDropdownHtml($this->runIndex());
 
-        self::assertStringContainsString('<span class="fas fa-window-restore"></span><span class="hidden md:block">Default</span></div></button>', $html);
+        self::assertStringContainsString('<span class="md:hidden fas fa-window-restore"></span><span class="hidden md:block">Default</span></div></button>', $html);
         self::assertStringContainsString('<a class="selected dropdown-option" href="/admin/tenant/tenant/index" hx-boost="false">Default</a>', $html);
         self::assertStringContainsString('<a class="dropdown-option" href="/de/admin/tenant/tenant/index" hx-boost="false">German Tenant</a>', $html);
         self::assertStringContainsString('<a class="dropdown-option" href="https://www.draft.localhost/admin/tenant/tenant/index" hx-boost="false">Draft Tenant</a>', $html);
+    }
+
+    public function testAProjectShortensTheButtonText(): void
+    {
+        $this->login(Tenant::AUTH_TENANT);
+        Yii::$container->set(TenantDropdownButton::class, ShortTenantDropdownButton::class);
+
+        try {
+            $html = $this->renderDropdown();
+        } finally {
+            Yii::$container->clear(TenantDropdownButton::class);
+        }
+
+        self::assertStringContainsString('<span class="hidden md:block">Def</span>', $html);
+        self::assertStringContainsString('hx-boost="false">Default</a>', $html);
     }
 
     public function testTheSwitchKeepsTheQueryButTheTenant(): void
@@ -178,5 +193,14 @@ final class TenantSwitchTest extends TestCase
         self::assertInstanceOf(UrlManager::class, $manager);
 
         return $manager;
+    }
+}
+
+class ShortTenantDropdownButton extends TenantDropdownButton
+{
+    #[Override]
+    public function getButtonText(Tenant $tenant): string
+    {
+        return mb_substr($tenant->name, 0, 3);
     }
 }
