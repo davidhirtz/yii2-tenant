@@ -1,3 +1,7 @@
+## Unreleased
+
+- Changed the cookie domain validation to accept only a valid host name equal to or a parent of the URL's host
+
 ## 3.10.0 (November 17, 2026)
 
 - Added `UrlManager::getContentLanguageScope()`: the admin's content language is kept per tenant

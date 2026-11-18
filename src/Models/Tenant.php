@@ -219,10 +219,17 @@ class Tenant extends ActiveRecord implements
 
     public function validateCookieDomain(): void
     {
+        $this->cookie_domain = strtolower((string)$this->cookie_domain);
+
+        $domain = str_starts_with($this->cookie_domain, '.')
+            ? substr($this->cookie_domain, 1)
+            : $this->cookie_domain;
+
+        $host = strtolower((string)parse_url((string)$this->url, PHP_URL_HOST));
+
         if (
-            str_starts_with((string)$this->cookie_domain, 'http')
-            || !str_contains((string)$this->url, ltrim((string)$this->cookie_domain, '.'))
-            || !preg_match('/^[a-z.]/', (string)$this->cookie_domain)
+            !preg_match('/^[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/', $domain)
+            || ($host !== $domain && !str_ends_with($host, ".$domain"))
         ) {
             $this->addInvalidAttributeError('cookie_domain');
         }
