@@ -46,7 +46,7 @@ final class TenantSwitchTest extends TestCase
 
         $html = $this->getDropdownHtml($this->runIndex());
 
-        self::assertStringContainsString('popovertarget="tenants">Default</button>', $html);
+        self::assertStringContainsString('<span class="fas fa-window-restore"></span><span class="hidden md:block">Default</span></div></button>', $html);
         self::assertStringContainsString('<a class="selected dropdown-option" href="/admin/tenant/tenant/index" hx-boost="false">Default</a>', $html);
         self::assertStringContainsString('<a class="dropdown-option" href="/de/admin/tenant/tenant/index" hx-boost="false">German Tenant</a>', $html);
         self::assertStringContainsString('<a class="dropdown-option" href="https://www.draft.localhost/admin/tenant/tenant/index" hx-boost="false">Draft Tenant</a>', $html);

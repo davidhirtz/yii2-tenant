@@ -7,7 +7,9 @@ namespace Hirtz\Tenant\Modules\Admin\Widgets\Buttons;
 use Closure;
 use Hirtz\Skeleton\Helpers\EventHelper;
 use Hirtz\Skeleton\Html\Div;
+use Hirtz\Skeleton\Html\Span;
 use Hirtz\Skeleton\Widgets\Buttons\Button;
+use Hirtz\Skeleton\Widgets\Icon;
 use Hirtz\Skeleton\Widgets\Navs\Dropdown;
 use Hirtz\Skeleton\Widgets\Navs\DropdownOptionLink;
 use Hirtz\Skeleton\Widgets\Widget;
@@ -49,9 +51,15 @@ class TenantDropdownButton extends Widget
             return '';
         }
 
+        // A phone has no room for a name beside the search and the language: the icon stands in for it.
         $button = Button::make()
             ->class('btn btn-border')
-            ->text($current->name)
+            ->content(Div::make()
+                ->class('icon-text')
+                ->content(
+                    Icon::make()->name('window-restore'),
+                    Span::make()->class('hidden md:block')->text($current->name),
+                ))
             ->attribute('aria-label', Yii::t('tenant', 'TENANT_SWITCH_TOOLTIP'));
 
         $dropdown = Dropdown::make()
