@@ -52,25 +52,39 @@ final class TenantSwitchTest extends TestCase
         self::assertStringContainsString('<a class="dropdown-option" href="https://www.draft.localhost/admin/tenant/tenant/index" hx-boost="false">Draft Tenant</a>', $html);
     }
 
-    public function testTheSwitchDropsTheGridFilterAndTheTenantParameter(): void
+    public function testTheSwitchKeepsTheQueryButTheTenant(): void
     {
         $this->login(Tenant::AUTH_TENANT);
-        $this->getWebRequest()->setQueryParams(['q' => 'Default', 'tenant' => '2']);
+        $this->getWebRequest()->setQueryParams(['q' => 'Å東京', 'tenant' => '2']);
 
         $html = $this->getDropdownHtml($this->runIndex());
 
-        self::assertStringContainsString('href="https://www.draft.localhost/admin/tenant/tenant/index" hx-boost="false">Draft Tenant', $html);
-        self::assertStringNotContainsString('q=', $html);
+        self::assertStringContainsString('href="https://www.draft.localhost/admin/tenant/tenant/index?q=%C3%85%E6%9D%B1%E4%BA%AC" hx-boost="false">Draft Tenant', $html);
         self::assertStringNotContainsString('tenant=', $html);
     }
 
-    public function testARecordPageSwitchesToTheDashboard(): void
+    /**
+     * A tenant is no tenant's record, so its page stays the same on every tenant.
+     */
+    public function testARecordOfNoTenantKeepsItsPage(): void
     {
         $this->login(Tenant::AUTH_TENANT);
+        $this->getWebRequest()->setQueryParams(['id' => '1']);
 
         $this->switchToDefault();
         $html = Yii::$app->runAction('admin/tenant/tenant/update', ['id' => 1]);
         self::assertIsString($html);
+
+        self::assertStringContainsString('href="https://www.draft.localhost/admin/tenant/tenant/update?id=1" hx-boost="false">Draft Tenant', $html);
+    }
+
+    public function testAPageAnsweringAPostSwitchesToTheDashboard(): void
+    {
+        $this->login(Tenant::AUTH_TENANT);
+        $_SERVER['REQUEST_METHOD'] = 'POST';
+        $this->getWebRequest()->enableCsrfValidation = false;
+
+        $html = $this->getDropdownHtml($this->runIndex());
 
         self::assertStringContainsString('href="https://www.draft.localhost/admin/dashboard/index" hx-boost="false">Draft Tenant', $html);
     }
