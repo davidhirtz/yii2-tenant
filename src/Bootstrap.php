@@ -10,10 +10,12 @@ use Hirtz\Skeleton\Helpers\EventHelper;
 use Hirtz\Skeleton\Models\User;
 use Hirtz\Skeleton\Modules\Admin\Controllers\DashboardController;
 use Hirtz\Skeleton\Modules\Admin\Widgets\HostAlert as BaseHostAlert;
+use Hirtz\Skeleton\Modules\Admin\Widgets\Navs\NavBar;
 use Hirtz\Skeleton\Registry\Report;
 use Hirtz\Skeleton\Sitemap\Sitemap as BaseSitemap;
 use Hirtz\Skeleton\Web\Application;
 use Hirtz\Skeleton\Web\Request;
+use Hirtz\Skeleton\Web\User as WebUser;
 use Hirtz\Skeleton\Web\UrlManager;
 use Hirtz\Skeleton\Widgets\Navs\Breadcrumbs;
 use Hirtz\Skeleton\Widgets\Widget;
@@ -70,6 +72,11 @@ class Bootstrap implements ConfigBootstrapInterface
             if ($request = Request::current()) {
                 TenantCollection::addAllowedHosts($request);
             }
+
+            if ($webuser = WebUser::current()) {
+                $webuser->authHostInfo ??= static fn (): ?string => TenantCollection::getDefault()?->getHostInfo();
+                $webuser->handoffHostInfos = $webuser->handoffHostInfos ?: TenantCollection::getHostInfos(...);
+            }
         });
 
         if ($this->isAdminModuleEnabled()) {
@@ -86,6 +93,10 @@ class Bootstrap implements ConfigBootstrapInterface
             ]);
 
             EventHelper::on(Breadcrumbs::class, Widget::EVENT_CONFIGURE, Modules\Admin\Module::addTenantBreadcrumb(...));
+
+            EventHelper::on(NavBar::class, Widget::EVENT_CONFIGURE, static function (NavBar $navBar): void {
+                $navBar->addItem(Modules\Admin\Widgets\Buttons\TenantDropdownButton::make());
+            });
         }
 
         $app->setMigrationNamespace('Hirtz\Tenant\Migrations');

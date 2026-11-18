@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Hirtz\Tenant\Modules\Admin\Widgets\Grids;
 
-use Hirtz\Skeleton\Helpers\Url;
 use Hirtz\Skeleton\Html\A;
 use Hirtz\Skeleton\Html\Div;
 use Hirtz\Skeleton\Widgets\Buttons\Button;
@@ -19,6 +18,7 @@ use Hirtz\Skeleton\Widgets\Grids\GridView;
 use Hirtz\Skeleton\Widgets\Grids\Toolbars\StatusFilterDropdown;
 use Hirtz\Tenant\Models\Tenant;
 use Hirtz\Tenant\Modules\Admin\Data\TenantActiveDataProvider;
+use Hirtz\Tenant\Modules\Admin\Module;
 use Hirtz\Tenant\Web\UrlManager;
 use Iterator;
 use Override;
@@ -114,7 +114,7 @@ class TenantGridView extends GridView
                 ->secondary()
                 ->icon('toggle-on')
                 ->tooltip(Yii::t('tenant', 'TENANT_SWITCH_TOOLTIP'))
-                ->url(Url::current(['tenant' => $tenant]))
+                ->url(Module::getSwitchUrl($tenant))
                 // The navbar outside `#wrap` shows the tenant's languages.
                 ->attribute('hx-boost', 'false');
         }

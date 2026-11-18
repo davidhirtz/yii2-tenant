@@ -1,5 +1,8 @@
 ## Unreleased
 
+- Added the tenant switch to the admin navbar (`TenantDropdownButton`, `Modules\Admin\Module::getSwitchUrl()`)
+- Added the central login across tenant domains: the default tenant's host is the auth host (`TenantCollection::getHostInfos()`)
+- Changed the `davidhirtz/yii2-skeleton` requirement to `^3.30`
 - Changed the cookie domain validation to accept only a valid host name equal to or a parent of the URL's host
 
 ## 3.10.0 (November 17, 2026)

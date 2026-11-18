@@ -148,6 +148,11 @@ action: create, update, delete, reorder and the grid's status toggle. The migrat
 `TenantActiveForm` and the `TenantHeader` in `Modules\Admin\Widgets\`. The grid's status toggle is turned off
 with `[TenantGridView::class => ['enableStatusUpdate' => false]]` in the container.
 
+The navbar switches tenants (`TenantDropdownButton`) for `Tenant::AUTH_TENANT` and whatever a bundle adds through
+`TenantDropdownButton::addRoles()` (the cms adds `entry`). An index keeps its route, any other page leads to the
+dashboard (`Modules\Admin\Module::getSwitchUrl()`). A tenant on another domain keeps the login: the default tenant's
+host is the skeleton's auth host (`params.authHostInfo` wins) and every tenant host is handed its session.
+
 ### Testing
 
 `Test\Traits\TenantFixtureTrait` loads `Test\Fixtures\TenantFixture`, three tenants keyed `default`, `enabled`

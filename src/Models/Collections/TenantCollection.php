@@ -93,6 +93,17 @@ class TenantCollection
     }
 
     /**
+     * The hosts a login on the auth host is handed to.
+     *
+     * @return list<string>
+     */
+    public static function getHostInfos(): array
+    {
+        $hostInfos = array_map(fn (Tenant $tenant): ?string => $tenant->getHostInfo(), static::getAll());
+        return array_values(array_unique(array_filter($hostInfos)));
+    }
+
+    /**
      * @return list<string>
      */
     protected static function getCanonicalUrls(string $url): array

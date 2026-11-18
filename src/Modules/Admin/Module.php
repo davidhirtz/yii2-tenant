@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Hirtz\Tenant\Modules\Admin;
 
 use Hirtz\Skeleton\Models\Breadcrumb;
+use Hirtz\Skeleton\Modules\Admin\Module as AdminModule;
 use Hirtz\Skeleton\Modules\Admin\ModuleInterface;
 use Hirtz\Skeleton\Widgets\Navs\Breadcrumbs;
 use Hirtz\Skeleton\Widgets\Navs\Nav;
@@ -14,7 +15,9 @@ use Hirtz\Tenant\Models\Tenant;
 use Hirtz\Tenant\Web\UrlManager;
 use Hirtz\Tenant\Modules\Admin\Widgets\Navs\TenantNavItem;
 use Override;
+use ReflectionMethod;
 use Yii;
+use yii\base\InlineAction;
 
 /**
  * @property \Hirtz\Skeleton\Modules\Admin\Module $module
@@ -42,6 +45,30 @@ class Module extends \Hirtz\Skeleton\Base\Module implements ModuleInterface
     {
         $manager = Yii::$app->getUrlManager();
         return $manager instanceof UrlManager ? $manager->tenant : null;
+    }
+
+    /**
+     * A record belongs to one tenant, so an index keeps its route without parameters and any other page leads to the
+     * dashboard. Neither carries `?tenant=` nor the content language of the tenant switched from.
+     */
+    public static function getSwitchUrl(Tenant $tenant): string
+    {
+        $action = Yii::$app->controller?->action;
+        $route = $action && static::isSwitchableAction($action)
+            ? ['/' . $action->getUniqueId()]
+            : AdminModule::current()->getHomeRoute();
+
+        return Yii::$app->getUrlManager()->createUrl([...$route, 'tenant' => $tenant]);
+    }
+
+    protected static function isSwitchableAction(\yii\base\Action $action): bool
+    {
+        if ($action->id !== 'index' || !$action instanceof InlineAction) {
+            return false;
+        }
+
+        $method = new ReflectionMethod($action->controller, $action->actionMethod);
+        return $method->getNumberOfRequiredParameters() === 0;
     }
 
     /**
