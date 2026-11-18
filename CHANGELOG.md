@@ -1,4 +1,4 @@
-## Unreleased
+## 3.11.0 (November 18, 2026)
 
 - Added the tenant switch to the admin navbar (`TenantDropdownButton`, `getButtonText()` for a shorter name, `Modules\Admin\Module::getSwitchUrl()`), which keeps the page unless its controller names another route (`TenantSwitchInterface`)
 - Added the central login across tenant domains: the default tenant's host is the auth host (`TenantCollection::getHandoffHostInfos()`)
