@@ -49,7 +49,7 @@ class Module extends \Hirtz\Skeleton\Base\Module implements ModuleInterface
 
     /**
      * The page's route and query on the other tenant, unless its controller names another route
-     * ({@see TenantSwitchInterface}), without the `?tenant=` the URL manager would copy into it.
+     * ({@see TenantSwitchInterface}), without a `?tenant=` naming the tenant switched from.
      */
     public static function getSwitchUrl(Tenant $tenant): string
     {

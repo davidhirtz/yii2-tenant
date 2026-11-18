@@ -93,14 +93,32 @@ class TenantCollection
     }
 
     /**
-     * The hosts a login on the auth host is handed to.
+     * A host whose cookie domain is the auth host's already shares its session, so it is handed nothing.
      *
      * @return list<string>
      */
-    public static function getHostInfos(): array
+    public static function getHandoffHostInfos(?string $authHostInfo): array
     {
-        $hostInfos = array_map(fn (Tenant $tenant): ?string => $tenant->getHostInfo(), static::getAll());
-        return array_values(array_unique(array_filter($hostInfos)));
+        $authDomain = $authHostInfo ? static::getCookieDomainByHostInfo($authHostInfo) : null;
+        $hostInfos = [];
+
+        foreach (static::getAll() as $tenant) {
+            $hostInfo = $tenant->getHostInfo();
+
+            if (!$hostInfo || in_array($hostInfo, $hostInfos, true)) {
+                continue;
+            }
+
+            $isShared = $hostInfo !== $authHostInfo
+                && $authDomain !== null
+                && ltrim((string)static::getCookieDomainByHostInfo($hostInfo), '.') === ltrim($authDomain, '.');
+
+            if (!$isShared) {
+                $hostInfos[] = $hostInfo;
+            }
+        }
+
+        return $hostInfos;
     }
 
     /**

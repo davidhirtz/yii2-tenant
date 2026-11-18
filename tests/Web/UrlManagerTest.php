@@ -65,7 +65,10 @@ final class UrlManagerTest extends TestCase
         self::assertEquals('https://www.draft.localhost/post/view?id=1&title=sample+post', $url);
     }
 
-    public function testTheTenantQueryParamIsKeptOnlyForAKnownTenant(): void
+    /**
+     * The request's `?tenant=` was copied into every link, a filter that stuck to the whole admin.
+     */
+    public function testTheTenantQueryParamIsNeverCopied(): void
     {
         $urls = [];
 
@@ -74,7 +77,7 @@ final class UrlManagerTest extends TestCase
             $urls[] = $this->getUrlManager()->createUrl('post/view');
         }
 
-        self::assertSame(['/post/view?tenant=2', '/post/view', '/post/view'], $urls);
+        self::assertSame(['/post/view', '/post/view', '/post/view'], $urls);
     }
 
     public function testCreateAbsoluteUrl(): void

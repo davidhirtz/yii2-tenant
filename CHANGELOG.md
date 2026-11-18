@@ -1,8 +1,9 @@
 ## Unreleased
 
 - Added the tenant switch to the admin navbar (`TenantDropdownButton`, `Modules\Admin\Module::getSwitchUrl()`), which keeps the page unless its controller names another route (`TenantSwitchInterface`)
-- Added the central login across tenant domains: the default tenant's host is the auth host (`TenantCollection::getHostInfos()`)
+- Added the central login across tenant domains: the default tenant's host is the auth host (`TenantCollection::getHandoffHostInfos()`)
 - Changed the `davidhirtz/yii2-skeleton` requirement to `^3.30`
+- Changed `UrlManager::createUrl()` to no longer copy the request's `?tenant=` into every URL
 - Changed the cookie domain validation to accept only a valid host name equal to or a parent of the URL's host
 
 ## 3.10.0 (November 17, 2026)

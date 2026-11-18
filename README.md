@@ -152,7 +152,10 @@ The navbar switches tenants (`TenantDropdownButton`) for `Tenant::AUTH_TENANT` a
 `TenantDropdownButton::addRoles()` (the cms adds `entry`). A switch keeps the page and its query (`Modules\Admin\Module::getSwitchUrl()`);
 a controller whose records belong to one tenant names another route through `TenantSwitchInterface` (the cms's entry
 pages lead to the entry list). A tenant on another domain keeps the login: the default tenant's
-host is the skeleton's auth host (`params.authHostInfo` wins) and every tenant host is handed its session.
+host is the skeleton's auth host (`params.authHostInfo` wins) and every tenant host is handed its session, except one
+sharing the auth host's cookie domain, which shares its session already. The hosts are the tenants' URLs exactly,
+scheme included: redirect a `www` twin to the tenant's URL and set `Request::$trustedHosts` behind a proxy, or that
+host shows a login form of its own.
 
 ### Testing
 

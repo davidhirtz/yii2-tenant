@@ -75,7 +75,8 @@ class Bootstrap implements ConfigBootstrapInterface
 
             if ($webuser = WebUser::current()) {
                 $webuser->authHostInfo ??= static fn (): ?string => TenantCollection::getDefault()?->getHostInfo();
-                $webuser->handoffHostInfos = $webuser->handoffHostInfos ?: TenantCollection::getHostInfos(...);
+                $webuser->handoffHostInfos = $webuser->handoffHostInfos
+                    ?: static fn (): array => TenantCollection::getHandoffHostInfos($webuser->getAuthHostInfo());
             }
         });
 

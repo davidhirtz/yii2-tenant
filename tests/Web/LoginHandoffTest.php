@@ -19,7 +19,7 @@ final class LoginHandoffTest extends TestCase
 
     public function testTheTenantHostsAreHandedTheDefaultTenantsLogin(): void
     {
-        self::assertSame(['https://www.domain.localhost', 'https://www.draft.localhost'], TenantCollection::getHostInfos());
+        self::assertSame(['https://www.domain.localhost', 'https://www.draft.localhost'], TenantCollection::getHandoffHostInfos('https://www.domain.localhost'));
 
         $this->request('https://www.draft.localhost/admin/account/login');
 
@@ -28,6 +28,28 @@ final class LoginHandoffTest extends TestCase
             'https://www.domain.localhost/admin/sso?return=' . rawurlencode('https://www.draft.localhost/admin/'),
             $this->getLocation(),
         );
+    }
+
+    /**
+     * The fixture's German tenant gives the auth host the cookie domain `.domain.localhost`, which a subdomain naming it
+     * shares: its guest is the auth host's guest, so nothing is handed to it (#801).
+     */
+    public function testAHostSharingTheAuthHostsCookieDomainIsHandedNothing(): void
+    {
+        $tenant = Tenant::create();
+        $tenant->loadDefaultValues();
+        $tenant->name = 'Shop';
+        $tenant->language = 'en-US';
+        $tenant->url = 'https://shop.domain.localhost';
+        $tenant->cookie_domain = '.domain.localhost';
+        self::assertTrue($tenant->insert(), implode(' ', $tenant->getErrorSummary(true)));
+        TenantCollection::invalidateCache();
+
+        self::assertNotNull(TenantCollection::getByUrl('https://shop.domain.localhost'));
+        self::assertSame(['https://www.domain.localhost', 'https://www.draft.localhost'], TenantCollection::getHandoffHostInfos('https://www.domain.localhost'));
+
+        $this->request('https://shop.domain.localhost/admin/account/login');
+        self::assertSelectorExists('input[name="Login[password]"]');
     }
 
     public function testAPathTenantOnTheAuthHostShowsTheLoginForm(): void

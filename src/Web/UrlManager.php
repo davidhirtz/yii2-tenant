@@ -73,12 +73,6 @@ class UrlManager extends \Hirtz\Skeleton\Web\UrlManager
     public function createUrl($params): string
     {
         $params = (array)$params;
-
-        if (!array_key_exists('tenant', $params)) {
-            // Only a tenant the query names, never the raw value a cached page would carry into every link (#496).
-            $params['tenant'] = TenantCollection::getFromRequest()?->id;
-        }
-
         $tenant = $this->getTenantFromParams($params, true);
 
         // Another tenant's URL carries that tenant's language prefixes, not the request's.
