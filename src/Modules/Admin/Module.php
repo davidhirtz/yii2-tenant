@@ -17,6 +17,7 @@ use Hirtz\Tenant\Web\UrlManager;
 use Hirtz\Tenant\Modules\Admin\Widgets\Navs\TenantNavItem;
 use Override;
 use yii\base\ActionEvent;
+use yii\web\ErrorAction;
 use Yii;
 
 /**
@@ -65,8 +66,8 @@ class Module extends \Hirtz\Skeleton\Base\Module implements ModuleInterface
         $request = Request::current();
         $home = AdminModule::current()->getHomeRoute();
 
-        // A page answering a POST, such as a grid swapped after a status change, is no page to link to.
-        if (!$action || !$request?->getIsGet()) {
+        // A page answering a POST, such as a grid swapped after a status change, or an error is no page to link to.
+        if (!$action || !$request?->getIsGet() || $action instanceof ErrorAction) {
             return $home;
         }
 

@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Hirtz\Tenant\Modules\Admin\Widgets\Grids\Columns;
 
+use Closure;
 use Hirtz\Skeleton\Models\Interfaces\ModelReferenceInterface;
 use Hirtz\Skeleton\Models\Interfaces\SearchableInterface;
 use Hirtz\Skeleton\Widgets\Grids\Columns\Column;
 use Hirtz\Skeleton\Widgets\Grids\Columns\DataColumn;
 use Hirtz\Tenant\Models\Collections\TenantCollection;
+use Hirtz\Tenant\Modules\Admin\Module;
 use Override;
 use Yii;
 use yii\base\Model;
@@ -19,6 +21,11 @@ use yii\base\Model;
  */
 class TenantColumn extends DataColumn
 {
+    /**
+     * @var Closure(mixed): ?int|null
+     */
+    protected ?Closure $tenantId = null;
+
     /**
      * @param array<string, mixed> $config
      */
@@ -32,19 +39,28 @@ class TenantColumn extends DataColumn
     }
 
     /**
+     * @param Closure(mixed): ?int $tenantId
+     */
+    public function tenantId(Closure $tenantId): static
+    {
+        $this->tenantId = $tenantId;
+        return $this;
+    }
+
+    /**
      * Appends the column when no column shows `$property`.
      *
      * @param array<Column|string|null> $columns
      * @return array<Column|string|null>
      */
-    public static function insertAfter(array $columns, string $property, ?self $column = null): array
+    public static function insertBefore(array $columns, string $property, ?self $column = null): array
     {
         $column ??= static::make();
         $columns = array_values($columns);
 
         foreach ($columns as $position => $current) {
             if ($current instanceof DataColumn && $current->getProperty() === $property) {
-                array_splice($columns, $position + 1, 0, [$column]);
+                array_splice($columns, $position, 0, [$column]);
                 return $columns;
             }
         }
@@ -52,14 +68,35 @@ class TenantColumn extends DataColumn
         return [...$columns, $column];
     }
 
+    /**
+     * Hidden while every row is the admin's tenant's.
+     */
     #[Override]
     public function isVisible(): bool
     {
-        return parent::isVisible() && count(TenantCollection::getAll()) > 1;
+        if (!parent::isVisible() || count(TenantCollection::getAll()) < 2) {
+            return false;
+        }
+
+        $current = Module::getCurrentTenant()?->id;
+
+        foreach ($this->grid->getProvider()->getModels() as $model) {
+            $tenantId = $this->getTenantId($model);
+
+            if ($tenantId !== null && $tenantId !== $current) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     protected function getTenantId(mixed $model): ?int
     {
+        if ($this->tenantId) {
+            return ($this->tenantId)($model);
+        }
+
         if ($model instanceof ModelReferenceInterface) {
             $model = $model->getModel();
         }

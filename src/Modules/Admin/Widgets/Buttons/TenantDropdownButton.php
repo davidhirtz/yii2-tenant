@@ -70,6 +70,9 @@ class TenantDropdownButton extends Widget
                 ))
             ->attribute('aria-label', Yii::t('tenant', 'TENANT_SWITCH_TOOLTIP'));
 
+        // A page swapped in by htmx brings the links to itself.
+        $this->view->addHtmxSelectOob('#tenants');
+
         $dropdown = Dropdown::make()
             ->button($button)
             ->popover(fn (Div $tag) => $tag->attribute('id', 'tenants'));

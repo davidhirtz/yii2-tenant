@@ -44,8 +44,11 @@ final class TenantSwitchTest extends TestCase
     {
         $this->login(Tenant::AUTH_TENANT);
 
-        $html = $this->getDropdownHtml($this->runIndex());
+        $page = $this->runIndex();
+        $html = $this->getDropdownHtml($page);
 
+        // A page htmx swaps in brings its own links.
+        self::assertStringContainsString('hx-select-oob:inherited="#flashes:beforeend,#tenants"', $page);
         self::assertStringContainsString('<span class="md:hidden fas fa-window-restore"></span><span class="hidden md:block">Default</span></div></button>', $html);
         self::assertStringContainsString('<a class="selected dropdown-option" href="/admin/tenant/tenant/index" hx-boost="false">Default</a>', $html);
         self::assertStringContainsString('<a class="dropdown-option" href="/de/admin/tenant/tenant/index" hx-boost="false">German Tenant</a>', $html);
