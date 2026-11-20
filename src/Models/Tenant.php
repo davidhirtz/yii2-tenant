@@ -228,7 +228,8 @@ class Tenant extends ActiveRecord implements
         $host = strtolower((string)parse_url((string)$this->url, PHP_URL_HOST));
 
         if (
-            !preg_match('/^[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/', $domain)
+            // Two labels at least: a browser refuses a top-level domain, and every session of the tenant with it
+            !preg_match('/^[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)+$/', $domain)
             || ($host !== $domain && !str_ends_with($host, ".$domain"))
         ) {
             $this->addInvalidAttributeError('cookie_domain');

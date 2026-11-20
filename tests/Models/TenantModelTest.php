@@ -225,7 +225,7 @@ final class TenantModelTest extends TestCase
         self::assertFalse($tenant->update());
         self::assertArrayHasKey('cookie_domain', $tenant->getErrors());
 
-        foreach (['..test.com', '.test.com.', 'test..com', '-test.com', 'st.com', 'www.test.com.evil', 'test com'] as $invalid) {
+        foreach (['..test.com', '.test.com.', 'test..com', '-test.com', 'st.com', 'www.test.com.evil', 'test com', 'com', '.com'] as $invalid) {
             $tenant->cookie_domain = $invalid;
             self::assertFalse($tenant->validate(['cookie_domain']), $invalid);
         }
