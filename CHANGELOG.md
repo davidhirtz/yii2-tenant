@@ -1,3 +1,13 @@
+## Unreleased
+
+- Removed the admin's tenant breadcrumb and `Modules\Admin\Module::addTenantBreadcrumb()`
+- Added a full page load for an admin link into another tenant, so the navbar follows (`Modules\Admin\Module::reloadOtherTenant()`)
+- Added the tenant to admin search results of another tenant, which open in that tenant (`Search\SearchResultBuilder`)
+- Added a tenant filter to the admin search page (`TenantFilterDropdown`)
+- Added `Modules\Admin\Widgets\Grids\Columns\TenantColumn`
+- Changed `UrlManager::getTenantFromUrl()` to public
+- Changed the `davidhirtz/yii2-skeleton` requirement to `^3.31`
+
 ## 3.11.0 (November 18, 2026)
 
 - Added the tenant switch to the admin navbar (`TenantDropdownButton`, `getButtonText()` for a shorter name, `Modules\Admin\Module::getSwitchUrl()`), which keeps the page unless its controller names another route (`TenantSwitchInterface`)

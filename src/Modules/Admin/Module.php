@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace Hirtz\Tenant\Modules\Admin;
 
-use Hirtz\Skeleton\Models\Breadcrumb;
 use Hirtz\Skeleton\Modules\Admin\Module as AdminModule;
 use Hirtz\Skeleton\Modules\Admin\ModuleInterface;
+use Hirtz\Skeleton\Web\Application;
 use Hirtz\Skeleton\Web\Request;
-use Hirtz\Skeleton\Widgets\Navs\Breadcrumbs;
 use Hirtz\Skeleton\Widgets\Navs\Nav;
 use Hirtz\Skeleton\Widgets\Panels\Dashboard;
 use Hirtz\Tenant\Models\Collections\TenantCollection;
@@ -17,6 +16,7 @@ use Hirtz\Tenant\Modules\Admin\Controllers\TenantSwitchInterface;
 use Hirtz\Tenant\Web\UrlManager;
 use Hirtz\Tenant\Modules\Admin\Widgets\Navs\TenantNavItem;
 use Override;
+use yii\base\ActionEvent;
 use Yii;
 
 /**
@@ -81,25 +81,34 @@ class Module extends \Hirtz\Skeleton\Base\Module implements ModuleInterface
     }
 
     /**
-     * Follows the site's name, the default tenant's, so it shows only for another tenant.
+     * htmx swaps `#wrap` alone, so a link into another tenant would leave the navbar on the tenant left.
      */
-    public static function addTenantBreadcrumb(Breadcrumbs $breadcrumbs): void
+    public static function reloadOtherTenant(ActionEvent $event): void
     {
-        $tenant = static::getCurrentTenant();
+        $request = Request::current();
+        $manager = Yii::$app->getUrlManager();
 
-        if (!$tenant || $tenant->id === TenantCollection::getDefault()?->id) {
+        if (!$request?->isHtmxRequest() || !$request->getIsGet() || !$manager instanceof UrlManager) {
             return;
         }
 
-        $items = array_values($breadcrumbs->getBreadcrumbs());
-        $home = $breadcrumbs->getHomeBreadcrumb();
-        $position = $home ? array_search($home, $items, true) : false;
+        $url = $request->getHeaders()->get('HX-Current-URL');
 
-        array_splice($items, $position === false ? 0 : $position + 1, 0, [
-            new Breadcrumb($tenant->name, $tenant->getAbsoluteUrl(), boost: false),
-        ]);
+        if (!is_string($url)) {
+            return;
+        }
 
-        $breadcrumbs->breadcrumbs($items);
+        $tenant = $manager->getTenantFromUrl($url) ?? TenantCollection::getDefault();
+
+        if ($tenant?->id === $manager->tenant?->id) {
+            return;
+        }
+
+        $response = Application::current()->getResponse();
+        $response->getHeaders()->set('HX-Redirect', $request->getAbsoluteUrl());
+        $response->setHtmxReload();
+
+        $event->isValid = false;
     }
 
     public function getName(): string

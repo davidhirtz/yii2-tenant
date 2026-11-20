@@ -265,7 +265,7 @@ class UrlManager extends \Hirtz\Skeleton\Web\UrlManager
         Yii::$container->set(Cookie::class, $definition);
     }
 
-    protected function getTenantFromUrl(string $url): ?Tenant
+    public function getTenantFromUrl(string $url): ?Tenant
     {
         $url = explode('?', $url, 2)[0];
         $tenant = TenantCollection::getByUrl($url);

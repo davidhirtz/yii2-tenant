@@ -22,17 +22,10 @@ class ActiveTenantTest extends TestCase
         TenantCollection::invalidateCache();
     }
 
-    public function testTheDefaultTenantAddsNoBreadcrumb(): void
-    {
-        $default = $this->createTenant('Erste', 'https://www.example.com/erste', 0);
-        $this->switchTo($default);
-
-        $html = Breadcrumbs::make()->alwaysShowHomeLink()->render();
-
-        self::assertStringNotContainsString('Erste', $html);
-    }
-
-    public function testAnotherTenantFollowsTheSiteNameAndLinksItsHomepage(): void
+    /**
+     * The navbar's tenant switch names it.
+     */
+    public function testAnotherTenantAddsNoBreadcrumb(): void
     {
         $this->createTenant('Erste', 'https://www.example.com/erste', 0);
         $tenant = $this->createTenant('Zweite Å 東京', 'https://www.example.com/zweite', 1);
@@ -40,12 +33,8 @@ class ActiveTenantTest extends TestCase
 
         $html = Breadcrumbs::make()->alwaysShowHomeLink()->render();
 
-        self::assertStringContainsString(
-            '<a class="breadcrumbs-link" href="' . $tenant->getAbsoluteUrl() . '" hx-boost="false">Zweite Å 東京</a>',
-            $html,
-        );
-
-        self::assertLessThan(strpos($html, 'Zweite'), strpos($html, Yii::$app->name));
+        self::assertStringContainsString(Yii::$app->name, $html);
+        self::assertStringNotContainsString('Zweite', $html);
     }
 
     public function testTheHomepageShortcutOpensTheActiveTenant(): void
