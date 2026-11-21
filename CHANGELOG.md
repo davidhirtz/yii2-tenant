@@ -1,4 +1,4 @@
-## Unreleased
+## 3.12.0 (November 21, 2026)
 
 - Removed the admin's tenant breadcrumb and `Modules\Admin\Module::addTenantBreadcrumb()`
 - Added a full page load for an admin link into another tenant, so the navbar follows (`Modules\Admin\Module::reloadOtherTenant()`)
