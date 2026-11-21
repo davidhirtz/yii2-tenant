@@ -3,7 +3,7 @@
 - Removed the admin's tenant breadcrumb and `Modules\Admin\Module::addTenantBreadcrumb()`
 - Added a full page load for an admin link into another tenant, so the navbar follows (`Modules\Admin\Module::reloadOtherTenant()`)
 - Added the tenant to admin search results of another tenant, which open in that tenant (`Search\SearchResultBuilder`)
-- Added a tenant filter to the admin search page (`TenantFilterDropdown`)
+- Added a tenant filter to the admin search page's `SearchResultHeader` (`TenantFilterDropdown`)
 - Added `Modules\Admin\Widgets\Grids\Columns\TenantColumn`, hidden while every row is the admin's tenant's
 - Changed the navbar's tenant switch to follow a page htmx swapped in
 - Changed `UrlManager::getTenantFromUrl()` to public

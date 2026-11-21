@@ -12,7 +12,7 @@ use Hirtz\Skeleton\Modules\Admin\Controllers\DashboardController;
 use Hirtz\Skeleton\Modules\Admin\Module as AdminModule;
 use Hirtz\Skeleton\Modules\Admin\Widgets\HostAlert as BaseHostAlert;
 use Hirtz\Skeleton\Modules\Admin\Widgets\Navs\NavBar;
-use Hirtz\Skeleton\Modules\Admin\Widgets\Navs\SearchHeader;
+use Hirtz\Skeleton\Modules\Admin\Widgets\Grids\Toolbars\SearchResultHeader;
 use Hirtz\Skeleton\Registry\Report;
 use Hirtz\Skeleton\Search\SearchResultBuilder;
 use Hirtz\Skeleton\Sitemap\Sitemap as BaseSitemap;
@@ -105,7 +105,7 @@ class Bootstrap implements ConfigBootstrapInterface
                 ActionEvent::class,
             );
 
-            EventHelper::on(SearchHeader::class, Widget::EVENT_CONFIGURE, static function (SearchHeader $header): void {
+            EventHelper::on(SearchResultHeader::class, Widget::EVENT_CONFIGURE, static function (SearchResultHeader $header): void {
                 $header->addContent(Modules\Admin\Widgets\Grids\Toolbars\TenantFilterDropdown::make());
             });
 
