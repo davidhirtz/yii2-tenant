@@ -12,7 +12,7 @@ use Hirtz\Skeleton\Modules\Admin\Controllers\DashboardController;
 use Hirtz\Skeleton\Modules\Admin\Module as AdminModule;
 use Hirtz\Skeleton\Modules\Admin\Widgets\HostAlert as BaseHostAlert;
 use Hirtz\Skeleton\Modules\Admin\Widgets\Navs\NavBar;
-use Hirtz\Skeleton\Modules\Admin\Widgets\Grids\Toolbars\SearchResultHeader;
+use Hirtz\Skeleton\Modules\Admin\Widgets\Grids\SearchResultGridView;
 use Hirtz\Skeleton\Registry\Report;
 use Hirtz\Skeleton\Search\SearchResultBuilder;
 use Hirtz\Skeleton\Sitemap\Sitemap as BaseSitemap;
@@ -23,6 +23,7 @@ use Hirtz\Skeleton\Web\UrlManager;
 use Hirtz\Skeleton\Widgets\Widget;
 use Hirtz\Tenant\Models\Collections\TenantCollection;
 use Hirtz\Tenant\Models\Tenant;
+use Hirtz\Tenant\Modules\Admin\Widgets\Grids\Columns\TenantColumn;
 use Override;
 use Yii;
 use yii\base\ActionEvent;
@@ -105,8 +106,12 @@ class Bootstrap implements ConfigBootstrapInterface
                 ActionEvent::class,
             );
 
-            EventHelper::on(SearchResultHeader::class, Widget::EVENT_CONFIGURE, static function (SearchResultHeader $header): void {
-                $header->addContent(Modules\Admin\Widgets\Grids\Toolbars\TenantFilterDropdown::make());
+            // The column names the tenant of every hit, so the badge the navbar's hits carry would repeat it.
+            EventHelper::on(SearchResultGridView::class, Widget::EVENT_CONFIGURE, static function (SearchResultGridView $grid): void {
+                $grid->showBadges(false)
+                    ->header(static fn (array $header): array => [...$header, Modules\Admin\Widgets\Grids\Toolbars\TenantFilterDropdown::make()])
+                    ->columns(static fn (array $columns): array => TenantColumn::insertBefore($columns, 'result.title', TenantColumn::make()
+                        ->tenantId(static fn (array $row): ?int => $row['result']->tenantId)));
             });
 
             EventHelper::on(NavBar::class, Widget::EVENT_CONFIGURE, static function (NavBar $navBar): void {
